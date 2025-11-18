@@ -1,5 +1,5 @@
 {
-  "name": "my-turborepo",
+  "name": "neural_hash",
   "private": true,
   "scripts": {
     "build": "turbo run build",
