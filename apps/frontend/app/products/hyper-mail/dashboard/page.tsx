@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { CalendarDays, Mail, ShieldCheck } from "lucide-react";
 
 import { SignOutButton } from "@/components/auth/sign-out-button";
+import { BackendAuthProbe } from "@/components/common/LandingPage/backend-auth-probe";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -95,6 +96,7 @@ export default async function DashboardPage() {
           </p>
         </CardContent>
       </Card>
+      <BackendAuthProbe />
     </main>
   );
 }

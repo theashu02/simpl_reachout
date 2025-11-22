@@ -61,3 +61,32 @@
 │ Fetch /api/auth/session                      │
 │ Decode cookie → jwt → session                │
 └──────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────┐
+│ Dashboard backend call (BackendAuthProbe client)          │
+│ fetch("/api/backend/profile")                             │
+│ Sends browser cookies (NextAuth session token)            │
+└──────────────────────────────────────────────────────────┘
+                ↓
+
+┌──────────────────────────────────────────────────────────┐
+│ Next.js route /api/backend/profile                        │
+│ getToken({ req, raw: true }) → signed JWT                 │
+│ Forward Authorization: Bearer <jwt> to Bun microservice   │
+└──────────────────────────────────────────────────────────┘
+                ↓
+
+┌──────────────────────────────────────────────────────────┐
+│ Bun + Elysia microservice (/api/protected/profile)        │
+│ jwtVerify(token, NEXTAUTH_SECRET)                         │
+│ Rejects invalid tokens → 401                              │
+│ Returns protected payload when token is valid             │
+└──────────────────────────────────────────────────────────┘
+                ↓
+
+┌──────────────────────────────────────────────────────────┐
+│ Dashboard UI updates                                      │
+│ Shows backend response / errors                           │
+└──────────────────────────────────────────────────────────┘
+
+
