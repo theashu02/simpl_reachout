@@ -45,7 +45,7 @@ export function SignInButton({
     <Button
       type="button"
       variant="outline"
-      className={cn("w-full justify-center", className)}
+      className={cn("w-full justify-center items-center", className)}
       disabled={isPending || disabled}
       onClick={handleSignIn}
       {...props}
