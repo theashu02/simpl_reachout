@@ -36,7 +36,7 @@ export function SignInButton({
   const handleSignIn = () => {
     startTransition(() => {
       void signIn(provider, {
-        callbackUrl: "/dashboard",
+        callbackUrl: "/products/hyper-mail/dashboard",
       });
     });
   };

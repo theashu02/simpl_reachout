@@ -11,7 +11,7 @@ const emailPersonalizationImage =
 export default async function AuthPage() {
   const session = await getServerAuthSession();
   if (session?.user) {
-    redirect("/dashboard");
+    redirect("/products/hyper-mail/dashboard");
   }
 
   return (
@@ -54,7 +54,7 @@ export default async function AuthPage() {
         </Card>
       </div>
 
-      <div className="relative hidden flex-1 overflow-hidden bg-gradient-to-br from-primary/10 via-background to-accent/10 lg:flex">
+      <div className="relative hidden flex-1 overflow-hidden bg-linear-to-b from-primary/10 via-background to-accent/10 lg:flex">
         <div className="absolute inset-0 bg-gradient-hero" />
         <div className="relative flex w-full items-center justify-center p-12">
           <div className="max-w-2xl space-y-10 text-center">
