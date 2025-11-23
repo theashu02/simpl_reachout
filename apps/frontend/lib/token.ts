@@ -1,10 +1,29 @@
-'use server'
+import { encode } from "next-auth/jwt";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth/options";
 
-import { getToken } from "next-auth/jwt";
-import { type NextRequest } from "next/server";
+export async function getJwtToken(): Promise<string | null> {
+  const session = await getServerSession(authOptions);
 
-export async function getUserToken(req: NextRequest) {
-  const rawToken = await getToken({ req, raw: true });
+  if (!session?.user?.id || !session?.user?.email) {
+    return null;
+  }
 
-  return rawToken;
+  // Create a minimal token payload
+  const tokenPayload = {
+    id: session.user.id,
+    email: session.user.email,
+    name: session.user.name ?? undefined,
+    picture: session.user.image ?? undefined,
+    sub: session.user.email,
+    iat: Math.floor(Date.now() / 1000),
+  };
+
+  // Encode it to JWT
+  const jwt = await encode({
+    token: tokenPayload,
+    secret: process.env.NEXTAUTH_SECRET!,
+  });
+
+  return jwt;
 }

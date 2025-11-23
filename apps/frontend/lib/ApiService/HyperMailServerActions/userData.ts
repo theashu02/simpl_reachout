@@ -1,9 +1,8 @@
 "use server";
 
-import { authOptions } from "@/lib/auth/options";
 import { BACKEND_BASE_URL } from "@/lib/constants";
+import { getJwtToken } from "@/lib/token";
 import axios from "axios";
-import { getServerSession } from "next-auth";
 
 export type BackendUser = {
   id: string;
@@ -19,23 +18,13 @@ export type BackendResponse = {
 };
 
 export async function GetUserData() {
-  const session = await getServerSession(authOptions);
-
-  if (!session?.rawJwt) {
-    const errorResp: BackendResponse = {
-      status: "error",
-      message: "User not authenticated",
-      user: undefined,
-    };
-
-    return { status: 401, data: errorResp };
-  }
+  const jwtToken = await getJwtToken();
 
   try {
     const api = axios.create({
       baseURL: BACKEND_BASE_URL,
       headers: {
-        Authorization: `Bearer ${session.rawJwt}`,
+        Authorization: `Bearer ${jwtToken}`,
         "Content-Type": "application/json",
       },
     });
