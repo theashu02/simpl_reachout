@@ -2,19 +2,8 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-
 import { Button } from "@/components/ui/button";
-
-type BackendResponse = {
-  status?: string;
-  message?: string;
-  user?: {
-    id?: string;
-    email?: string;
-    name?: string;
-    image?: string;
-  };
-};
+import { BackendResponse, GetUserData } from "@/lib/ApiService/HyperMailServerActions/userData";
 
 export function BackendAuthProbe() {
   const { status } = useSession();
@@ -27,22 +16,23 @@ export function BackendAuthProbe() {
     setError(null);
 
     try {
-      const response = await fetch("/api/backend/profile", {
-        method: "GET",
-        cache: "no-store",
-      });
-      const payload: BackendResponse = await response.json();
+      const response = await GetUserData();
 
-      if (!response.ok) {
-        throw new Error(payload.message ?? "Backend rejected the request.");
+      if (response.status >= 400) {
+        throw new Error(response.data.message ?? "Backend rejected the request");
       }
 
-      setResult(payload);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : "Unknown error";
-      setResult(null);
+      setResult(response.data);
+    }
+
+    catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "Unknown error";
       setError(message);
-    } finally {
+      setResult(null);
+    }
+
+    finally {
       setLoading(false);
     }
   };
@@ -50,31 +40,25 @@ export function BackendAuthProbe() {
   const disabled = status !== "authenticated" || loading;
 
   return (
-    <div className="space-y-3 rounded-lg border border-dashed border-border/70 p-4">
+    <div className="space-y-3 rounded-lg border border-dashed p-4">
       <div>
-        <p className="text-sm font-semibold">Backend verification</p>
+        <p className="text-sm font-semibold">Backend Verification</p>
         <p className="text-sm text-muted-foreground">
-          Calls the Bun microservice with your NextAuth session token. Only authenticated users receive a successful response.
+          Calls the Bun backend through a server action.
         </p>
       </div>
+
       <Button onClick={callBackend} disabled={disabled}>
         {loading ? "Contacting backend..." : "Call backend microservice"}
       </Button>
+
       {result && (
-        <pre className="max-h-60 overflow-auto rounded-md bg-muted p-3 text-xs">
+        <pre className="max-h-60 overflow-auto bg-muted p-3 text-xs rounded-md">
           {JSON.stringify(result, null, 2)}
         </pre>
       )}
-      {error && (
-        <p className="text-sm text-destructive" role="alert">
-          {error}
-        </p>
-      )}
-      {status !== "authenticated" && (
-        <p className="text-xs text-muted-foreground">
-          Sign in first to enable the call.
-        </p>
-      )}
+
+      {error && <p className="text-sm text-destructive">{error}</p>}
     </div>
   );
 }
