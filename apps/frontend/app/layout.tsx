@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AppProviders } from "@/components/providers/app-providers";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "SimplLx",
@@ -15,7 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen bg-background font-sans antialiased">
-        <AppProviders>{children}</AppProviders>
+        <AppProviders>
+          {children}
+          <Toaster position="top-center" />
+        </AppProviders>
       </body>
     </html>
   );

@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { SignInButton } from "@/components/auth/sign-in-button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { getServerAuthSession } from "@/lib/auth/session";
+import { MetaMaskButton } from "@/components/auth/MetaMaskButton";
 
 const emailPersonalizationImage =
   "https://res.cloudinary.com/dntxrtlsj/image/upload/v1763820557/email-personalization_z0vbzw.jpg";
@@ -34,6 +35,9 @@ export default async function AuthPage() {
               />
               <SignInButton
                 provider="github"
+                className="h-12 justify-center gap-3 rounded-xl border border-border/70 bg-background/80 text-base font-medium shadow-sm hover:border-primary/40"
+              />
+              <MetaMaskButton 
                 className="h-12 justify-center gap-3 rounded-xl border border-border/70 bg-background/80 text-base font-medium shadow-sm hover:border-primary/40"
               />
             </div>
