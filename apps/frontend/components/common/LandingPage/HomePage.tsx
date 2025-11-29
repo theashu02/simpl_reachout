@@ -3,6 +3,7 @@ import { ArrowRight, MessageSquare, ShieldCheck, Sparkles, Video } from "lucide-
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Header } from "./Header";
 
 const products = [
   {
@@ -22,7 +23,7 @@ const products = [
 export default function HomePage() {
   return (
     <div className="h-screen w-full overflow-y-scroll snap-y snap-mandatory bg-background text-foreground scroll-smooth font-dmsans">
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/10 bg-background/80 backdrop-blur-md">
+      {/* <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/10 bg-background/80 backdrop-blur-md">
         <div className="container mx-auto flex h-16 items-center justify-between px-6">
           <div className="flex items-center gap-2 font-bold text-xl tracking-tight">
             <div className="size-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground shadow-lg shadow-primary/20">
@@ -31,7 +32,8 @@ export default function HomePage() {
             Neural Hash
           </div>
         </div>
-      </header>
+      </header> */}
+      <Header />
 
       <main>
         <section className="relative min-h-screen w-full snap-start flex items-center justify-center pt-16">
