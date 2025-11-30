@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen bg-background font-sans antialiased" style={{ fontFamily: dmSans }}>
+      <body suppressHydrationWarning className="min-h-screen bg-background antialiased" style={{ fontFamily: dmSans }}>
         <AppProviders>
           {children}
           <Toaster position="top-center" />

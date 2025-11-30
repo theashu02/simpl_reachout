@@ -1,0 +1,1 @@
+export const NEXTAUTH_SECRET = Bun.env.NEXTAUTH_SECRET;
