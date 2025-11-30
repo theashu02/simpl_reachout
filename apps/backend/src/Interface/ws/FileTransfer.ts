@@ -1,9 +1,5 @@
 import { Elysia, t } from "elysia";
 
-/**
- * WebSocket signaling routes that allow peers to exchange SDP offers/answers
- * and ICE candidates for the file-transfer session.
- */
 export const fileTransferWs = new Elysia({ name: "file-transfer-ws" }).ws("/ws", {
   body: t.Object({
     type: t.String(),
