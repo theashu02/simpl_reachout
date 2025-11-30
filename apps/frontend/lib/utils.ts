@@ -6,3 +6,4 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const dmSans = '"DM Sans", "Inter", system-ui, sans-serif';
+export const LogoURL = "https://res.cloudinary.com/dntxrtlsj/image/upload/v1764534180/Simplx_o6gwi2.png"

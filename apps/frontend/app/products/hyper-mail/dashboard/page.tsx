@@ -6,13 +6,7 @@ import { CalendarDays, Mail, ShieldCheck } from "lucide-react";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import { BackendAuthProbe } from "@/components/common/LandingPage/backend-auth-probe";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getServerAuthSession } from "@/lib/auth/session";
 import { connectToDatabase } from "@/lib/db/mongoose";
 import { UserModel, type AppUser } from "@/lib/models/user";
@@ -40,22 +34,13 @@ export default async function DashboardPage() {
       <div>
         <p className="text-sm uppercase tracking-widest text-muted-foreground">Dashboard</p>
         <h1 className="text-4xl font-semibold tracking-tight">Welcome back!</h1>
-        <p className="mt-2 text-muted-foreground">
-          This route is protected with NextAuth middleware. You can sign out at any time
-          or jump back to the landing page.
-        </p>
+        <p className="mt-2 text-muted-foreground">This route is protected with NextAuth middleware. You can sign out at any time or jump back to the landing page.</p>
       </div>
       <Card className="border-border/80">
         <CardHeader className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-center gap-4">
             {session.user.image ? (
-              <Image
-                src={session.user.image}
-                alt={session.user.name ?? "Profile avatar"}
-                width={72}
-                height={72}
-                className="rounded-full border"
-              />
+              <Image src={session.user.image} alt={session.user.name ?? "Profile avatar"} width={72} height={72} className="rounded-full border" />
             ) : (
               <div className="flex size-16 items-center justify-center rounded-full bg-muted">
                 <ShieldCheck className="size-8" />
@@ -90,9 +75,7 @@ export default async function DashboardPage() {
             </p>
           </div>
           <p className="rounded-lg bg-muted p-4 text-sm text-muted-foreground">
-            The dashboard fetches your profile from MongoDB on every request. Because
-            sessions are JWT-based, the server does not need to query a NextAuth session
-            table. This keeps response times low while still persisting your profile data.
+            The dashboard fetches your profile from MongoDB on every request. Because sessions are JWT-based, the server does not need to query a NextAuth session table. This keeps response times low while still persisting your profile data.
           </p>
         </CardContent>
       </Card>
