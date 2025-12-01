@@ -1,28 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a [Next.js](https://nextjs.org) application that now ships with a full authentication flow powered by [NextAuth.js](https://next-auth.js.org/), MongoDB persistence, and shadcn/ui primitives.
+
+## Features
+
+- NextAuth.js with JWT sessions and Google + GitHub OAuth providers.
+- MongoDB (via Mongoose) stores user profile data (name, email, avatar, provider metadata, last login).
+- Middleware-enforced `/dashboard` route that only renders for authenticated users.
+- shadcn/ui components (`Button`, `Card`, etc.) for a cohesive interface.
+- Redux Toolkit store is still available for future client-state needs (wrapped via `AppProviders`).
+
+## Environment variables
+
+Copy `.env.example` into `.env.local` (or `.env`) inside `apps/frontend` and fill in your provider credentials:
+
+```bash
+cp .env.example .env.local
+```
+
+You need values for:
+
+- `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`
+- `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET`
+- `NEXTAUTH_SECRET` (generate via `openssl rand -base64 32` or `bunx next auth secret`)
+- `MONGODB_URI` (connection string with credentials)
+- `MONGODB_DB` (database name, e.g. `neural-hash`)
+- `NEXTAUTH_URL` (e.g. `http://localhost:3000` for dev)
+
+All of these variables are required at runtime so the server can boot.
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies (workspace root) and start the dev server from `apps/frontend`:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
 bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+After authenticating, you can access `/dashboard`. The middleware will redirect unauthenticated visitors back to `/`.
 
 ## Application Layout
 
-- `app/` holds the App Router entry points (`layout.tsx`, route segments, and global styles).
+- `app/` holds the App Router entry points (`layout.tsx`, route segments, global styles, and API routes).
 - `components/` is reserved for UI primitives (currently just the shared `Button` component).
-- `lib/` contains cross-cutting utilities. `lib/store` now hosts the Redux Toolkit store, typed hooks, and feature slices.
+- `components/auth` exposes small helpers for OAuth buttons.
+- `components/providers` contains `AppProviders` (NextAuth SessionProvider + Redux provider wrapper).
+- `lib/auth` centralizes the NextAuth options plus helpers (so both route handlers and server components share the config).
+- `lib/db` includes the MongoDB connection helper (with connection caching).
+- `lib/models` holds the Mongoose `UserModel` definition.
+- `lib/store` hosts the Redux Toolkit store, typed hooks, and feature slices.
 
 ## State Management (Redux Toolkit)
 
@@ -48,17 +74,15 @@ export function Example() {
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Authentication flow
+
+1. `app/api/auth/[...nextauth]/route.ts` exposes the NextAuth handler with Google + GitHub providers.
+2. During `signIn`, the server connects to MongoDB (via `lib/db/mongoose.ts`) and upserts the user profile in `lib/models/user.ts`.
+3. Sessions are JWT-based (no database session table) and enriched with the Mongo `_id` for downstream usage.
+4. `middleware.ts` uses `withAuth` to guard `/dashboard`. Unauthorized requests are redirected to `/`.
+5. Server components (`app/page.tsx`, `app/dashboard/page.tsx`) call `getServerAuthSession` to fetch the session and render the correct UI.
+
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [NextAuth.js Documentation](https://next-auth.js.org/)
+- [MongoDB Atlas](https://www.mongodb.com/atlas/database) for managed Mongo instances
