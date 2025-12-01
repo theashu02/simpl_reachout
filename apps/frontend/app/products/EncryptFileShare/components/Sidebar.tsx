@@ -1,44 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronLeft, FileText, Mail, Settings, Share2, UploadCloud } from "lucide-react";
+import { ArrowUpRight, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EncryptFileSidebarProps } from "@/lib/interfaces/config";
 import Image from "next/image";
 import { LogoURL } from "@/lib/utils";
-import HoverFillButton from "./Button";
-
-const NAV_ITEMS = [
-  {
-    label: "Overview",
-    href: "/products/EncryptFileShare",
-    icon: FileText,
-  },
-  {
-    label: "Send File",
-    href: "/products/EncryptFileShare/send",
-    icon: UploadCloud,
-  },
-  {
-    label: "Join Room",
-    href: "/products/EncryptFileShare/join",
-    icon: Share2,
-  },
-  {
-    label: "Messages",
-    href: "/products/EncryptFileShare/messages",
-    icon: Mail,
-    disabled: true,
-  },
-  {
-    label: "Settings",
-    href: "/products/EncryptFileShare/settings",
-    icon: Settings,
-    disabled: true,
-  },
-];
+import HoverButton from "@/components/common/AnimatedButtons/HoverButton";
+import { signOut } from "next-auth/react";
+import { NAV_ITEMS } from "../utils/NavItems";
 
 export function EncryptFileSidebar({ user }: EncryptFileSidebarProps) {
   const [isOpen, setIsOpen] = useState(true);
@@ -48,6 +20,14 @@ export function EncryptFileSidebar({ user }: EncryptFileSidebarProps) {
     name: user?.name ?? "User",
     email: user?.email ?? "",
     initial: (user?.name?.[0] ?? "?").toUpperCase(),
+  };
+
+  const [isPending, startTransition] = React.useTransition();
+
+  const handleSignOut = () => {
+    startTransition(() => {
+      void signOut({ callbackUrl: "/" });
+    });
   };
 
   return (
@@ -70,8 +50,8 @@ export function EncryptFileSidebar({ user }: EncryptFileSidebarProps) {
             const isActive = pathname === item.href;
             const content = (
               <>
-                <item.icon className="size-5" />
-                {isOpen && <span className="ml-2 text-sm">{item.label}</span>}
+                <item.icon className="size-5" strokeWidth={1.5} />
+                {isOpen && <span className="ml-2 text-sm tracking-widest font-normal">{item.label}</span>}
               </>
             );
 
@@ -118,11 +98,16 @@ export function EncryptFileSidebar({ user }: EncryptFileSidebarProps) {
         </div>
 
         <div className="border-t border-border/80 px-4 py-3">
-          {/* <Button type="button" variant="outline" size={isOpen ? "sm" : "icon"} className={`w-full ${isOpen ? "justify-start gap-2" : "justify-center"}`} onClick={handleLogout}>
-            <LogOut className="size-4" />
-            {isOpen && <span>Sign Out</span>}
-          </Button> */}
-          <HoverFillButton text="Securely Out" colorClass="bg-gradient-to-br from-blue-400 to-indigo-600" />
+          <HoverButton onClick={handleSignOut} className="w-full">
+            {isOpen ? (
+              <>
+                <span className="">{isPending ? "Signing out..." : "Securely Logout"}</span>
+                <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </>
+            ) : (
+              <ArrowUpRight className="h-4 w-4 transition-transform duration-300" />
+            )}
+          </HoverButton>
         </div>
       </div>
     </aside>
