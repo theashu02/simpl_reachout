@@ -12,7 +12,7 @@ const emailPersonalizationImage =
 export default async function AuthPage() {
   const session = await getServerAuthSession();
   if (session?.user) {
-    redirect("/products/hyper-mail/dashboard");
+    redirect("/products");
   }
 
   return (

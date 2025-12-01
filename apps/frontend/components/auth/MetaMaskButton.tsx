@@ -38,7 +38,7 @@ export function MetaMaskButton({ className }: { className?: string }) {
         address,
         signature,
         redirect: false,
-        callbackUrl: "/products/hyper-mail/dashboard",
+        callbackUrl: "/products",
       });
 
       if (result?.error) {

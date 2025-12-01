@@ -150,6 +150,13 @@
 }
 
 /* fonts catagory */
+:root {
+  --font-mm-sans-mono: "__MMSansMono_ac549d", "__MMSansMono_Fallback_ac549d", Andale Mono, AndaleMono, monospace;
+}
+
+.mm-sans-mono {
+  font-family: var(--font-mm-sans-mono);
+}
 
 .font-poppins {
   font-family: "Poppins", sans-serif;
