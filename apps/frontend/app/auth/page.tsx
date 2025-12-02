@@ -16,11 +16,11 @@ export default async function AuthPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col lg:flex-row font-dmsans">
+    <div className="flex min-h-screen flex-col lg:flex-row font-gist">
       <div className="flex flex-1 items-center justify-center p-8 lg:p-12">
         <Card className="w-full max-w-md border-border/50 shadow-elegant animate-fade-in">
           <CardHeader className="space-y-3 text-center">
-            <CardTitle className="text-3xl font-bold tracking-tight">
+            <CardTitle className="text-3xl font-bold tracking-wider">
               Welcome to Simplx
             </CardTitle>
             <CardDescription className="text-base">
@@ -62,11 +62,11 @@ export default async function AuthPage() {
         <div className="absolute inset-0 bg-gradient-hero" />
         <div className="relative flex w-full items-center justify-center p-12">
           <div className="max-w-2xl space-y-10 text-center">
-            <div className="space-y-4">
+            <div className="space-y-4 tracking-wider">
               <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary/80">
                 Hyperpersonalized Email Marketing
               </p>
-              <h2 className="text-4xl font-bold tracking-tight">
+              <h2 className="text-4xl font-bold tracking-normal">
                 Turn AI insights into{" "}
                 <span className="text-primary">human-grade outreach at scale.</span>
               </h2>

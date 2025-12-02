@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AppProviders } from "@/components/providers/app-providers";
 import { Toaster } from "@/components/ui/sonner";
-import { dmSans } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "SimplLx",
@@ -16,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning className="min-h-screen bg-background antialiased" style={{ fontFamily: dmSans }}>
+      <body suppressHydrationWarning className="min-h-screen bg-background antialiased">
         <AppProviders>
           {children}
           <Toaster position="top-center" />
