@@ -12,19 +12,52 @@ const textEncoder = new TextEncoder();
 const hmacSecret = textEncoder.encode(NEXTAUTH_SECRET);
 const encryptionSecret = deriveNextAuthEncryptionKey(NEXTAUTH_SECRET);
 
-type AuthenticatedUser = JWTPayload & UserData
+type AuthenticatedUser = JWTPayload & UserData;
 
-export const authenticateRequest = async (request: Request): Promise<AuthenticatedUser> => {
+const NEXT_AUTH_SESSION_COOKIE_KEYS = ["__Secure-next-auth.session-token", "next-auth.session-token"];
+
+const extractTokenFromRequest = (request: Request): string | null => {
   const authorization = request.headers.get("authorization");
 
-  if (!authorization?.startsWith("Bearer ")) {
-    throw new Error("Missing Authorization header");
+  if (authorization?.startsWith("Bearer ")) {
+    const fromHeader = authorization.slice("Bearer ".length).trim();
+    if (fromHeader) {
+      return fromHeader;
+    }
   }
 
-  const token = authorization.slice("Bearer ".length).trim();
+  const cookieHeader = request.headers.get("cookie");
+  if (!cookieHeader) {
+    return null;
+  }
+
+  const cookies = cookieHeader.split(";").map((cookie) => cookie.trim());
+
+  for (const key of NEXT_AUTH_SESSION_COOKIE_KEYS) {
+    const match = cookies.find((cookie) => cookie.startsWith(`${key}=`));
+    if (!match) continue;
+
+    const value = match.slice(key.length + 1);
+    if (!value) continue;
+
+    try {
+      const decoded = decodeURIComponent(value);
+      if (decoded) {
+        return decoded;
+      }
+    } catch {
+      return value;
+    }
+  }
+
+  return null;
+};
+
+export const authenticateRequest = async (request: Request): Promise<AuthenticatedUser> => {
+  const token = extractTokenFromRequest(request);
 
   if (!token) {
-    throw new Error("Empty Authorization token");
+    throw new Error("Missing session token");
   }
 
   const segments = token.split(".");

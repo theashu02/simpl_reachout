@@ -2,9 +2,10 @@
 
 import { ChangeEvent, DragEvent, useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Check, Copy, Loader2, UploadCloud } from "lucide-react";
+import { ArrowLeft, Check, Copy, Loader2, UploadCloud, Zap, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { useFileTransferSession } from "../hooks/useFileTransferSession";
 
 const FILE_TYPES = [
@@ -100,124 +101,141 @@ export default function SendFilePage() {
   const feedback = localError ?? error;
 
   return (
-    <div className="mx-auto flex max-w-5xl flex-col gap-8 px-4 py-12">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 py-12">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <Button asChild variant="outline" className="gap-2">
+        <Button asChild variant="ghost" size="sm" className="gap-2 rounded-full border border-border/50 bg-background/80 px-4 py-2">
           <Link href="/products/EncryptFileShare">
             <ArrowLeft className="size-4" />
-            Back to actions
+            Back to overview
           </Link>
         </Button>
         <div className="text-right">
-          <p className="text-sm uppercase tracking-wide text-muted-foreground">Step 1</p>
-          <h1 className="text-2xl font-semibold">Create a room & send a file</h1>
+          <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Step 1</p>
+          <h1 className="text-2xl font-semibold text-foreground">Securely share your file</h1>
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
-        <Card className="border-border/80">
+      <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+        <Card className="border-border/80 bg-linear-to-br from-background to-background/60">
           <CardHeader>
-            <CardTitle>File to transfer</CardTitle>
-            <CardDescription>Drag and drop any file up to 5 GB or use the picker below. Transfers happen peer-to-peer over an encrypted WebRTC data channel.</CardDescription>
+            <CardTitle className="text-xl font-semibold">Prepare the file</CardTitle>
+            <CardDescription>Select your file, create a room ID, and wait for your recipient to hop in.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <label onDragOver={(e) => e.preventDefault()} onDrop={handleDrop} className="flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-border/80 bg-muted/30 px-6 py-10 text-center transition hover:border-primary">
-              <UploadCloud className="mb-4 size-10 text-primary" />
-              <p className="text-lg font-medium text-foreground">Click to browse or drop file here</p>
-              <p className="text-sm text-muted-foreground">{selectedFile ? fileSummary : "Any type is supported. Maximum size 5 GB."}</p>
+            <label
+              onDragOver={(event) => event.preventDefault()}
+              onDrop={handleDrop}
+              className="flex cursor-pointer flex-col items-center justify-center rounded-3xl border border-dashed border-border/80 bg-muted/20 px-6 py-10 text-center transition hover:border-primary"
+            >
+              <UploadCloud className="mb-4 size-12 text-primary" />
+              <p className="text-lg font-semibold text-foreground">{selectedFile ? "File loaded" : "Drop a file or browse"}</p>
+              <p className="text-sm text-muted-foreground">{selectedFile ? fileSummary : "Up to 5 GB. Stays in your browser."}</p>
               <input type="file" className="hidden" onChange={handleFileChange} />
             </label>
 
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <span className="text-sm font-medium text-foreground">File type hint</span>
-                <select value={fileType} onChange={(event) => setFileType(event.target.value)} className="w-full rounded-lg border border-border/80 bg-background px-3 py-2 text-sm text-foreground shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <p className="text-sm font-medium text-foreground">File type hint</p>
+                <select
+                  value={fileType}
+                  onChange={(event) => setFileType(event.target.value)}
+                  className="h-12 w-full rounded-2xl border border-border/70 bg-background px-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                >
                   {FILE_TYPES.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
                     </option>
                   ))}
                 </select>
-                <p className="text-xs text-muted-foreground">Optional hint for the recipient&apos;s download dialog.</p>
               </div>
 
               <div className="space-y-2">
-                <span className="text-sm font-medium text-foreground">Room connection</span>
+                <p className="text-sm font-medium text-foreground">Room connection</p>
                 <div className="flex items-center gap-3">
-                  <Button className="flex-1" onClick={handleRoomGeneration} disabled={isConnecting}>
+                  <Button className="flex-1 rounded-2xl" onClick={handleRoomGeneration} disabled={isConnecting}>
                     {isConnecting ? (
                       <>
                         <Loader2 className="mr-2 size-4 animate-spin" />
-                        Preparing room...
+                        Creating...
                       </>
                     ) : (
-                      "Generate room ID"
+                      "Generate ID"
                     )}
                   </Button>
-                  <Button type="button" variant="outline" size="icon" disabled={!roomId} onClick={copyRoomId} aria-label="Copy room ID">
+                  <Button type="button" variant="outline" size="icon" className="rounded-2xl" disabled={!roomId} onClick={copyRoomId} aria-label="Copy room ID">
                     {copied ? <Check className="size-4 text-emerald-500" /> : <Copy className="size-4" />}
                   </Button>
                 </div>
-                <p className="text-xs text-muted-foreground">Share the generated ID securely with your recipient.</p>
+                <p className="text-xs text-muted-foreground">Share the code only with your recipient.</p>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <Button onClick={handleSend} disabled={disableSend} className="h-12 w-full text-base font-semibold">
-                {isSending ? (
-                  <>
-                    <Loader2 className="mr-2 size-5 animate-spin" />
-                    Sending file...
-                  </>
-                ) : (
-                  "Start transfer"
-                )}
-              </Button>
-
-              <div className="rounded-xl border border-border/70 bg-muted/20 p-4">
-                <p className="text-sm font-medium text-foreground">Status</p>
-                <p className="text-sm text-muted-foreground">{status}</p>
-                {(progress ?? 0) > 0 && (
-                  <div className="mt-3">
-                    <div className="flex items-center justify-between text-xs text-muted-foreground">
-                      <span>Progress</span>
-                      <span>{progress.toFixed(1)}%</span>
-                    </div>
-                    <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-muted">
-                      <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${Math.min(progress, 100)}%` }} />
-                    </div>
+            <div className="rounded-3xl border border-border/70 bg-background/70 p-4 shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-sm font-semibold text-muted-foreground">Realtime status</p>
+                  <p className="text-base font-medium text-foreground">{status}</p>
+                </div>
+                <div className="rounded-full border border-border/60 px-3 py-1 text-xs uppercase tracking-[0.3em] text-muted-foreground">
+                  {roomId ? "ROOM READY" : "ID PENDING"}
+                </div>
+              </div>
+              {(progress ?? 0) > 0 && (
+                <div className="mt-4 space-y-2">
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <span>Transfer progress</span>
+                    <span>{progress.toFixed(1)}%</span>
                   </div>
-                )}
-                {feedback && <p className="mt-3 text-sm text-destructive">{feedback}</p>}
-              </div>
+                  <Progress value={Math.min(progress, 100)} className="h-2" />
+                </div>
+              )}
+              {feedback && <p className="mt-3 text-sm text-destructive">{feedback}</p>}
             </div>
+
+            <Button onClick={handleSend} disabled={disableSend} className="h-12 w-full rounded-2xl text-base font-semibold">
+              {isSending ? (
+                <>
+                  <Loader2 className="mr-2 size-5 animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                "Start transfer"
+              )}
+            </Button>
           </CardContent>
         </Card>
 
-        <Card className="border-border/80">
-          <CardHeader>
-            <CardTitle>Room details</CardTitle>
-            <CardDescription>Share this short room ID with the recipient.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-5">
-            <div className="space-y-2">
-              <span className="text-sm font-medium text-muted-foreground">Room ID</span>
-              <div className="flex items-center gap-2 rounded-lg border border-border/70 bg-background px-3 py-2 text-lg font-semibold tracking-[0.2em]">{roomId || "--------"}</div>
-            </div>
-            <div className="rounded-xl border border-dashed border-border/80 bg-muted/20 p-4 text-sm text-muted-foreground">
-              <p className="font-medium text-foreground">How it works</p>
-              <ul className="mt-2 list-disc space-y-1 pl-4">
-                <li>Generate a room ID and share it privately.</li>
-                <li>Wait for the recipient to join the room.</li>
-                <li>Start the transfer once the secure channel is ready.</li>
-              </ul>
-            </div>
-            <div className="rounded-lg bg-secondary/50 p-4 text-sm text-secondary-foreground">
-              <p className="font-semibold text-foreground">Transfer limit</p>
-              <p>Files up to 5 GB are supported. Larger files require chunking outside the browser.</p>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="space-y-6">
+          <Card className="border-border/80 bg-muted/10">
+            <CardHeader>
+              <CardTitle>Room details</CardTitle>
+              <CardDescription>Share this short ID with your recipient.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-5">
+              <div className="rounded-2xl border border-border/70 bg-background/80 p-4">
+                <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">Room ID</p>
+                <p className="mt-3 text-2xl font-semibold tracking-[0.25em] text-foreground">{roomId ? roomId.toUpperCase() : "--------"}</p>
+              </div>
+
+              <div className="rounded-2xl border border-dashed border-border/70 bg-background/60 p-4">
+                <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                  <ShieldCheck className="size-4 text-primary" />
+                  <span>Rooms close as soon as one participant disconnects.</span>
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-border/70 bg-background/70 p-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-3">
+                  <Zap className="size-4 text-primary" />
+                  <div>
+                    <p className="font-semibold text-foreground">Need the checklist?</p>
+                    <p>Generate ID → Share → Wait for receiver → Start transfer.</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

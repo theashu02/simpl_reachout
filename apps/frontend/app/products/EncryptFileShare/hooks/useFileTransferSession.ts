@@ -14,6 +14,7 @@ interface SignalPayload<T = unknown> {
   payload?: {
     clientId?: string;
     data?: T;
+    role?: TransferRole;
   };
 }
 
@@ -369,7 +370,7 @@ export const useFileTransferSession = ({ role }: UseFileTransferSessionOptions):
             JSON.stringify({
               type: "join",
               roomId: targetRoomId,
-              payload: { clientId: clientIdRef.current },
+              payload: { clientId: clientIdRef.current, role },
             })
           );
           resolve();
