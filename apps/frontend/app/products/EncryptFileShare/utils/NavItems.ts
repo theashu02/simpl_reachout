@@ -24,15 +24,14 @@ export const NAV_ITEMS: NavItem[] = [
     icon: Share2,
   },
   {
+    label: "Generate ID",
+    href: "/products/EncryptFileShare/generateid",
+    icon: Settings,
+  },
+  {
     label: "Messages",
     href: "/products/EncryptFileShare/messages",
     icon: Mail,
     disabled: true,
-  },
-  {
-    label: "Settings",
-    href: "/products/EncryptFileShare/settings",
-    icon: Settings,
-    disabled: true,
-  },
+  }
 ];
