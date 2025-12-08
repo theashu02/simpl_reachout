@@ -1,5 +1,9 @@
+"use client";
+
 import React from "react";
 import { ShieldCheck, UploadCloud, Users, Workflow, Star, LucideIcon } from "lucide-react";
+import Autoplay from "embla-carousel-autoplay";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { dmSans } from "@/lib/utils";
 
 interface CardProps {
@@ -9,7 +13,7 @@ interface CardProps {
   colorClass: string;
 }
 
-const Card: React.FC<CardProps> = ({ title, description, icon: Icon, colorClass }) => (
+const FeatureCard: React.FC<CardProps> = ({ title, description, icon: Icon, colorClass }) => (
   <div className="relative group h-full">
     <div
       className="bg-[#002c2d] h-full p-8 relative overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-2xl"
@@ -45,10 +49,13 @@ const Card: React.FC<CardProps> = ({ title, description, icon: Icon, colorClass 
 );
 
 export default function EncryptFileSharePage() {
+  const autoplayPlugin = React.useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
+
   const features: CardProps[] = [
     {
       title: "Encrypted File Share",
-      description: "Transfer any file directly after authentication. Choose whether you want to send a file or join someone else's room. Each transfer uses a short-lived, peer-to-peer WebRTC room coordinated by our Bun/Elysia signaling service.",
+      description:
+        "Transfer any file directly after authentication. Choose whether you want to send a file or join someone else's room. Each transfer uses a short-lived, peer-to-peer WebRTC room coordinated by our Bun/Elysia signaling service.",
       icon: ShieldCheck,
       colorClass: "bg-gradient-to-br from-emerald-400 to-teal-600",
     },
@@ -66,25 +73,34 @@ export default function EncryptFileSharePage() {
     },
     {
       title: "End-to-end flow",
-      description: "1. Authenticate & land on this page. 2. Sender generates a unique room ID & shares securely. 3. Peers establish WebRTC room & exchange encrypted chunks via data channel up to 5 GB.",
+      description:
+        "1. Authenticate & land on this page. 2. Sender generates a unique room ID & shares securely. 3. Peers establish WebRTC room & exchange encrypted chunks via data channel up to 5 GB.",
       icon: Workflow,
       colorClass: "bg-gradient-to-br from-purple-400 to-pink-600",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[#eac2ff] p-6 md:p-4 font-sans flex flex-col items-center justify-center overflow-y-auto" style={{ fontFamily: dmSans }}>
+    <div className="min-h-screen bg-background p-6 md:p-4 font-sans flex flex-col items-center justify-center overflow-y-auto" style={{ fontFamily: dmSans }}>
       <div className="text-center mb-5 max-w-2xl">
         <h1 className="text-4xl md:text-5xl font-black text-[#002c2d] mb-2 tracking-[1px]">Secure Transfer</h1>
         <p className="text-[#004d40] text-xs font-light tracking-widest">Serverless, encrypted, and built for speed.</p>
       </div>
 
-      <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-        {features.map((feature, index) => (
-          <div key={index} className="h-full min-h-[250px]">
-            <Card {...feature} />
-          </div>
-        ))}
+      <div className="w-full max-w-4xl mb-6">
+        <Carousel plugins={[autoplayPlugin.current]} className="w-full" onMouseEnter={autoplayPlugin.current.stop} onMouseLeave={autoplayPlugin.current.reset}>
+          <CarouselContent>
+            {features.map((feature, index) => (
+              <CarouselItem key={feature.title + index} className="basis-full">
+                <div className="h-full min-h-[300px]">
+                  <FeatureCard {...feature} />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
       </div>
 
       {/* Footer Text */}

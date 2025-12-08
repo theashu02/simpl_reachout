@@ -172,7 +172,7 @@ export default function JoinRoomEntryPage() {
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 py-12">
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      {/* <div className="flex flex-wrap items-center justify-between gap-4">
         <Button asChild variant="ghost" size="sm" className="gap-2 rounded-full border border-border/50 bg-background/80 px-4 py-2">
           <Link href="/products/EncryptFileShare">
             <ArrowLeft className="size-4" />
@@ -183,7 +183,7 @@ export default function JoinRoomEntryPage() {
           <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Step 2</p>
           <h1 className="text-2xl font-semibold text-foreground">Join a secure transfer room</h1>
         </div>
-      </div>
+      </div> */}
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <Card className="border-border/80 bg-linear-to-br from-background to-background/60">
