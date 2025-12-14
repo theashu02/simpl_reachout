@@ -73,7 +73,7 @@ export function ReceiverRoomClient() {
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 px-4 py-12">
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      {/* <div className="flex flex-wrap items-center justify-between gap-4">
         <Button asChild variant="ghost" size="sm" className="gap-2 rounded-full border border-border/50 bg-background/80 px-4 py-2">
           <Link href="/products/EncryptFileShare/join">
             <ArrowLeft className="size-4" />
@@ -85,7 +85,7 @@ export function ReceiverRoomClient() {
           <h1 className="text-2xl font-semibold text-foreground">{displayRoomId}</h1>
           <p className="text-sm text-muted-foreground">You&apos;re moments away from receiving the file.</p>
         </div>
-      </div>
+      </div> */}
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <Card className="border-border/80 bg-linear-to-br from-background to-background/60">
