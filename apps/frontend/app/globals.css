@@ -1,19 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist&display=swap');
 
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
-@theme inline {
+/* @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --font-geist: "Geist", system-ui, sans-serif;
+  --font-dmsans: "DM Sans", system-ui, sans-serif;
+  
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -50,9 +49,9 @@
 }
 
 :root {
-  --font-inter: "Inter", system-ui, sans-serif;
-  --font-poppins: "Poppins", "Inter", system-ui, sans-serif;
-  --font-dm-sans: "DM Sans", "Inter", system-ui, sans-serif;
+  --font-dm-sans: "DM Sans", system-ui, sans-serif;
+  --font-geist: "Geist", system-ui, sans-serif;
+
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -124,6 +123,160 @@
   --sidebar-ring: oklch(0.556 0 0);
   --scrollbar-track: oklch(0.205 0 0);
   --scrollbar-thumb: oklch(0.708 0 0 / 0.8);
+}  */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  /* UPDATED FONTS */
+  --font-geist: "Geist", system-ui, sans-serif;
+  --font-dmsans: "DM Sans", system-ui, sans-serif;
+  
+  /* Sidebar & Chart Colors */
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --font-dm-sans: "DM Sans", system-ui, sans-serif;
+  --font-geist: "Geist", system-ui, sans-serif;
+
+  --radius: 0.625rem;
+
+  /* LIGHT MODE - "Glacial Morning" */
+  /* Base: #f8f6f2 */
+  --background: oklch(0.973 0.006 87.2); 
+  --foreground: oklch(0.25 0.02 240); /* Deep Slate for text */
+
+  /* Cards: Pure White to pop against the #f8f6f2 base */
+  --card: oklch(1 0 0); 
+  --card-foreground: oklch(0.25 0.02 240);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.25 0.02 240);
+
+  /* Primary: A Deep Violet to contrast with the lavender input */
+  --primary: oklch(0.55 0.2 290); 
+  --primary-foreground: oklch(0.98 0 0);
+
+  /* Secondary: Your Ice Blue (#e0f2fe) */
+  --secondary: oklch(0.941 0.032 233.7);
+  --secondary-foreground: oklch(0.3 0.05 240);
+
+  /* Muted: Slightly darker Ice Blue */
+  --muted: oklch(0.96 0.02 233);
+  --muted-foreground: oklch(0.55 0.05 240);
+
+  /* Accent: Your Lavender (#eac2ff) */
+  --accent: oklch(0.866 0.113 294.6);
+  --accent-foreground: oklch(0.3 0.1 290);
+
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.92 0.02 240); /* Cool toned border */
+  --input: oklch(0.92 0.02 240);
+  --ring: oklch(0.7 0.1 290);
+
+  /* Charts: Cold Spectrum */
+  --chart-1: oklch(0.6 0.2 290); /* Purple */
+  --chart-2: oklch(0.7 0.15 240); /* Blue */
+  --chart-3: oklch(0.8 0.1 200); /* Cyan */
+  --chart-4: oklch(0.866 0.113 294.6); /* Lavender */
+  --chart-5: oklch(0.7 0.15 160); /* Teal */
+
+  --sidebar: oklch(0.98 0.005 240);
+  --sidebar-foreground: oklch(0.25 0.02 240);
+  --sidebar-primary: oklch(0.55 0.2 290);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.941 0.032 233.7); /* Ice Blue */
+  --sidebar-accent-foreground: oklch(0.3 0.05 240);
+  --sidebar-border: oklch(0.92 0.02 240);
+  --sidebar-ring: oklch(0.7 0.1 290);
+  
+  --scrollbar-size: 0.45rem;
+  --scrollbar-track: oklch(0.973 0.006 87.2);
+  --scrollbar-thumb: oklch(0.8 0.05 240);
+}
+
+.dark {
+  /* DARK MODE - "Deep Freeze" */
+  /* Background: Deep Midnight Blue, almost black */
+  --background: oklch(0.15 0.04 260); 
+  --foreground: oklch(0.98 0.01 240);
+
+  --card: oklch(0.20 0.04 260);
+  --card-foreground: oklch(0.98 0.01 240);
+
+  --popover: oklch(0.20 0.04 260);
+  --popover-foreground: oklch(0.98 0.01 240);
+
+  /* Primary: Using your Lavender (#eac2ff) here so it glows against dark */
+  --primary: oklch(0.866 0.113 294.6); 
+  --primary-foreground: oklch(0.25 0.1 290);
+
+  /* Secondary: Dark Muted Purple */
+  --secondary: oklch(0.25 0.08 290);
+  --secondary-foreground: oklch(0.98 0 0);
+
+  --muted: oklch(0.25 0.04 260);
+  --muted-foreground: oklch(0.7 0.05 260);
+
+  /* Accent: Dark Blue/Cyan */
+  --accent: oklch(0.25 0.06 240);
+  --accent-foreground: oklch(0.98 0 0);
+
+  --destructive: oklch(0.7 0.19 22);
+  --border: oklch(0.3 0.04 260);
+  --input: oklch(0.3 0.04 260);
+  --ring: oklch(0.6 0.15 290);
+
+  --chart-1: oklch(0.866 0.113 294.6); /* Lavender */
+  --chart-2: oklch(0.7 0.15 240); /* Blue */
+  --chart-3: oklch(0.6 0.15 200); /* Cyan */
+  --chart-4: oklch(0.5 0.2 290); /* Purple */
+  --chart-5: oklch(0.6 0.15 160); /* Teal */
+
+  --sidebar: oklch(0.13 0.04 260);
+  --sidebar-foreground: oklch(0.98 0 0);
+  --sidebar-primary: oklch(0.866 0.113 294.6);
+  --sidebar-primary-foreground: oklch(0.25 0.1 290);
+  --sidebar-accent: oklch(0.25 0.06 240);
+  --sidebar-accent-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(0.3 0.04 260);
+  --sidebar-ring: oklch(0.6 0.15 290);
+  
+  --scrollbar-track: oklch(0.15 0.04 260);
+  --scrollbar-thumb: oklch(0.4 0.05 260);
 }
 
 @layer base {
@@ -145,18 +298,16 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: "DM Sans", "Inter", system-ui, sans-serif;
+    /* Updated to prioritize DM Sans, with Geist as fallback */
+    /* font-family: "DM Sans", "Geist", system-ui, sans-serif; */
   }
 }
 
-/* fonts catagory */
-
-.font-poppins {
-  font-family: "Poppins", sans-serif;
-}
-.font-inter {
-  font-family: "Inter", sans-serif;
-}
+/* Custom Font Utilities */
 .font-dmsans {
   font-family: "DM Sans", sans-serif;
+}
+
+.font-gist {
+  font-family: 'Geist', sans-serif;
 }

@@ -4,9 +4,9 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { BrowserProvider, type Eip1193Provider } from "ethers";
-import { Wallet } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, MetaMaskLogo } from "@/lib/utils";
 import { toast } from "sonner";
+import Image from "next/image";
 
 declare global {
   interface Window {
@@ -22,7 +22,6 @@ export function MetaMaskButton({ className }: { className?: string }) {
       toast.warning("Please install MetaMask!");
       return;
     }
-
     setLoading(true);
 
     try {
@@ -38,7 +37,7 @@ export function MetaMaskButton({ className }: { className?: string }) {
         address,
         signature,
         redirect: false,
-        callbackUrl: "/products/hyper-mail/dashboard",
+        callbackUrl: "/products",
       });
 
       if (result?.error) {
@@ -55,9 +54,17 @@ export function MetaMaskButton({ className }: { className?: string }) {
   };
 
   return (
-    <Button type="button" variant="outline" className={cn("w-full justify-center items-center gap-2", className)} disabled={loading} onClick={connectAndSign}>
-      <Wallet className="size-4" />
-      <span>{loading ? "Connecting..." : "Continue with MetaMask"}</span>
+    <Button
+      type="button"
+      variant="outline"
+      className={cn("relative w-full justify-center items-center gap-2 overflow-hidden group font-gist","transition-colors duration-300", "hover:border-[#FFA680] hover:text-gray-900", "after:absolute after:inset-y-0 after:left-0 after:z-0 after:w-0 after:transition-all after:duration-500 after:ease-out", "hover:after:w-full", "after:bg-[#FFA680]", className)}
+      disabled={loading}
+      onClick={connectAndSign}
+    >
+      <div className="relative z-10 flex items-center justify-center gap-2">
+        <Image src={MetaMaskLogo} alt={`metamask logo`} width={30} height={30} className="object-contain" />
+        <span>{loading ? "Connecting..." : "Continue with MetaMask"}</span>
+      </div>
     </Button>
   );
 }

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { NavigationMenuBar } from './NavMenu';
 
 
 export function Header() {
@@ -10,8 +11,7 @@ export function Header() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6 }}
-      // style={{ fontFamily: dmSans }}
-      className="fixed top-0 left-0 right-0 z-50 py-6"
+      className="fixed top-0 left-0 right-0 z-50 py-6 font-gist"
     >
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex items-center justify-between">
         {/* Left: Dark Pill Nav */}
@@ -33,16 +33,7 @@ export function Header() {
 
           {/* Navigation Links */}
           <nav className="hidden lg:flex items-center gap-8">
-            {['Products', 'Ecosystem', 'Company', 'Blog'].map((item) => (
-              <motion.a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                whileHover={{ y: -1 }}
-                className="text-gray-300 hover:text-white transition-colors text-sm font-medium cursor-pointer tracking-[1px]"
-              >
-                {item}
-              </motion.a>
-            ))}
+            <NavigationMenuBar />
           </nav>
         </motion.div>
 

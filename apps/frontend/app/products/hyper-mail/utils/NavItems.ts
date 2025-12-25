@@ -10,27 +10,27 @@ export interface NavItem {
 export const NAV_ITEMS: NavItem[] = [
   {
     label: "Overview",
-    href: "/products/EncryptFileShare",
+    href: "/products/hyper-mail",
     icon: FileText,
   },
   {
     label: "Send File",
-    href: "/products/EncryptFileShare/send",
+    href: "/products/hyper-mail/send",
     icon: UploadCloud,
   },
   {
-    label: "Join Room",
-    href: "/products/EncryptFileShare/join",
+    label: "Integrations",
+    href: "/products/hyper-mail/integrations",
     icon: Share2,
   },
   {
     label: "Generate ID",
-    href: "/products/EncryptFileShare/generateid",
+    href: "/products/hyper-mail/generateid",
     icon: Settings,
   },
   {
     label: "Messages",
-    href: "/products/EncryptFileShare/messages",
+    href: "/products/hyper-mail/messages",
     icon: Mail,
     disabled: true,
   }

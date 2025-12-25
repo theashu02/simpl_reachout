@@ -22,17 +22,7 @@ const products = [
 
 export default function HomePage() {
   return (
-    <div className="h-screen w-full overflow-y-scroll snap-y snap-mandatory bg-background text-foreground scroll-smooth font-dmsans">
-      {/* <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/10 bg-background/80 backdrop-blur-md">
-        <div className="container mx-auto flex h-16 items-center justify-between px-6">
-          <div className="flex items-center gap-2 font-bold text-xl tracking-tight">
-            <div className="size-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground shadow-lg shadow-primary/20">
-              <Sparkles className="size-5" />
-            </div>
-            Neural Hash
-          </div>
-        </div>
-      </header> */}
+    <div className="h-screen w-full overflow-y-scroll snap-y snap-mandatory bg-background text-foreground scroll-smooth font-gist">
       <Header />
 
       <main>
@@ -48,7 +38,7 @@ export default function HomePage() {
                 <span>Hyper-personalized messaging OS</span>
               </div>
 
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl xl:text-7xl text-balance leading-[1.1]">
+              <h1 className="text-4xl font-bold tracking-normal sm:text-5xl xl:text-7xl text-balance leading-[1.1]">
                 Turn every outbound touch into a <span className="text-primary">one-to-one conversation.</span>
               </h1>
 
