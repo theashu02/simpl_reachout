@@ -4,11 +4,14 @@ import { type PropsWithChildren } from "react";
 import { SessionProvider } from "next-auth/react";
 
 import { ReduxProvider } from "@/lib/store/provider";
+import { ReactQueryProvider } from "@/components/providers/react-query-provider";
 
 export function AppProviders({ children }: PropsWithChildren) {
   return (
     <SessionProvider>
-      <ReduxProvider>{children}</ReduxProvider>
+      <ReactQueryProvider>
+        <ReduxProvider>{children}</ReduxProvider>
+      </ReactQueryProvider>
     </SessionProvider>
   );
 }
