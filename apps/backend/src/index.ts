@@ -74,6 +74,6 @@ app.use(fileTransferWs);
 app.listen(PORT);
 
 if (app.server) {
-  console.log(`🦊 HTTP server running at http://${app.server.hostname}:${app.server.port}`);
-  console.log(`📡 File-transfer signaling ready at ws://${app.server.hostname}:${app.server.port}/ws`);
+  console.log(`HTTP server running at http://${app.server.hostname}:${app.server.port}`);
+  console.log(`File-transfer signaling at ready ws://${app.server.hostname}:${app.server.port}/ws`);
 }
