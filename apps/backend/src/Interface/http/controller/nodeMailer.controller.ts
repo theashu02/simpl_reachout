@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import { Context } from 'elysia';
-import { SMTP_HOST, SMTP_PASS, SMTP_PORT, SMTP_USER } from '../../../utils/config';
+import { RECEIVER_EMAIL, SMTP_HOST, SMTP_PASS, SMTP_PORT, SMTP_USER } from '../../../utils/config';
 
 interface EmailBody {
     email: string;
@@ -28,7 +28,7 @@ export const EmailController = {
         try {
             const info = await transporter.sendMail({
                 from: `"API Notification" <${SMTP_USER}>`,
-                to: process.env.RECEIVER_EMAIL,
+                to: RECEIVER_EMAIL,
                 subject: `New Tool Submission: ${toolName}`,
                 text: `User: ${email}\nTool: ${toolName}\nUse Case: ${useCase}`,
                 html: `
@@ -41,7 +41,7 @@ export const EmailController = {
 
             return {
                 success: true,
-                message: 'Email sent successfully',
+                message: 'Request sent successfully',
                 id: info.messageId
             };
 

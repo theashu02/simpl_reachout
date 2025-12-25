@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
-// import { Label } from "@/components/ui/label"; // Ensure Label is available or use standard label tag
+import ToolsSuggestions from "../components/ToolsSuggestions";
 
 interface Integration {
   id: string;
@@ -54,7 +54,7 @@ export default function IntegrationsPage() {
 
   const closeDialog = () => {
     setIsOpen(false);
-    setTimeout(() => setSelectedIntegration(null), 300); // Clear after animation
+    setTimeout(() => setSelectedIntegration(null), 300);
   };
 
   // Render different content based on the selected integration ID
@@ -139,32 +139,7 @@ export default function IntegrationsPage() {
       case "tools":
         return (
           <>
-            <DialogHeader>
-              <DialogTitle className="flex items-center gap-2">
-                <Plus className="h-5 w-5 text-slate-700" /> Request New Integration
-              </DialogTitle>
-              <DialogDescription>Let us know which tool you&apos;d like to see next.</DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <label htmlFor="tool-name" className="text-sm font-medium">
-                  Tool Name
-                </label>
-                <Input id="tool-name" placeholder="e.g. Salesforce, Slack..." />
-              </div>
-              <div className="grid gap-2">
-                <label htmlFor="use-case" className="text-sm font-medium">
-                  Use Case
-                </label>
-                <Input id="use-case" placeholder="How will this help your workflow?" />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={closeDialog}>
-                Cancel
-              </Button>
-              <Button type="submit">Submit Request</Button>
-            </DialogFooter>
+            <ToolsSuggestions closeDialog={closeDialog} />
           </>
         );
 
