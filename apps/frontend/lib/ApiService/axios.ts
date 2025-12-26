@@ -1,3 +1,5 @@
+'use server'
+
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
 import { getToken } from "next-auth/jwt";
 import type { NextApiRequest } from "next";

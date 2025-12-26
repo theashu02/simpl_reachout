@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import { Mail, Linkedin, Plus } from "lucide-react";
+import { Mail, Linkedin } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import SimpLxLoader from "@/components/common/Loader/SimpLxLoader";

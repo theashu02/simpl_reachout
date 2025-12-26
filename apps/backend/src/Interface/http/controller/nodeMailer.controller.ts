@@ -26,9 +26,15 @@ export const EmailController = {
         const { email, toolName, useCase } = body as EmailBody;
 
         try {
+            const recipient = RECEIVER_EMAIL || SMTP_USER;
+
+            if (!recipient) {
+                throw new Error("No recipient configured. Please set RECEIVER_EMAIL or SMTP_USER");
+            }
+
             const info = await transporter.sendMail({
-                from: `"API Notification" <${SMTP_USER}>`,
-                to: RECEIVER_EMAIL,
+                from: `"Tool Notification" <${SMTP_USER}>`,
+                to: recipient,
                 subject: `New Tool Submission: ${toolName}`,
                 text: `User: ${email}\nTool: ${toolName}\nUse Case: ${useCase}`,
                 html: `
