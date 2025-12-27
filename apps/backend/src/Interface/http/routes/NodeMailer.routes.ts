@@ -25,7 +25,7 @@ export const NodeEmailRoutes = app.post(
       useCase: t.String({ minLength: 5 }),
     }),
     detail: {
-      summary: "Send Tool Info",
+      summary: "Send Request Tool Info",
       tags: ["Email"],
     },
   }

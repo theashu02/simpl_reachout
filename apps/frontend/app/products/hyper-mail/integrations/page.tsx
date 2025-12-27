@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import { Mail, Linkedin } from "lucide-react";
+import { Linkedin } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import SimpLxLoader from "@/components/common/Loader/SimpLxLoader";
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import ToolsSuggestions from "../components/ToolsSuggestions";
+import EmailConnect from "../components/EmailConnect";
 
 interface Integration {
   id: string;
@@ -99,40 +100,7 @@ export default function IntegrationsPage() {
       case "email":
         return (
           <>
-            <DialogHeader>
-              <DialogTitle className="flex items-center gap-2">
-                <Mail className="h-5 w-5 text-slate-700" /> Connect Email (IMAP/SMTP)
-              </DialogTitle>
-              <DialogDescription>Configure your email provider settings for unified inbox access.</DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <label htmlFor="email-address" className="text-sm font-medium">
-                  Email Address
-                </label>
-                <Input id="email-address" placeholder="you@company.com" />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="grid gap-2">
-                  <label htmlFor="imap-host" className="text-sm font-medium">
-                    IMAP Host
-                  </label>
-                  <Input id="imap-host" placeholder="imap.gmail.com" />
-                </div>
-                <div className="grid gap-2">
-                  <label htmlFor="imap-port" className="text-sm font-medium">
-                    Port
-                  </label>
-                  <Input id="imap-port" placeholder="993" />
-                </div>
-              </div>
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={closeDialog}>
-                Cancel
-              </Button>
-              <Button type="submit">Connect Email</Button>
-            </DialogFooter>
+            <EmailConnect closeDialog={closeDialog} />
           </>
         );
 

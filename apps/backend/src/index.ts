@@ -5,6 +5,7 @@ import { fileTransferWs, getRoomSnapshot } from "./Interface/ws/FileTransfer";
 import { authenticateRequest } from "./middleware/VerifyUser";
 import { PORT } from "./utils/config";
 import { NodeEmailRoutes } from "./Interface/http/routes/NodeMailer.routes";
+import { MailVerifyRoutes } from "./Interface/http/routes/MailVerify.routes";
 
 const app = new Elysia();
 
@@ -21,7 +22,8 @@ app.use(
 app.get("/", () => ({ status: "ok", service: "neural-hash-backend" })); // public api
 app.group("/api/protected", (group) => group
   .use(profileRoutes)
-  .use(NodeEmailRoutes));
+  .use(NodeEmailRoutes)
+  .use(MailVerifyRoutes));
 
 app.get("/file-transfer/rooms/:roomId/status", async ({ request, params, set }) => {
   try {
