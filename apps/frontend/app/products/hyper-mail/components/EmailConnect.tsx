@@ -4,17 +4,24 @@ import { FormEvent, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Mail } from "lucide-react";
 import { toast } from "sonner";
-import { verifyMailCredentials } from "@/lib/ApiService/HyperMailServerActions/MailerAction";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useAppSelector } from "@/lib/store/hooks";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
+import { getEdenClient, type EdenClient } from "@/lib/ApiService/edenClient";
 
 interface ToolsSuggestionsProps {
   closeDialog: () => void;
 }
+
+type VerifyMailResponse = {
+  success: boolean;
+  message: string;
+};
+
+const hyperMailApi: EdenClient = getEdenClient();
 
 export default function EmailConnect({ closeDialog }: ToolsSuggestionsProps) {
   const { email } = useAppSelector((state) => state.user);
@@ -24,7 +31,7 @@ export default function EmailConnect({ closeDialog }: ToolsSuggestionsProps) {
   const [smtpPort, setSmtpPort] = useState("465");
   const [useSecure, setUseSecure] = useState(true);
 
-  const verifyMail = useMutation({
+  const verifyMail = useMutation<VerifyMailResponse, Error>({
     mutationFn: async () => {
       const normalizedEmail = (emailAddress || "").trim();
       const normalizedHost = smtpHost.trim();
@@ -46,12 +53,23 @@ export default function EmailConnect({ closeDialog }: ToolsSuggestionsProps) {
         throw new Error("Enter a valid port number.");
       }
 
-      return await verifyMailCredentials({
+      const { data, error } = await hyperMailApi.api.protected["verify-mail"].post({
         email: normalizedEmail,
-        password,
+        appPassword: password,
         host: normalizedHost,
         port: portValue,
       });
+
+      if (error) {
+        const message = (typeof error.value === "object" && error.value && "message" in error.value ? (error.value as { message?: string }).message : null) ?? "Unable to verify credentials.";
+        throw new Error(message);
+      }
+
+      if (!data?.success) {
+        throw new Error(data?.message ?? "Verification failed.");
+      }
+
+      return data;
     },
     onSuccess: (result) => {
       toast.success(result.message || "SMTP verified successfully.");

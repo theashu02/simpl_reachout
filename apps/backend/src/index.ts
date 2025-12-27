@@ -3,15 +3,15 @@ import { cors } from "@elysiajs/cors";
 import { profileRoutes } from "./Interface/http/routes/UserController/profile.route";
 import { fileTransferWs, getRoomSnapshot } from "./Interface/ws/FileTransfer";
 import { authenticateRequest } from "./middleware/VerifyUser";
-import { PORT } from "./utils/config";
+import { ALLOWED_ORIGINS, PORT } from "./utils/config";
 import { NodeEmailRoutes } from "./Interface/http/routes/NodeMailer.routes";
 import { MailVerifyRoutes } from "./Interface/http/routes/MailVerify.routes";
 
-const app = new Elysia();
+export const app = new Elysia();
 
 app.use(
   cors({
-    origin: "*",
+    origin: ALLOWED_ORIGINS.length === 1 ? ALLOWED_ORIGINS[0] : ALLOWED_ORIGINS,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     exposeHeaders: ["Content-Length"],
@@ -20,10 +20,8 @@ app.use(
 );
 
 app.get("/", () => ({ status: "ok", service: "neural-hash-backend" })); // public api
-app.group("/api/protected", (group) => group
-  .use(profileRoutes)
-  .use(NodeEmailRoutes)
-  .use(MailVerifyRoutes));
+app.group("/api/protected", (group) => group.use(profileRoutes).use(NodeEmailRoutes).use(MailVerifyRoutes));
+
 
 app.get("/file-transfer/rooms/:roomId/status", async ({ request, params, set }) => {
   try {
@@ -73,8 +71,9 @@ app.get("/file-transfer/rooms/:roomId/status", async ({ request, params, set }) 
     senderPresent: snapshot.senderPresent,
   };
 });
-
 app.use(fileTransferWs);
+
+export type App = typeof app;
 
 app.listen(PORT);
 
