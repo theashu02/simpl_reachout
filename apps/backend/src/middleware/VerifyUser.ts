@@ -64,11 +64,13 @@ export const authenticateRequest = async (request: Request): Promise<Authenticat
 
   if (segments.length === 3) {
     const { payload } = await jwtVerify(token, hmacSecret);
+    console.log("user verified")
     return payload as AuthenticatedUser;
   }
 
   if (segments.length === 5) {
     const { payload } = await jwtDecrypt(token, encryptionSecret);
+    console.log("user verified")
     return payload as AuthenticatedUser;
   }
 
