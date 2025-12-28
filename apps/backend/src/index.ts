@@ -7,71 +7,70 @@ import { ALLOWED_ORIGINS, PORT } from "./utils/config";
 import { NodeEmailRoutes } from "./Interface/http/routes/NodeMailer.routes";
 import { MailVerifyRoutes } from "./Interface/http/routes/MailVerify.routes";
 
-export const app = new Elysia();
+export const app = new Elysia()
+  .use(
+    cors({
+      origin: ALLOWED_ORIGINS.length === 1 ? ALLOWED_ORIGINS[0] : ALLOWED_ORIGINS,
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+      exposeHeaders: ["Content-Length"],
+      credentials: true,
+    })
+  )
+  .get("/", () => ({ status: "ok", service: "neural-hash-backend" })) // public api
+  .group("/api/protected", (group) => group.use(profileRoutes)
+    .use(NodeEmailRoutes)
+    .use(MailVerifyRoutes))
 
-app.use(
-  cors({
-    origin: ALLOWED_ORIGINS.length === 1 ? ALLOWED_ORIGINS[0] : ALLOWED_ORIGINS,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    exposeHeaders: ["Content-Length"],
-    credentials: true,
-  })
-);
+  .get("/file-transfer/rooms/:roomId/status", async ({ request, params, set }) => {
+    try {
+      await authenticateRequest(request);
+    } catch (error) {
+      set.status = 401;
+      return {
+        status: "unauthorized",
+        message: "Please sign in to verify room status",
+      };
+    }
 
-app.get("/", () => ({ status: "ok", service: "neural-hash-backend" })); // public api
-app.group("/api/protected", (group) => group.use(profileRoutes).use(NodeEmailRoutes).use(MailVerifyRoutes));
+    const roomIdParam = params.roomId?.trim();
 
+    if (!roomIdParam) {
+      set.status = 400;
+      return {
+        status: "invalid",
+        message: "Room ID is required",
+        roomId: roomIdParam,
+        peersCount: 0,
+        senderPresent: false,
+      };
+    }
 
-app.get("/file-transfer/rooms/:roomId/status", async ({ request, params, set }) => {
-  try {
-    await authenticateRequest(request);
-  } catch (error) {
-    set.status = 401;
+    const snapshot = getRoomSnapshot(roomIdParam);
+
+    if (snapshot.peersCount === 0) {
+      set.status = 404;
+      return {
+        status: "not-found",
+        message: "Room is not active. Ask the sender to share a valid ID.",
+        roomId: snapshot.roomId,
+        peersCount: 0,
+        senderPresent: false,
+      };
+    }
+
+    const ready = snapshot.senderPresent;
+    set.status = ready ? 200 : 202;
+
     return {
-      status: "unauthorized",
-      message: "Please sign in to verify room status",
-    };
-  }
-
-  const roomIdParam = params.roomId?.trim();
-
-  if (!roomIdParam) {
-    set.status = 400;
-    return {
-      status: "invalid",
-      message: "Room ID is required",
-      roomId: roomIdParam,
-      peersCount: 0,
-      senderPresent: false,
-    };
-  }
-
-  const snapshot = getRoomSnapshot(roomIdParam);
-
-  if (snapshot.peersCount === 0) {
-    set.status = 404;
-    return {
-      status: "not-found",
-      message: "Room is not active. Ask the sender to share a valid ID.",
+      status: ready ? "ready" : "waiting",
+      message: ready ? "Sender is online" : "Waiting for sender to connect",
       roomId: snapshot.roomId,
-      peersCount: 0,
-      senderPresent: false,
+      peersCount: snapshot.peersCount,
+      senderPresent: snapshot.senderPresent,
     };
-  }
-
-  const ready = snapshot.senderPresent;
-  set.status = ready ? 200 : 202;
-
-  return {
-    status: ready ? "ready" : "waiting",
-    message: ready ? "Sender is online" : "Waiting for sender to connect",
-    roomId: snapshot.roomId,
-    peersCount: snapshot.peersCount,
-    senderPresent: snapshot.senderPresent,
-  };
-});
-app.use(fileTransferWs);
+  })
+  .use(fileTransferWs);
 
 export type App = typeof app;
 

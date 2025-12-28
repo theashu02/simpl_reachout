@@ -7,6 +7,7 @@ const createEdenClient = (): Treaty.Create<App> =>
   treaty<App>(backendUrl, {
     fetch: {
       credentials: "include",
+      keepalive: true
     },
   });
 
