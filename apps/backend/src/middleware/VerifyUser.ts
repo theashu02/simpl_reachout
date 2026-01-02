@@ -54,6 +54,7 @@ const extractTokenFromRequest = (request: Request): string | null => {
 };
 
 export const authenticateRequest = async (request: Request): Promise<AuthenticatedUser> => {
+  console.log("----req----",request)
   const token = extractTokenFromRequest(request);
 
   if (!token) {

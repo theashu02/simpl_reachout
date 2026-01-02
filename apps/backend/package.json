@@ -8,12 +8,20 @@
   "dependencies": {
     "@elysiajs/cors": "^1.4.0",
     "@elysiajs/stream": "^1.1.0",
+    "@mozilla/readability": "^0.6.0",
+    "@types/jsdom": "^27.0.0",
+    "@types/turndown": "^5.0.6",
     "duck-duck-scrape": "^2.2.7",
     "elysia": "^1.4.19",
     "jose": "^6.1.2",
+    "jsdom": "^27.4.0",
     "mongoose": "^9.0.0",
     "nodemailer": "^7.0.12",
-    "openai": "^6.15.0"
+    "openai": "^6.15.0",
+    "puppeteer": "^24.34.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "turndown": "^7.2.2"
   },
   "devDependencies": {
     "@types/nodemailer": "^7.0.4",

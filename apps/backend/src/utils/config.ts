@@ -19,7 +19,12 @@ export const SMTP_USER = runtimeEnv.SMTP_USER;
 export const SMTP_PASS = runtimeEnv.SMTP_PASS;
 export const RECEIVER_EMAIL = runtimeEnv.RECEIVER_EMAIL;
 
-
+// For LLM configration
 export const LLM_BASE_URL = runtimeEnv.LLM_BASE_URL
 export const LLM_API_KEY = runtimeEnv.LLM_API_KEY
 export const LLM_MODEL = runtimeEnv.LLM_MODEL
+
+// Browser automation 
+export const MAX_CONCURRENT_PAGES = runtimeEnv.MAX_CONCURRENT_PAGES
+export const BROWSER_TIMEOUT = runtimeEnv.BROWSER_TIMEOUT
+export const SERPER_API_KEY = runtimeEnv.SERPER_API_KEY

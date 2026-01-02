@@ -18,5 +18,9 @@ const HomePage = dynamic(() => import("@/components/common/LandingPage/HomePage"
 });
 
 export default function Home() {
-  return <HomePage />;
+  return (
+    <div className="w-full mx-auto px-4 sm:px-6 lg:px-16">
+      <HomePage />
+    </div>
+  )
 }
