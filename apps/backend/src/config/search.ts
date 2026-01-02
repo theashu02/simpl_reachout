@@ -1,6 +1,6 @@
 import { SERPER_API_KEY } from "../utils/config";
 
-export const performSearch = async (query: string, num = 4) => {
+export const performSearch = async (query: string, num = 2) => {
   const res = await fetch("https://google.serper.dev/search", {
     method: "POST",
     headers: {

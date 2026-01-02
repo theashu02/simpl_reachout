@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Bot } from "lucide-react";
+import { Bot, Globe2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { getEdenClient } from "@/lib/ApiService/edenClient";
 import { ChatMessage } from "../components/ChatMessage";
 import { LLMInput } from "../components/LLMInput";
 
@@ -12,6 +11,19 @@ type Message = {
   role: "assistant" | "user";
   content: string;
   timestamp: number;
+};
+
+type StatusEvent = {
+  id: string;
+  message: string;
+  detail?: string;
+};
+
+type SourceLink = {
+  title?: string;
+  link?: string;
+  url?: string;
+  snippet?: string;
 };
 
 const createId = () => (typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : Math.random().toString(36).slice(2));
@@ -23,12 +35,15 @@ const INITIAL_MESSAGE: Message = {
   timestamp: 0,
 };
 
-const hyperMailApi = getEdenClient();
+const backendUrl = (process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:5000").replace(/\/$/, "");
 
 export default function Index() {
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [statusEvents, setStatusEvents] = useState<StatusEvent[]>([]);
+  const [sources, setSources] = useState<SourceLink[]>([]);
+  const streamRef = useRef<EventSource | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Check if chat has started (user has sent a message)
@@ -40,10 +55,88 @@ export default function Index() {
     }
   }, [messages]);
 
+  const closeStream = () => {
+    if (streamRef.current) {
+      streamRef.current.close();
+      streamRef.current = null;
+    }
+  };
+
+  useEffect(() => () => closeStream(), []);
+
+  const appendStatus = (message: string, detail?: string) => {
+    setStatusEvents((prev) => [...prev, { id: createId(), message, detail }]);
+  };
+
+  const appendToAssistant = (assistantId: string, chunk: string) => {
+    if (!chunk) return;
+    setMessages((prev) =>
+      prev.map((m) => (m.id === assistantId ? { ...m, content: `${m.content}${chunk}` } : m))
+    );
+  };
+
+  const startStream = (query: string, assistantId: string) => {
+    const url = new URL("/search/stream", backendUrl);
+    url.searchParams.set("q", query);
+
+    appendStatus("Searching the web...");
+
+    const es = new EventSource(url.toString(), { withCredentials: true });
+    streamRef.current = es;
+
+    es.onmessage = (event) => {
+      if (!event.data) return;
+      try {
+        const data = JSON.parse(event.data);
+        switch (data.type) {
+          case "status":
+            appendStatus(data.message);
+            break;
+          case "sources":
+            setSources(data.data || []);
+            appendStatus(`Found ${data.data?.length ?? 0} sources`);
+            break;
+          case "scrape":
+            appendStatus(
+              data.status === "done" ? `Scraped: ${data.title || data.url}` : `Failed: ${data.title || data.url}`,
+              data.status
+            );
+            break;
+          case "token":
+            appendToAssistant(assistantId, data.message || "");
+            break;
+          case "error":
+            appendStatus(data.message || "Search failed");
+            toast.error(data.message || "Search failed");
+            setIsLoading(false);
+            closeStream();
+            break;
+          case "done":
+            appendStatus("Completed");
+            setIsLoading(false);
+            closeStream();
+            break;
+          default:
+            break;
+        }
+      } catch (err) {
+        console.warn("Failed to parse SSE message", err);
+      }
+    };
+
+    es.onerror = () => {
+      appendStatus("Connection lost");
+      toast.error("Connection lost while streaming.");
+      setIsLoading(false);
+      closeStream();
+    };
+  };
+
   const sendMessage = async () => {
     const trimmed = input.trim();
     if (!trimmed || isLoading) return;
 
+    closeStream();
     const userMessage: Message = {
       id: createId(),
       role: "user",
@@ -51,30 +144,25 @@ export default function Index() {
       timestamp: Date.now(),
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    const assistantId = createId();
+
+    setMessages((prev) => [
+      ...prev,
+      userMessage,
+      {
+        id: assistantId,
+        role: "assistant",
+        content: "",
+        timestamp: Date.now(),
+      },
+    ]);
     setInput("");
     setIsLoading(true);
+    setStatusEvents([]);
+    setSources([]);
 
     try {
-      const { data, error } = await hyperMailApi.llm.post({ message: trimmed });
-
-      if (error) {
-        const message = typeof error.value === "object" && error.value && "message" in error.value ? String((error.value as { message?: string }).message) : "Unable to reach the assistant.";
-        throw new Error(message);
-      }
-
-      if (!data?.success || !data.reply) {
-        throw new Error(data?.error ?? "Assistant did not return a response.");
-      }
-
-      const assistantMessage: Message = {
-        id: createId(),
-        role: "assistant",
-        content: data.reply.trim(),
-        timestamp: Date.now(),
-      };
-
-      setMessages((prev) => [...prev, assistantMessage]);
+      startStream(trimmed, assistantId);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to send message. Please try again.";
       toast.error(message);
@@ -87,8 +175,10 @@ export default function Index() {
           timestamp: Date.now(),
         },
       ]);
-    } finally {
       setIsLoading(false);
+      closeStream();
+    } finally {
+      // loading state cleared by stream completion/error
     }
   };
 
@@ -104,6 +194,58 @@ export default function Index() {
               <h1 className="bg-linear-to-br from-foreground to-muted-foreground bg-clip-text pb-1 text-3xl font-bold tracking-tight text-transparent sm:text-4xl md:text-5xl">AI Copilot for automating hyper-personalized messaging</h1>
               <p className="mt-4 max-w-lg text-base text-muted-foreground">Enhance your workflow. Ask me to draft replies, summarize lengthy threads, or manage your inbox efficiently.</p>
             </div>
+
+            {/* STATUS FEED */}
+            {statusEvents.length > 0 && (
+              <div className="rounded-2xl border border-border bg-card/60 p-4 shadow-sm">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                    <Globe2 className="size-4" />
+                    Live status
+                  </div>
+                  {isLoading && (
+                    <span className="inline-flex items-center gap-1 text-xs text-primary">
+                      <Loader2 className="size-3 animate-spin" />
+                      Streaming
+                    </span>
+                  )}
+                </div>
+                <div className="mt-3 space-y-2 text-sm text-muted-foreground">
+                  {statusEvents.map((status) => (
+                    <div key={status.id} className="flex items-start gap-2">
+                      <span className="mt-1 size-2 rounded-full bg-primary" />
+                      <div>
+                        <p className="text-foreground">{status.message}</p>
+                        {status.detail && <p className="text-xs text-muted-foreground">{status.detail}</p>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {sources.length > 0 && (
+                  <div className="mt-4 space-y-2">
+                    <p className="text-xs font-semibold uppercase text-muted-foreground">Sources</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {sources.map((source, idx) => (
+                        <a
+                          key={`${source.link || source.url || idx}`}
+                          href={source.link || source.url || "#"}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="rounded-lg border border-border bg-background px-3 py-2 hover:border-primary transition-colors"
+                        >
+                          <p className="text-sm font-medium text-foreground">
+                            Source {idx + 1}: {source.title || "Untitled"}
+                          </p>
+                          {(source.link || source.url) && <p className="text-xs text-muted-foreground truncate">{source.link || source.url}</p>}
+                          {source.snippet && <p className="text-xs text-muted-foreground line-clamp-2">{source.snippet}</p>}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* MESSAGE LIST */}
             {messages.map((message) => (
@@ -128,8 +270,8 @@ export default function Index() {
         {/* INPUT AREA */}
         <div className="relative z-10 border-t border-border bg-background/80 backdrop-blur-sm">
           <div className="mx-auto w-full max-w-3xl py-4 px-4">
-            <LLMInput value={input} onChange={setInput} onSubmit={sendMessage} isLoading={isLoading} placeholder="Ask Hyper Mail to create, summarize, or reply..." />
-            <p className="mt-2 text-center text-xs text-muted-foreground">Press Enter to send • Shift + Enter for new line</p>
+            <LLMInput value={input} onChange={setInput} onSubmit={sendMessage} isLoading={isLoading} placeholder="Search the web or ask Hyper Mail to draft/summarize..." />
+            <p className="mt-2 text-center text-xs text-muted-foreground">Press Enter to send - Shift + Enter for new line</p>
           </div>
         </div>
       </main>

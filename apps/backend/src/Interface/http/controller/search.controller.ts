@@ -7,8 +7,9 @@ export const handleSearchStream = (query: string) => {
     new ReadableStream({
       async start(controller) {
         // Helper to send SSE events
+        const encoder = new TextEncoder();
         const sendEvent = (data: any) => {
-          controller.enqueue(new TextEncoder().encode(`data: ${JSON.stringify(data)}\n\n`));
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
         };
 
         try {
@@ -27,13 +28,27 @@ export const handleSearchStream = (query: string) => {
           // 2. Notify: Reading
           sendEvent({ type: "status", message: `Reading ${links.length} pages...` });
 
-          // Scrape in parallel
-          const scrapePromises = links.map((link: any) => scrapeUrl(link.link));
+          // Scrape in parallel and stream progress
+          const scrapePromises = links.map((link: any, index: number) =>
+            (async () => {
+              sendEvent({ type: "scrape", status: "started", index, url: link.link, title: link.title });
+              const result = await scrapeUrl(link.link);
+              sendEvent({ type: "scrape", status: result ? "done" : "failed", index, url: link.link, title: link.title });
+              return result;
+            })()
+          );
+
           const results = await Promise.all(scrapePromises);
           const validContent = results.filter((r) => r !== null);
 
           // 3. Build Context
           let context = validContent.map((doc, i) => `[Source ${i + 1}]: ${doc.title}\n${doc.content}`).join("\n\n");
+
+          if (!context) {
+            sendEvent({ type: "error", message: "Unable to read any sources." });
+            controller.close();
+            return;
+          }
 
           const prompt = `
             User Query: ${query}
@@ -65,7 +80,6 @@ export const handleSearchStream = (query: string) => {
         "Content-Type": "text/event-stream",
         "Cache-Control": "no-cache",
         Connection: "keep-alive",
-        "Access-Control-Allow-Origin": "*",
       },
     }
   );

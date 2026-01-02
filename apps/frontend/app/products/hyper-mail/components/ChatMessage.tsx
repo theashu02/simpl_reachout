@@ -45,7 +45,7 @@ export function ChatMessage({ role, content, timestamp }: ChatMessageProps) {
           }`}
         >
           {/* break-words is crucial for mobile to handle long URLs/words */}
-          <p className="whitespace-pre-wrap wrap-break-word">{content}</p>
+          <p className="whitespace-pre-wrap break-words">{content}</p>
 
           <span className={`mt-1.5 block text-[10px] opacity-80 ${isUser ? "text-primary-foreground" : "text-muted-foreground"}`}>{formatTime(timestamp)}</span>
         </div>
