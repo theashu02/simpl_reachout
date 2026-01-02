@@ -6,6 +6,7 @@ import { authenticateRequest } from "./middleware/VerifyUser";
 import { ALLOWED_ORIGINS, PORT } from "./utils/config";
 import { NodeEmailRoutes } from "./Interface/http/routes/NodeMailer.routes";
 import { MailVerifyRoutes } from "./Interface/http/routes/MailVerify.routes";
+import { llmRoutes } from "./Interface/http/routes/LLM.routes";
 
 export const app = new Elysia()
   .use(
@@ -21,6 +22,7 @@ export const app = new Elysia()
   .group("/api/protected", (group) => group.use(profileRoutes)
     .use(NodeEmailRoutes)
     .use(MailVerifyRoutes))
+    .use(llmRoutes)
 
   .get("/file-transfer/rooms/:roomId/status", async ({ request, params, set }) => {
     try {

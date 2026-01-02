@@ -18,3 +18,8 @@ export const SMTP_PORT = runtimeEnv.SMTP_PORT;
 export const SMTP_USER = runtimeEnv.SMTP_USER;
 export const SMTP_PASS = runtimeEnv.SMTP_PASS;
 export const RECEIVER_EMAIL = runtimeEnv.RECEIVER_EMAIL;
+
+
+export const LLM_BASE_URL = runtimeEnv.LLM_BASE_URL
+export const LLM_API_KEY = runtimeEnv.LLM_API_KEY
+export const LLM_MODEL = runtimeEnv.LLM_MODEL
