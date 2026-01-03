@@ -28,17 +28,15 @@ export const handleSearchStream = (query: string) => {
           // 2. Notify: Reading
           sendEvent({ type: "status", message: `Reading ${links.length} pages...` });
 
-          // Scrape in parallel and stream progress
-          const scrapePromises = links.map((link: any, index: number) =>
-            (async () => {
-              sendEvent({ type: "scrape", status: "started", index, url: link.link, title: link.title });
-              const result = await scrapeUrl(link.link);
-              sendEvent({ type: "scrape", status: result ? "done" : "failed", index, url: link.link, title: link.title });
-              return result;
-            })()
-          );
-
-          const results = await Promise.all(scrapePromises);
+          // Scrape sequentially to avoid hammering sites and reduce timeouts
+          const results: any[] = [];
+          for (let index = 0; index < links.length; index++) {
+            const link = links[index];
+            sendEvent({ type: "scrape", status: "started", index, url: link.link, title: link.title });
+            const result = await scrapeUrl(link.link);
+            sendEvent({ type: "scrape", status: result ? "done" : "failed", index, url: link.link, title: link.title });
+            results.push(result);
+          }
           const validContent = results.filter((r) => r !== null);
 
           // 3. Build Context

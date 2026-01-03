@@ -24,11 +24,11 @@ class BrowserService {
     const browser = await this.getBrowser();
     const page = await browser.newPage();
 
-    // Block heavy resources
+    // Block heavy resources but allow scripts for pages that need inline rendering
     await page.setRequestInterception(true);
     page.on("request", (req) => {
       const type = req.resourceType();
-      if (["image", "stylesheet", "font", "media", "script"].includes(type)) {
+      if (["image", "stylesheet", "font", "media"].includes(type)) {
         req.abort();
       } else {
         req.continue();

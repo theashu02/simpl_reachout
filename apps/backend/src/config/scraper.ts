@@ -13,7 +13,8 @@ export const scrapeUrl = async (url: string) => {
     page = await browserService.getPage();
 
     // Timeout is crucial for production so one bad site doesn't hang the thread
-    await page.goto(url, { waitUntil: "domcontentloaded", timeout: Number(BROWSER_TIMEOUT) });
+    const timeout = Number(BROWSER_TIMEOUT) || 30000;
+    await page.goto(url, { waitUntil: "domcontentloaded", timeout });
 
     const html = await page.content();
     const dom = new JSDOM(html, { url });
