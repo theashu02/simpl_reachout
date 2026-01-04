@@ -42,6 +42,8 @@ export const handleSearchStream = (query: string) => {
           // 3. Build Context
           let context = validContent.map((doc, i) => `[Source ${i + 1}]: ${doc.title}\n${doc.content}`).join("\n\n");
 
+          console.log("--- builded context ---", context);
+
           if (!context) {
             sendEvent({ type: "error", message: "Unable to read any sources." });
             controller.close();
