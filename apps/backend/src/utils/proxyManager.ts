@@ -1,40 +1,46 @@
+// proxymanager.ts
 import { TOR_CONFIG } from "../config/proxies";
 import { torController } from "./tor";
 
 export class ProxyManager {
   private initialized = false;
-  private torRequests = 0;
 
   async init(): Promise<void> {
     if (this.initialized) return;
 
-    console.log("🔄 Initializing ProxyManager...");
+    console.log("Initializing ProxyManager...");
 
-    // Always test TOR first
     if (TOR_CONFIG.enabled) {
-      const torHealthy = await torController.verifyConnectivity();
-      console.log(torHealthy ? "🟢 TOR ready" : "🟡 TOR unhealthy, will retry");
+      torController.startHealthMonitor();
+
+      const healthy = await torController.verifyConnectivity();
+      console.log(healthy ? "TOR healthy" : "TOR initializing...");
     }
 
     this.initialized = true;
-    console.log("✅ ProxyManager initialized");
+    console.log("ProxyManager ready");
   }
 
   getNextProxy(forceTor: boolean = false): string | null {
-    // TOR ALWAYS FIRST (your requirement)
-    if (TOR_CONFIG.enabled && torController.isHealthy()) {
-      this.torRequests++;
-      console.log(`TOR request #${this.torRequests} (force: ${forceTor})`);
+    const torEnabled = TOR_CONFIG.enabled || forceTor;
+
+    if (torEnabled && torController.getHealthyCircuit()) {
+      const activeCircuit = torController.getActiveCircuit();
+      if (activeCircuit) {
+        console.log(`TOR circuit active: ${activeCircuit.ip}`);
+      }
       return TOR_CONFIG.proxyUrl;
     }
 
-    console.warn("No healthy proxies available");
+    console.warn("No healthy TOR circuits");
     return null;
   }
 
   async cleanup(): Promise<void> {
-    torController.reset();
-    console.log("🧹 ProxyManager cleaned up");
+    torController.stopHealthMonitor();
+    const { browserService } = await import("../agents/TorProxyScraper/browser");
+    await browserService.close();
+    console.log("Cleanup complete");
   }
 }
 
