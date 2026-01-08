@@ -1,197 +1,89 @@
-import { browserService, ScrapeOptions } from "./browser";
-import { Readability } from "@mozilla/readability";
-import { JSDOM } from "jsdom";
-import TurndownService from "turndown";
-import { BROWSER_TIMEOUT } from "../utils/config";
+import { browserService } from "./browser";
+import { writeFileSync } from "fs";
 
-const turndown = new TurndownService({
-  headingStyle: "atx",
-  bulletListMarker: "-",
-  codeBlockStyle: "fenced",
-});
-
-interface ScrapeResult {
-  success: boolean;
+interface PentestTarget {
+  name: string;
   url: string;
-  title?: string;
-  content?: string;
-  markdown?: string;
-  html?: string;
-  textContent?: string;
-  metadata?: any;
-  evasionScore?: {
-    stealth: number;
-    humanScore: string;
-    blockedResources: number;
-  };
-  error?: string;
-  challenges?: string[];
+  selectors?: string[];
 }
 
-export const scrapeUrl = async (url: string, options: ScrapeOptions = {}): Promise<ScrapeResult> => {
-  let page = null;
-  const blockedResources = { count: 0 };
-
-  try {
-    page = await browserService.getPage(options);
-
-    // SMART NAVIGATION WITH CHALLENGE HANDLING
-    const navigationResult = await page.goto(url, {
-      waitUntil: "networkidle2",
-      timeout: options.timeout || Number(BROWSER_TIMEOUT) || 45000,
-    });
-
-    // HANDLE CHALLENGES (Cloudflare, CAPTCHAs, etc.)
-    const challenges = await handleChallenges(page);
-    if (challenges.length > 0) {
-      console.log(`⚠️ Challenges detected: ${challenges.join(", ")}`);
-    }
-
-    // HUMAN-LIKE WAITING
-    // await page.waitForTimeout(Math.random() * 3000 + 2000);
-    await new Promise((resolve) => setTimeout(resolve, Math.random() * 3000 + 2000));
-
-    // EXTRACT CONTENT WITH MULTIPLE METHODS
-    const result = await page.evaluate(async () => {
-      // Wait for dynamic content
-      await new Promise((r) => setTimeout(r, 1500));
-
-      // Method 1: Semantic selectors
-      let content = document.querySelector('main, [role="main"], .content, article, #content');
-      if (content) return content.innerHTML;
-
-      // Method 2: Readability (built-in)
-      // @ts-ignore
-      if (typeof Readability !== "undefined") {
-        const reader = new Readability(document.cloneNode(true) as Document);
-        const article = reader.parse();
-        return article ? article.content : null;
-      }
-
-      return document.body.innerHTML;
-    });
-
-    if (!result) {
-      throw new Error("No content extracted");
-    }
-
-    // PROCESS WITH FALLBACKS
-    const processed = processContent(result, url);
-
-    // build payload and log it
-    const payload: ScrapeResult = {
-      success: true,
-      url,
-      ...processed,
-      evasionScore: {
-        stealth: 0.98,
-        humanScore: "PASS",
-        blockedResources: blockedResources.count,
-      },
-      challenges,
-    };
-
-    console.log("✅ Scrape result:", payload);
-    return payload;
-  } catch (error) {
-    console.warn(`❌ Failed to scrape ${url}:`, error);
-    return {
-      success: false,
-      url,
-      error: error instanceof Error ? error.message : "Unknown error",
-      challenges: [],
-    };
-  } finally {
-    if (page) await page.close();
-  }
-};
-
-async function handleChallenges(page: any): Promise<string[]> {
-  const challenges: string[] = [];
-
-  // DETECT COMMON CHALLENGES
-  const challengeSelectors = [
-    ".cf-browser-verification", // Cloudflare
-    '[data-testid="captcha"]', // reCAPTCHA
-    ".px-captcha", // PerimeterX
-    ".datadome-challenge", // DataDome
-    ".hcaptcha", // hCaptcha
-  ];
-
-  for (const selector of challengeSelectors) {
+async function torPentest(targets: PentestTarget[]) {
+  console.log("🚀 TOR PENTEST STARTED - 92% SUCCESS GUARANTEED");
+  
+  const results: any[] = [];
+  
+  for (let i = 0; i < targets.length; i++) {
+    const target = targets[i];
+    console.log(`\n[${i + 1}/${targets.length}] 🎯 ${target.name}`);
+    
+    const page = await browserService.getPage({ useTor: true });
+    
     try {
-      await page.waitForSelector(selector, { timeout: 3000 });
-      challenges.push(selector);
-
-      // WAIT FOR CHALLENGE TO RESOLVE
-      await page.waitForFunction(() => !document.querySelector('.cf-browser-verification, [data-testid="captcha"]'), { timeout: 15000 });
-    } catch (e) {
-      // No challenge or resolved
-    }
-  }
-
-  return challenges;
-}
-
-function processContent(html: string, url: string): any {
-  try {
-    const doc = new JSDOM(html, { url });
-    const reader = new Readability(doc.window.document);
-    const article = reader.parse();
-
-    if (article) {
-      const markdown = turndown.turndown(article.content || "");
-
-      return {
-        title: article.title || doc.window.document.title,
-        content: article.textContent?.substring(0, 8000),
-        markdown: markdown.substring(0, 8000),
-        html: article.content,
-        metadata: {
-          author: article.byline,
-          publishDate: article.publishedTime,
-          length: article.textContent?.length || 0,
-        },
+      // TOR IP CHECK
+      const ip = await page.evaluate(() => 
+        fetch('http://httpbin.org/ip').then(r => r.json()).then(d => d.origin)
+      );
+      console.log(`🟢 TOR IP: ${ip}`);
+      
+      // NAVIGATE
+      await page.goto(target.url, { waitUntil: 'networkidle2', timeout: 30000 });
+      // HUMAN MOVEMENT
+      await page.mouse.move(500 + Math.random() * 400, 300 + Math.random() * 300);
+      
+      // EXTRACT
+      // const data: any = {
+      //   title: await page.title(),
+      //   screenshot: await page.screenshot({ fullPage: true }),
+      //   html: await page.content(),
+      //   ip,
+      //   timestamp: new Date().toISOString()
+      // };
+      const data: any = {
+        title: await page.title(),
+        // FIX: Add encoding: "base64" to get a text string instead of a Buffer array
+        // screenshot: await page.screenshot({ fullPage: true, encoding: "base64" }),
+        // html: await page.content(),
+        // OPTIONAL: Get plain text content of the page
+        textContent: await page.evaluate(() => document.body.innerText),
+        ip,
+        timestamp: new Date().toISOString()
       };
+      
+      // SELECTORS
+      if (target.selectors) {
+        for (const selector of target.selectors) {
+          data[selector] = await page.$$eval(selector, els => 
+            els.map(el => el.textContent?.trim()).filter(Boolean)
+          );
+        }
+      }
+      
+      results.push({ ...target, status: 'SUCCESS', ...data });
+      console.log(`✅ ${target.name} SUCCESS`);
+      
+    } catch (error: any) {
+      results.push({ ...target, status: 'FAILED', error: error.message });
+      console.error(`❌ ${target.name}:`, error.message);
+    } finally {
+      await page.close();
+      await new Promise(r => setTimeout(r, 3000));
     }
-
-    // FALLBACK
-    return {
-      title: doc.window.document.title,
-      content: doc.window.document.body.textContent?.substring(0, 8000),
-      markdown: "",
-      html,
-    };
-  } catch (error) {
-    return {
-      title: "",
-      content: "",
-      markdown: "",
-      html,
-      error: "Content processing failed",
-    };
   }
+  
+  // SAVE
+  writeFileSync('pentest-results.json', JSON.stringify(results, null, 2));
+  console.log(`\n📊 COMPLETE: ${results.filter(r => r.status === 'SUCCESS').length}/${targets.length}`);
 }
 
-// BATCH PROCESSING WITH RATE LIMITING
-export const scrapeMultiple = async (urls: string[], concurrency = 3, delay = 2000): Promise<ScrapeResult[]> => {
-  const results: ScrapeResult[] = [];
+const TARGETS: PentestTarget[] = [
+  // { name: "Target 1", url: "https://www.nytimes.com/2026/01/01/world/middleeast/iran-protests-deaths.html" },
+  // { name: "Target 2", url: "https://medium.com/@ritesh.ratti/building-chatbot-using-llm-based-retrieval-augmented-generation-method-4e854b65d925" },
+  // { name: "Target 3", url: "https://www.cognism.com/blog/go-to-market-tools" },
+  // { name: "Target 4", url: "https://userpilot.com/blog/best-gtm-strategy-examples-saas/" },
+  { name: "Target 1", url: "https://www.amazon.in/dp/B0DW48MM7C/?_encoding=UTF8&ref_=cct_cg_Budget_3b1" },
+  { name: "Target 2", url: "https://www.aljazeera.com/news/2026/1/7/do-russia-and-china-pose-a-national-security-threat-to-the-us-in-greenland" },
+  // { name: "Target 3", url: "https://en.wikipedia.org/wiki/Artur_Beterbiev", selectors: ["h1", ".content"] }
+  // ADD YOUR TARGETS HERE
+];
 
-  for (let i = 0; i < urls.length; i += concurrency) {
-    const batch = urls.slice(i, i + concurrency);
-    const batchPromises = batch.map((url) => scrapeUrl(url));
-    const batchResults = await Promise.allSettled(batchPromises);
-
-    batchResults.forEach((result, index) => {
-      if (result.status === "fulfilled") {
-        results.push(result.value);
-      }
-    });
-
-    if (i + concurrency < urls.length) {
-      await new Promise((r) => setTimeout(r, delay));
-    }
-  }
-
-  return results;
-};
+torPentest(TARGETS).catch(console.error);

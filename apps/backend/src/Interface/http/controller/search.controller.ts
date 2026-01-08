@@ -1,5 +1,5 @@
 import { streamLLMResponse } from "../../../config/llm";
-import { scrapeUrl } from "../../../config/scraper";
+// import { scrapeUrl } from "../../../config/scraper";
 import { performSearch } from "../../../config/search";
 
 export const handleSearchStream = (query: string) => {
@@ -33,7 +33,8 @@ export const handleSearchStream = (query: string) => {
           for (let index = 0; index < links.length; index++) {
             const link = links[index];
             sendEvent({ type: "scrape", status: "started", index, url: link.link, title: link.title });
-            const result = await scrapeUrl(link.link);
+            // const result = await scrapeUrl(link.link);
+            const result = "[aseed"
             sendEvent({ type: "scrape", status: result ? "done" : "failed", index, url: link.link, title: link.title });
             results.push(result);
           }
