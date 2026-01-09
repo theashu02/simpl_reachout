@@ -75,7 +75,7 @@ async function torPentest(targets: PentestTarget[]) {
             html: string;
             }
             
-            const elements: ElementData[] = await page.$$eval(selector, (els) =>
+            const elements: ElementData[] = await page.$$eval(selector, (els: Element[]) =>
             els
               .map((el: Element) => ({
               text: (el as HTMLElement).textContent?.trim(),
