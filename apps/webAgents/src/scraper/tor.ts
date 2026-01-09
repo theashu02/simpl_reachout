@@ -1,4 +1,3 @@
-// tor.ts
 import net from "net";
 import { SocksProxyAgent } from "socks-proxy-agent";
 import { TOR_CONFIG } from "./proxies";
@@ -18,10 +17,7 @@ class TorController {
     if (!TOR_CONFIG.enabled) return;
     this.requestCount += 1;
 
-    if (
-      TOR_CONFIG.rotateInterval > 0 &&
-      this.requestCount % TOR_CONFIG.rotateInterval === 0
-    ) {
+    if (TOR_CONFIG.rotateInterval > 0 && this.requestCount % TOR_CONFIG.rotateInterval === 0) {
       console.log(`TOR: Rotating after ${this.requestCount} requests`);
       void this.forceRotate();
     }
@@ -53,9 +49,9 @@ class TorController {
   private async getCurrentIP(): Promise<string> {
     const agent = new SocksProxyAgent(TOR_CONFIG.proxyUrl);
     const response = await fetch(TOR_CONFIG.testUrl, {
-      // Node's fetch supports the agent option for HTTP(S) proxies; socks agent works here.
-      agent: agent as any,
       signal: AbortSignal.timeout(5000),
+      // @ts-ignore - agent is supported in Node.js fetch but not in the TypeScript definition
+      agent,
     });
     const data = (await response.json()) as { origin: string };
     return data.origin;
@@ -136,9 +132,7 @@ class TorController {
       });
 
       socket.connect(TOR_CONFIG.controlPort, "127.0.0.1", () => {
-        const authCommand = TOR_CONFIG.controlPassword
-          ? `AUTHENTICATE "${TOR_CONFIG.controlPassword}"\r\n`
-          : "AUTHENTICATE\r\n";
+        const authCommand = TOR_CONFIG.controlPassword ? `AUTHENTICATE "${TOR_CONFIG.controlPassword}"\r\n` : "AUTHENTICATE\r\n";
         socket.write(authCommand + `${command}\r\n`);
       });
     });

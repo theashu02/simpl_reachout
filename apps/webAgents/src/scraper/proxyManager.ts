@@ -1,4 +1,3 @@
-// proxymanager.ts
 import { TOR_CONFIG } from "./proxies";
 import { torController } from "./tor";
 

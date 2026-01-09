@@ -1,4 +1,3 @@
-// scraper.ts
 import { browserService } from "./browser";
 import { writeFileSync, mkdirSync } from "fs";
 import { join } from "path";
@@ -48,11 +47,7 @@ async function torPentest(targets: PentestTarget[]) {
           break;
         } catch (err) {
           navError = err;
-          console.warn(
-            `Navigation attempt ${attempt} failed: ${
-              err instanceof Error ? err.message : err
-            }`
-          );
+          console.warn(`Navigation attempt ${attempt} failed: ${err instanceof Error ? err.message : err}`);
           await page.waitForTimeout(3000);
         }
       }
@@ -75,14 +70,19 @@ async function torPentest(targets: PentestTarget[]) {
       // Custom selectors
       if (target.selectors) {
         for (const selector of target.selectors) {
-          const elements = await page.$$eval(selector, (els) =>
+            interface ElementData {
+            text?: string;
+            html: string;
+            }
+            
+            const elements: ElementData[] = await page.$$eval(selector, (els) =>
             els
               .map((el: Element) => ({
-                text: (el as HTMLElement).textContent?.trim(),
-                html: (el as HTMLElement).innerHTML.slice(0, 500),
+              text: (el as HTMLElement).textContent?.trim(),
+              html: (el as HTMLElement).innerHTML.slice(0, 500),
               }))
               .filter(Boolean)
-          );
+            );
           data[selector] = elements;
         }
       }
@@ -116,14 +116,15 @@ async function torPentest(targets: PentestTarget[]) {
 
   // Save comprehensive results
   writeFileSync("results/pentest-results.json", JSON.stringify(results, null, 2));
-  console.log(
-    `\nSUMMARY: ${results.filter((r) => r.status === "SUCCESS").length}/${targets.length} SUCCESS`
-  );
+  console.log(`\nSUMMARY: ${results.filter((r) => r.status === "SUCCESS").length}/${targets.length} SUCCESS`);
 }
 
 const TARGETS: PentestTarget[] = [
-  { name: "Amazon Product", url: "https://www.amazon.in/OnePlus-Infinite-Snapdragon%C2%AE-Personalised-Game-Changing/dp/B0FTRMJNPX/ref=sr_1_1?adgrpid=68357535834&dib=eyJ2IjoiMSJ9.8opfEX-pBQZfE5oedII7gFr0EISA4Jx-GWgXPKu6ughEeaCbLuK1iF5sWJXDJMNmmGxVAqH2GfYRUGtFHoBsBewZcC9pIAMyCv7ImCkx42GslZANK6usZPUAoDQ51qVqGHEBdCqbw0vjzKbK1eEm73c22mtCtTbosRcsCOZfUllL5wl_7uwqPGvTlYkUa7RDLCIhE5KwjwbHQatS47z8AdZqESLxR7TJnkDFZBXZNU4.wK3TKlq6bIj_zdqhKD5x-9bYJCYzS5sD7PCCxsH6FRI&dib_tag=se&ext_vrnc=hi&hvadid=590594108337&hvdev=c&hvlocphy=9302009&hvnetw=g&hvqmt=e&hvrand=17723644913924961686&hvtargid=kwd-407318769492&hydadcr=24572_2265458&keywords=one%2Bplus%2B15&mcid=a1b9aa6428f43f63bf0a39a8caec9b12&qid=1765278180&sr=8-1&th=1" },
-  { name: "Al Jazeera News", url: "https://www.aljazeera.com/news/2026/1/8/saudi-led-coalition-says-stcs-al-zubaidi-fled-to-uae-via-somaliland" },
+  {
+    name: "Amazon Product",
+    url: "https://www.linkedin.com/company/segwise-ai",
+  },
+  { name: "Al Jazeera News", url: "https://ui.shadcn.com/docs/components/badge" },
 ];
 
 torPentest(TARGETS).catch(console.error);
