@@ -1,4 +1,4 @@
-import { authenticateRequest } from "../../../../middleware/VerifyUser";
+import { authenticateRequest } from "../../../middleware/VerifyUser";
 
 export const getProfile = async ({ request, set }: any) => {
   try {

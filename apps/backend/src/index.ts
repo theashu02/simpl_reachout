@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
-import { profileRoutes } from "./Interface/http/routes/UserController/profile.route";
+import { profileRoutes } from "./Interface/http/routes/profile.route";
 import { fileTransferWs, getRoomSnapshot } from "./Interface/ws/FileTransfer";
 import { authenticateRequest } from "./middleware/VerifyUser";
 import { ALLOWED_ORIGINS, PORT } from "./utils/config";
