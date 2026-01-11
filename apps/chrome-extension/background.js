@@ -1,96 +1,119 @@
-// Message routing hub between tabs
-const tabConnections = new Map();
-const linkedinData = {
-  searchResults: [],
-  suggestions: [],
-  lastUpdate: null,
-};
+// LinkedIn Bridge - Background Script
+// Routes messages between LinkedIn tab and web app tabs
 
-// Store LinkedIn tab ID
 let linkedinTabId = null;
+let linkedinReady = false;
 
-console.log("🚀 Extension background script starting...");
+console.log("🚀 LinkedIn Bridge background script starting...");
 
-// Handle connections from content scripts
+// Handle messages from content scripts
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  console.log("📨 Background received:", msg.action, "from tab", sender.tab?.id);
+  console.log("📨 Background received:", msg.action, "from", sender.tab?.url?.substring(0, 50));
 
-  // Store sender tab info
-  if (sender.tab?.id) {
-    const tabInfo = {
-      url: sender.tab.url,
-      title: sender.tab.title,
-      isLinkedIn: sender.tab.url?.includes("linkedin.com"),
-    };
-    tabConnections.set(sender.tab.id, tabInfo);
+  // Track LinkedIn tab
+  if (sender.tab?.url?.includes("linkedin.com")) {
+    linkedinTabId = sender.tab.id;
 
-    // Track LinkedIn tab
-    if (tabInfo.isLinkedIn) {
-      linkedinTabId = sender.tab.id;
+    if (msg.action === "linkedin_bridge_ready") {
+      linkedinReady = true;
+      console.log("✅ LinkedIn bridge ready on tab", linkedinTabId);
+
+      // Notify all web app tabs
+      notifyWebAppTabs({ action: "linkedin_ready" });
     }
   }
 
-  // Handle search query from web app - route to LinkedIn tab
-  if (msg.action === "search_query") {
-    console.log("🔍 Routing search query to LinkedIn:", msg.query);
+  // ===== REQUESTS FROM WEB APP =====
 
-    // Find LinkedIn tabs and send the search command
-    chrome.tabs.query({ url: "https://www.linkedin.com/*" }, (tabs) => {
-      if (tabs.length > 0) {
-        tabs.forEach((tab) => {
-          chrome.tabs
-            .sendMessage(tab.id, {
-              action: "search_query",
-              query: msg.query,
-            })
-            .catch((err) => {
-              console.log("Could not send to LinkedIn tab:", err);
-            });
+  // Handle suggestion requests from web app
+  if (msg.action === "get_suggestions") {
+    console.log("🔍 Routing suggestion request:", msg.query);
+
+    if (linkedinTabId && linkedinReady) {
+      chrome.tabs
+        .sendMessage(linkedinTabId, {
+          action: "get_suggestions",
+          query: msg.query,
+        })
+        .then((response) => {
+          sendResponse(response);
+        })
+        .catch((err) => {
+          console.error("Failed to get suggestions:", err);
+          sendResponse({ success: false, error: "LinkedIn tab not responding" });
         });
-        console.log("✅ Search command sent to", tabs.length, "LinkedIn tab(s)");
-      } else {
-        console.log("⚠️ No LinkedIn tabs found");
-        // Notify web app that LinkedIn is not open
-        if (sender.tab?.id) {
-          chrome.tabs
-            .sendMessage(sender.tab.id, {
-              action: "error",
-              message: "Please open LinkedIn in another tab first",
-            })
-            .catch(() => {});
-        }
-      }
-    });
+    } else {
+      sendResponse({ success: false, error: "LinkedIn not connected. Open linkedin.com first." });
+    }
+    return true; // Keep channel open
+  }
 
-    sendResponse({ success: true, message: "Search command sent" });
+  // Handle search requests from web app
+  if (msg.action === "search_companies") {
+    console.log("🔍 Routing search request:", msg.query);
+
+    if (linkedinTabId && linkedinReady) {
+      chrome.tabs
+        .sendMessage(linkedinTabId, {
+          action: "search_companies",
+          query: msg.query,
+        })
+        .then((response) => {
+          sendResponse(response);
+        })
+        .catch((err) => {
+          sendResponse({ success: false, error: "LinkedIn tab not responding" });
+        });
+    } else {
+      sendResponse({ success: false, error: "LinkedIn not connected" });
+    }
     return true;
   }
 
-  // Handle LinkedIn search results - route to web app tabs
+  // Handle company details request
+  if (msg.action === "get_company_details") {
+    console.log("🏢 Routing company details request:", msg.companyId);
+
+    if (linkedinTabId && linkedinReady) {
+      chrome.tabs
+        .sendMessage(linkedinTabId, {
+          action: "get_company_details",
+          companyId: msg.companyId,
+        })
+        .then((response) => {
+          sendResponse(response);
+        })
+        .catch((err) => {
+          sendResponse({ success: false, error: "LinkedIn tab not responding" });
+        });
+    } else {
+      sendResponse({ success: false, error: "LinkedIn not connected" });
+    }
+    return true;
+  }
+
+  // ===== RESPONSES FROM LINKEDIN =====
+
+  // Route suggestions to web apps
+  if (msg.action === "linkedin_suggestions") {
+    console.log("💡 Routing suggestions to web apps:", msg.data?.length);
+    notifyWebAppTabs(msg);
+    sendResponse({ success: true });
+    return true;
+  }
+
+  // Route search results to web apps
   if (msg.action === "linkedin_search_results") {
-    console.log("📤 Routing LinkedIn results to web apps:", msg.data?.length, "results");
+    console.log("📤 Routing search results to web apps:", msg.data?.length);
+    notifyWebAppTabs(msg);
+    sendResponse({ success: true });
+    return true;
+  }
 
-    linkedinData.searchResults = msg.data;
-    linkedinData.lastUpdate = Date.now();
-
-    // Find localhost tabs and send the results
-    chrome.tabs.query({}, (tabs) => {
-      tabs.forEach((tab) => {
-        if (tab.url?.includes("localhost") || tab.url?.includes("127.0.0.1")) {
-          chrome.tabs
-            .sendMessage(tab.id, {
-              action: "linkedin_search_results",
-              data: msg.data,
-              query: msg.query,
-              timestamp: Date.now(),
-            })
-            .catch(() => {
-              // Tab might not have content script
-            });
-        }
-      });
-    });
-
+  // Route company details to web apps
+  if (msg.action === "linkedin_company_details") {
+    console.log("🏢 Routing company details to web apps");
+    notifyWebAppTabs(msg);
     sendResponse({ success: true });
     return true;
   }
@@ -99,19 +122,40 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   return true;
 });
 
+// Send message to all localhost/web app tabs
+function notifyWebAppTabs(msg) {
+  chrome.tabs.query({}, (tabs) => {
+    tabs.forEach((tab) => {
+      if (tab.url?.includes("localhost") || tab.url?.includes("127.0.0.1")) {
+        chrome.tabs
+          .sendMessage(tab.id, {
+            ...msg,
+            timestamp: Date.now(),
+          })
+          .catch(() => {});
+      }
+    });
+  });
+}
+
 // Monitor LinkedIn navigation
 chrome.webNavigation.onCompleted.addListener(
   (details) => {
-    if (details.url.includes("linkedin.com/search/results/")) {
-      console.log("🔍 LinkedIn search page loaded");
+    if (details.url.includes("linkedin.com")) {
+      console.log("🔗 LinkedIn page loaded, injecting bridge...");
+      linkedinTabId = details.tabId;
 
-      // Inject monitor if needed
       chrome.scripting
         .executeScript({
           target: { tabId: details.tabId },
           files: ["linkedin_content.js"],
         })
-        .catch((err) => console.log("Script already injected or error:", err));
+        .then(() => {
+          console.log("✅ LinkedIn bridge injected");
+        })
+        .catch((err) => {
+          console.log("Script injection error:", err.message);
+        });
     }
   },
   {
@@ -119,14 +163,20 @@ chrome.webNavigation.onCompleted.addListener(
   }
 );
 
-// Also monitor localhost pages
-chrome.webNavigation.onCompleted.addListener(
-  (details) => {
-    console.log("🌐 Localhost page loaded:", details.url);
-  },
-  {
-    url: [{ hostContains: "localhost" }, { hostContains: "127.0.0.1" }],
-  }
-);
+// Check if LinkedIn tab exists on startup
+chrome.tabs.query({ url: "https://www.linkedin.com/*" }, (tabs) => {
+  if (tabs.length > 0) {
+    linkedinTabId = tabs[0].id;
+    console.log("🔗 Found existing LinkedIn tab:", linkedinTabId);
 
-console.log("✅ LinkedIn Bridge extension loaded successfully");
+    // Inject script
+    chrome.scripting
+      .executeScript({
+        target: { tabId: linkedinTabId },
+        files: ["linkedin_content.js"],
+      })
+      .catch(() => {});
+  }
+});
+
+console.log("✅ LinkedIn Bridge background script loaded");
