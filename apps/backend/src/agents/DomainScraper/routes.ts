@@ -4,7 +4,7 @@ import { verifyCompanyDomain } from "./verifier";
 const MAX_BULK_COMPANIES = 10;
 const sanitizeCompanyName = (value: string) => value.trim();
 
-const app = new Elysia({ prefix: "/api/domain" });
+const app = new Elysia({ prefix: "/domain" });
 
 export const domainScraperRoutes = app
   .post(

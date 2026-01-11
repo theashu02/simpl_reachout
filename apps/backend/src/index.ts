@@ -22,12 +22,24 @@ export const app = new Elysia()
   )
   .get("/", () => ({ status: "ok", service: "neural-hash-backend" })) // public api
   .group("/api/protected", (group) => group
+    .onBeforeHandle(async ({ request, set }) => {
+      try {
+        await authenticateRequest(request);
+      } catch {
+        set.status = 401;
+        return {
+          success: false,
+          message: "Unauthorized",
+        };
+      }
+    })
     .use(profileRoutes)
     .use(NodeEmailRoutes)
-    .use(MailVerifyRoutes))
+    .use(MailVerifyRoutes)
     .use(llmRoutes)
     .use(searchRoutes)
     .use(domainScraperRoutes)
+  )
 
   .get("/file-transfer/rooms/:roomId/status", async ({ request, params, set }) => {
     try {

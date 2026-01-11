@@ -1,6 +1,5 @@
 import { Elysia, t } from "elysia";
 import { verifySmtpCredentials } from "../controller/MailVerify.controller";
-import { authenticateRequest } from "../../../middleware/VerifyUser";
 
 const app = new Elysia();
 
@@ -41,17 +40,6 @@ const verifyMailHandler = async ({ body, set }: any) => {
 };
 
 const verifyMailOptions = {
-  beforeHandle: async ({ request, set }: any) => {
-    try {
-      await authenticateRequest(request);
-    } catch {
-      set.status = 401;
-      return {
-        success: false,
-        message: "Unauthorized",
-      };
-    }
-  },
   body: t.Object({
     email: t.String({ format: "email" }),
     password: t.Optional(t.String({ minLength: 6 })),
