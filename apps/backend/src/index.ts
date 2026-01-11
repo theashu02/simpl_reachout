@@ -9,6 +9,7 @@ import { MailVerifyRoutes } from "./Interface/http/routes/MailVerify.routes";
 import { llmRoutes } from "./Interface/http/routes/LLM.routes";
 import { duckSearchRoutes } from "./Interface/http/routes/duckSearch.routes";
 import { searchRoutes } from "./Interface/http/routes/search.routes";
+import { domainScraperRoutes } from "./agents/DomainScraper";
 
 export const app = new Elysia()
   .use(
@@ -27,6 +28,7 @@ export const app = new Elysia()
     .use(llmRoutes)
     .use(duckSearchRoutes)
     .use(searchRoutes)
+    .use(domainScraperRoutes)
 
   .get("/file-transfer/rooms/:roomId/status", async ({ request, params, set }) => {
     try {

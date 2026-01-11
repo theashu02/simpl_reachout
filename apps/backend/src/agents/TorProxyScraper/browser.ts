@@ -1,4 +1,3 @@
-// browser.ts
 import { chromium, Browser, Page } from "playwright";
 import { proxyManager } from "../../utils/proxyManager";
 import { torController } from "../../utils/tor";
