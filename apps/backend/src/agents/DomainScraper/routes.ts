@@ -1,13 +1,19 @@
 import { Elysia, t } from "elysia";
-import { verifyCompanyDomain, DomainResult } from "./verifier";
+import { verifyCompanyDomain } from "./verifier";
 
-export const domainScraperRoutes = new Elysia({ prefix: "/api/domain" })
+const MAX_BULK_COMPANIES = 10;
+const sanitizeCompanyName = (value: string) => value.trim();
+
+const app = new Elysia({ prefix: "/api/domain" });
+
+export const domainScraperRoutes = app
   .post(
     "/verify",
-    async ({ body }) => {
-      const { companyName } = body;
+    async ({ body, set }) => {
+      const companyName = sanitizeCompanyName(body.companyName);
 
-      if (!companyName || companyName.length < 2) {
+      if (companyName.length < 2) {
+        set.status = 400;
         return {
           error: "Company name too short",
           company_name: companyName,
@@ -17,8 +23,7 @@ export const domainScraperRoutes = new Elysia({ prefix: "/api/domain" })
         };
       }
 
-      const result = await verifyCompanyDomain(companyName);
-      return result;
+      return verifyCompanyDomain(companyName);
     },
     {
       body: t.Object({
@@ -27,36 +32,39 @@ export const domainScraperRoutes = new Elysia({ prefix: "/api/domain" })
     }
   )
 
-  // Bulk verify multiple companies
   .post(
     "/verify-bulk",
-    async ({ body }) => {
-      const { companies } = body;
-      const results: DomainResult[] = [];
+    async ({ body, set }) => {
+      const uniqueCompanies = [...new Set(body.companies.map(sanitizeCompanyName).filter(Boolean))];
 
-      // Process up to 10 companies
-      for (const company of companies.slice(0, 10)) {
-        const result = await verifyCompanyDomain(company);
-        results.push(result);
-        
-        // Small delay between requests
-        await new Promise((r) => setTimeout(r, 100));
+      if (uniqueCompanies.length === 0) {
+        set.status = 400;
+        return {
+          error: "No companies provided",
+          results: [],
+          count: 0,
+          verified: 0,
+          skipped: 0,
+        };
       }
+
+      const companiesToProcess = uniqueCompanies.slice(0, MAX_BULK_COMPANIES);
+      const results = await Promise.all(companiesToProcess.map((company) => verifyCompanyDomain(company)));
 
       return {
         results,
         count: results.length,
         verified: results.filter((r) => r.verified).length,
+        skipped: Math.max(uniqueCompanies.length - companiesToProcess.length, 0),
       };
     },
     {
       body: t.Object({
-        companies: t.Array(t.String()),
+        companies: t.Array(t.String({ minLength: 2 })),
       }),
     }
   )
 
-  // Health check
   .get("/health", () => ({
     status: "ok",
     service: "domain-scraper",

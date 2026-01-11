@@ -1,2 +1,2 @@
 export { domainScraperRoutes } from "./routes";
-export { verifyCompanyDomain, type DomainResult } from "./verifier";
+export { verifyCompanyDomain } from "./verifier";

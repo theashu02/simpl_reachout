@@ -1,73 +1,38 @@
 import { SERPER_API_KEY } from "../../utils/config";
+import { DomainResult, DomainSource, SerperResponse, SKIP_DOMAINS } from "./types";
 
-export interface DomainResult {
-  company_name: string;
-  exists: boolean;
-  domain: string | null;
-  confidence: number;
-  title: string;
-  description: string;
-  url?: string;
-  verified: boolean;
-  source: "knowledge_graph" | "organic" | "none";
-}
+const SERPER_SEARCH_URL = "https://google.serper.dev/search";
+const SEARCH_RESULT_LIMIT = 5;
+const REQUEST_TIMEOUT_MS = 10_000;
 
-interface SerperResult {
-  title: string;
-  link: string;
-  snippet: string;
-  position: number;
-}
+const buildEmptyResult = (companyName: string, description = "", source: DomainSource = "none"): DomainResult => ({
+  company_name: companyName,
+  exists: false,
+  domain: null,
+  confidence: 0,
+  title: "",
+  description,
+  verified: false,
+  source,
+});
 
-interface SerperKnowledgeGraph {
-  title?: string;
-  type?: string;
-  website?: string;
-  description?: string;
-}
+const normalizeCompanyName = (name: string): string => name.trim();
 
-interface SerperResponse {
-  organic?: SerperResult[];
-  knowledgeGraph?: SerperKnowledgeGraph;
-}
-
-// Domains to skip (social media, job sites, etc.)
-const SKIP_DOMAINS = [
-  "linkedin.com",
-  "facebook.com",
-  "twitter.com",
-  "x.com",
-  "instagram.com",
-  "youtube.com",
-  "glassdoor.com",
-  "indeed.com",
-  "wikipedia.org",
-  "crunchbase.com",
-  "zoominfo.com",
-  "bloomberg.com",
-];
-
-/**
- * Extract domain from URL
- */
-function extractDomain(url: string): string | null {
+const extractDomain = (url: string): string | null => {
   try {
     const parsed = new URL(url);
     return parsed.hostname.replace(/^www\./, "");
   } catch {
     return null;
   }
-}
+};
 
-/**
- * Calculate confidence score
- */
-function calculateConfidence(
-  companyName: string,
-  domain: string | null,
-  title: string,
-  source: "knowledge_graph" | "organic"
-): number {
+const isDomainSkipped = (domain: string): boolean => {
+  const lower = domain.toLowerCase();
+  return SKIP_DOMAINS.some((skip) => lower.includes(skip));
+};
+
+const calculateConfidence = (companyName: string, domain: string | null, title: string, source: DomainSource): number => {
   if (source === "knowledge_graph") {
     return 95;
   }
@@ -75,147 +40,124 @@ function calculateConfidence(
   const companyLower = companyName.toLowerCase();
   const titleLower = title.toLowerCase();
   const domainLower = domain?.toLowerCase() || "";
+  let score = 60;
 
-  // Title contains company name
   if (titleLower.includes(companyLower)) {
-    return 85;
+    score += 20;
   }
 
-  // Domain contains first word of company name
-  const firstWord = companyLower.split(" ")[0];
-  if (domainLower.includes(firstWord)) {
-    return 75;
+  const firstWord = companyLower.split(/\s+/)[0];
+  if (firstWord && domainLower.includes(firstWord)) {
+    score += 10;
   }
 
-  return 60;
-}
-
-/**
- * Verify company domain using Serper API (Google Search)
- */
-export async function verifyCompanyDomain(companyName: string): Promise<DomainResult> {
-  if (!SERPER_API_KEY) {
-    console.warn("⚠️ SERPER_API_KEY not set");
-    return {
-      company_name: companyName,
-      exists: false,
-      domain: null,
-      confidence: 0,
-      title: "",
-      description: "",
-      verified: false,
-      source: "none",
-    };
+  const condensedCompany = companyLower.replace(/\s+/g, "");
+  if (condensedCompany && domainLower.includes(condensedCompany)) {
+    score += 5;
   }
+
+  return Math.min(score, 95);
+};
+
+const fetchSerperResults = async (query: string): Promise<SerperResponse> => {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
   try {
-    console.log(`🔍 Verifying domain for: ${companyName}`);
-
-    const query = `"${companyName}" official website`;
-    
-    const response = await fetch("https://google.serper.dev/search", {
+    const response = await fetch(SERPER_SEARCH_URL, {
       method: "POST",
       headers: {
-        "X-API-KEY": SERPER_API_KEY,
+        "X-API-KEY": SERPER_API_KEY!,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        q: query,
-        num: 5,
-      }),
+      body: JSON.stringify({ q: query, num: SEARCH_RESULT_LIMIT }),
+      signal: controller.signal,
     });
 
     if (!response.ok) {
-      throw new Error(`Serper API error: ${response.status}`);
+      const errorText = await response.text().catch(() => "");
+      throw new Error(`Serper API error: ${response.status}${errorText ? ` - ${errorText}` : ""}`);
     }
 
-    const data: SerperResponse = await response.json();
+    return (await response.json()) as SerperResponse;
+  } finally {
+    clearTimeout(timeout);
+  }
+};
 
-    // 1. Check Knowledge Graph first (most reliable)
-    if (data.knowledgeGraph?.title) {
-      const kg = data.knowledgeGraph;
+export async function verifyCompanyDomain(companyName: string): Promise<DomainResult> {
+  const normalizedCompany = normalizeCompanyName(companyName);
+
+  if (!SERPER_API_KEY) {
+    console.warn("SERPER_API_KEY not set; skipping domain verification");
+    return buildEmptyResult(normalizedCompany || companyName, "SERPER_API_KEY not configured");
+  }
+
+  if (normalizedCompany.length < 2) {
+    return buildEmptyResult(normalizedCompany || companyName, "Company name too short");
+  }
+
+  try {
+    const query = `"${normalizedCompany}" official website`;
+    const data = await fetchSerperResults(query);
+
+    // Prefer Knowledge Graph because it is the highest quality signal.
+    const kg = data.knowledgeGraph;
+    if (kg?.title) {
       const domain = kg.website ? extractDomain(kg.website) : null;
 
-      console.log(`✅ Knowledge Graph: ${companyName} → ${domain || "no domain"}`);
-
       return {
-        company_name: kg.title!,
+        company_name: kg.title,
         exists: true,
         domain,
         url: kg.website,
         confidence: 95,
-        title: kg.title!,
+        title: kg.title,
         description: kg.description || "",
-        verified: true,
+        verified: Boolean(domain),
         source: "knowledge_graph",
       };
     }
 
-    // 2. Use organic results
-    if (!data.organic || data.organic.length === 0) {
-      return {
-        company_name: companyName,
-        exists: false,
-        domain: null,
-        confidence: 0,
-        title: "",
-        description: "",
-        verified: false,
-        source: "none",
-      };
-    }
-
-    // Filter valid results
-    const validResults = data.organic.filter((r) => {
-      const domain = extractDomain(r.link);
-      return domain && !SKIP_DOMAINS.some((skip) => domain.includes(skip));
-    });
+    const organic = data.organic ?? [];
+    const validResults = organic
+      .map((result) => ({ ...result, domain: extractDomain(result.link) }))
+      .filter((result) => result.domain && !isDomainSkipped(result.domain));
 
     if (validResults.length === 0) {
-      // Company mentioned but no official site
-      const first = data.organic[0];
-      return {
-        company_name: companyName,
-        exists: true,
-        domain: null,
-        confidence: 40,
-        title: first.title,
-        description: first.snippet,
-        url: first.link,
-        verified: false,
-        source: "organic",
-      };
+      const first = organic[0];
+      return first
+        ? {
+            company_name: normalizedCompany,
+            exists: true,
+            domain: null,
+            confidence: 40,
+            title: first.title,
+            description: first.snippet,
+            url: first.link,
+            verified: false,
+            source: "organic",
+          }
+        : buildEmptyResult(normalizedCompany, "No search results");
     }
 
-    const first = validResults[0];
-    const domain = extractDomain(first.link);
-    const confidence = calculateConfidence(companyName, domain, first.title, "organic");
-
-    console.log(`✅ Organic: ${companyName} → ${domain} (${confidence}%)`);
+    const best = validResults[0];
+    const confidence = calculateConfidence(normalizedCompany, best.domain, best.title, "organic");
 
     return {
-      company_name: companyName,
+      company_name: normalizedCompany,
       exists: true,
-      domain,
-      url: first.link,
+      domain: best.domain,
+      url: best.link,
       confidence,
-      title: first.title,
-      description: first.snippet,
-      verified: confidence >= 75,
+      title: best.title,
+      description: best.snippet,
+      verified: confidence >= 80,
       source: "organic",
     };
-
-  } catch (error: any) {
-    console.error(`❌ Error verifying ${companyName}:`, error.message);
-    return {
-      company_name: companyName,
-      exists: false,
-      domain: null,
-      confidence: 0,
-      title: "",
-      description: error.message,
-      verified: false,
-      source: "none",
-    };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error(`Error verifying domain for ${normalizedCompany || companyName}:`, message);
+    return buildEmptyResult(normalizedCompany || companyName, message);
   }
 }

@@ -2,10 +2,7 @@ const runtimeEnv = ((globalThis as typeof globalThis & { Bun?: { env: Record<str
 
 const parseOrigins = (value: string | undefined): string[] => {
   if (!value) return [];
-  return value
-    .split(",")
-    .map((origin) => origin.trim())
-    .filter(Boolean);
+  return value.split(",").map((origin) => origin.trim()).filter(Boolean);
 };
 
 export const NEXTAUTH_SECRET = runtimeEnv.NEXTAUTH_SECRET;
