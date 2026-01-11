@@ -7,7 +7,6 @@ import { ALLOWED_ORIGINS, PORT } from "./utils/config";
 import { NodeEmailRoutes } from "./Interface/http/routes/NodeMailer.routes";
 import { MailVerifyRoutes } from "./Interface/http/routes/MailVerify.routes";
 import { llmRoutes } from "./Interface/http/routes/LLM.routes";
-import { duckSearchRoutes } from "./Interface/http/routes/duckSearch.routes";
 import { searchRoutes } from "./Interface/http/routes/search.routes";
 import { domainScraperRoutes } from "./agents/DomainScraper";
 
@@ -22,11 +21,11 @@ export const app = new Elysia()
     })
   )
   .get("/", () => ({ status: "ok", service: "neural-hash-backend" })) // public api
-  .group("/api/protected", (group) => group.use(profileRoutes)
+  .group("/api/protected", (group) => group
+    .use(profileRoutes)
     .use(NodeEmailRoutes)
     .use(MailVerifyRoutes))
     .use(llmRoutes)
-    .use(duckSearchRoutes)
     .use(searchRoutes)
     .use(domainScraperRoutes)
 

@@ -2,8 +2,6 @@ import { Elysia, t } from "elysia";
 import { verifyCompanyDomain, DomainResult } from "./verifier";
 
 export const domainScraperRoutes = new Elysia({ prefix: "/api/domain" })
-
-  // Verify single company domain
   .post(
     "/verify",
     async ({ body }) => {
