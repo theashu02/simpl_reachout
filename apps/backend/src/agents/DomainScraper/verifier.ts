@@ -5,6 +5,12 @@ const SERPER_SEARCH_URL = "https://google.serper.dev/search";
 const SEARCH_RESULT_LIMIT = 5;
 const REQUEST_TIMEOUT_MS = 10_000;
 
+if(!SERPER_API_KEY){
+  throw new Error("--- SERPER_API_KEY not set ---");
+} else {
+  console.log("--- SERPER_API_KEY is present ---");
+}
+
 const buildEmptyResult = (companyName: string, description = "", source: DomainSource = "none"): DomainResult => ({
   company_name: companyName,
   exists: false,
@@ -120,9 +126,7 @@ export async function verifyCompanyDomain(companyName: string): Promise<DomainRe
     }
 
     const organic = data.organic ?? [];
-    const validResults = organic
-      .map((result) => ({ ...result, domain: extractDomain(result.link) }))
-      .filter((result) => result.domain && !isDomainSkipped(result.domain));
+    const validResults = organic.map((result) => ({ ...result, domain: extractDomain(result.link) })).filter((result) => result.domain && !isDomainSkipped(result.domain));
 
     if (validResults.length === 0) {
       const first = organic[0];
