@@ -1,0 +1,577 @@
+[
+  {
+    "url": "https://www.linkedin.com/company/segwise-ai/",
+    "companyName": "Segwise (Creative Analytics Agents)",
+    "websiteUrl": "https://segwise.ai/",
+    "industry": "Computer Software",
+    "employeeCount": 21,
+    "followerCount": 15923,
+    "universalName": "segwise-ai",
+    "tagline": "AI Agents to automate Creative Tagging and simplify Creative Analytics.",
+    "description": "Segwise builds AI agents to improve creative ROAS.\nOur AI agents help you automate creative tagging and simplify creative analytics, helping you save hours and improve ROAS.\nGet started with a 14 day FREE trial at segwise.ai",
+    "companyId": 91383716,
+    "hashtag": null,
+    "industryV2Taxonomy": "Technology, Information and Internet",
+    "callToAction": {
+      "displayText": "Visit website",
+      "type": "VIEW_WEBSITE",
+      "url": "https://www.segwise.ai?utm_source=LinkedIn&utm_medium=OfficialHandle&utm_campaign=VisitWebsiteButton"
+    },
+    "employeeCountRange": {
+      "start": 11,
+      "end": 50
+    },
+    "headquarter": {
+      "country": "US",
+      "city": "Lewes",
+      "geographicArea": "Delaware",
+      "postalCode": "19968",
+      "line1": "16192 Coastal Hwy",
+      "line2": null,
+      "description": "Headquarters"
+    },
+    "foundedOn": {
+      "month": null,
+      "year": 2023,
+      "day": null,
+      "$recipeTypes": [
+        "com.linkedin.a24d1decae0b7990921ce762eb46db62"
+      ],
+      "$type": "com.linkedin.common.Date"
+    },
+    "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQG0blm-EDz_0g/company-logo_200_200/company-logo_200_200/0/1731136686055/segwise_ai_logo?e=1769644800&v=beta&t=VStfAx248pWHxY6E03M0TgilPknbUTnw94zJhTP8jb4",
+    "originalCoverImage": "https://media.licdn.com/dms/image/v2/D561BAQForM_FFetkog/company-background_10000/B56Za0ZmpFGkAU-/0/1746783335110/segwise_ai_cover?e=1768809600&v=beta&t=wbTHpYD2DKaC1LwFLixwfQmwvzg1xGhF31pxV-POZ2k",
+    "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D563DAQFzuhbD3VGmjg/image-scale_191_1128/B56Za0ZmpZGoAc-/0/1746783335621/segwise_ai_cover?e=1768809600&v=beta&t=qSQPnjwicYZPgWSRcTmYnKnCsQq-E7pg1X3mVUgHRqY",
+    "specialities": [
+      "AI Agents",
+      "User Acquisition",
+      "Creative Analytics",
+      "Creative Strategy",
+      "App Marketing",
+      "Creative Strategy",
+      "Creative Optimization",
+      "Growth Marketing",
+      "Paid Marketing",
+      "Marketing Analytics"
+    ],
+    "crunchbaseFundingData": null,
+    "similarOrganizations": [
+      {
+        "name": "Meta",
+        "followerCount": 11661863,
+        "url": "https://www.linkedin.com/company/meta/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQHBmbxCDP0JQQ/company-logo_400_400/B56ZlkdQSaI8AY-/0/1758327015620/meta_logo?e=1769644800&v=beta&t=ldEFw4BY4USTc2fcq2wOP2TnnDMzkHZXcINqMfPz1_U",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D563DAQGqK8UZbNvlEg/image-scale_108_640/B56ZlzMzP0I8AQ-/0/1758574360497/meta_cover?e=1768809600&v=beta&t=50p5oDmgZT-_M2SOC3I8VE9DtN3ZDCqQ8WRbn8ruDH4",
+        "industryV2Taxonomy": "Software Development",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D561BAQHCuCh82EjWsQ/company-background_10000/B56ZlzMzyZIAAU-/0/1758574366595/meta_cover?e=1768809600&v=beta&t=hxLbz94FVYs5z-mr8zJq6fFwdmn9G9T9GJM9dg722L4",
+        "companyId": 10667,
+        "employeeCountRange": {
+          "start": 10001,
+          "end": null
+        },
+        "headquarter": {
+          "country": "US",
+          "city": "Menlo Park",
+          "geographicArea": "CA",
+          "postalCode": "94025",
+          "line1": "1 Hacker Way",
+          "line2": null,
+          "description": null
+        },
+        "universalName": "meta"
+      },
+      {
+        "name": "The Product Folks",
+        "followerCount": 158272,
+        "url": "https://www.linkedin.com/company/theproductfolks/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/C560BAQFSR6fm4GNQxA/company-logo_200_200/company-logo_200_200/0/1630669371980/theproductfolks_logo?e=1769644800&v=beta&t=wdydQ02fUUJo90rowG2uL28X9dAYdmMkj6znx5Ip5UQ",
+        "industryV2Taxonomy": "Technology, Information and Internet",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/C561BAQGJiOBGLsCvxQ/company-background_10000/company-background_10000/0/1622886450622/theproductfolks_cover?e=1768809600&v=beta&t=uhIkzU4OIpYO5X6Z7mraR2HYVlfw23OSCPIYcRWSbas",
+        "companyId": 14631297,
+        "employeeCountRange": {
+          "start": 2,
+          "end": 10
+        },
+        "headquarter": {
+          "country": "US",
+          "city": "San Francisco",
+          "geographicArea": null,
+          "postalCode": null,
+          "line1": null,
+          "line2": null,
+          "description": null
+        },
+        "universalName": "theproductfolks"
+      },
+      {
+        "name": "CodeAnt AI",
+        "followerCount": 20723,
+        "url": "https://www.linkedin.com/company/codeant-ai/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQGncbvGj9h-YA/company-logo_200_200/company-logo_200_200/0/1700642866542/codeant_ai_logo?e=1769644800&v=beta&t=6A6KuzaxMeKXK2kzNpfyVWxA5MPpBLGWjWDf3b69DS0",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D4D3DAQG3kgFO7B-evw/image-scale_127_750/B4DZp3DVlOGwAY-/0/1762933960337/codeant_ai_cover?e=1768809600&v=beta&t=R28D6DCcWoVchwYALxQZfm0AzWIDxLY19ZMfKQ007gg",
+        "industryV2Taxonomy": "Software Development",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D4D1BAQFF3kbocE12UQ/company-background_10000/B4DZp3DVmTGwAY-/0/1762933963606/codeant_ai_cover?e=1768809600&v=beta&t=iC9gzNFVva-5D8ujYuFZF-Nr6zvtUzkg11i4NwIFK6I",
+        "companyId": 96582348,
+        "employeeCountRange": {
+          "start": 11,
+          "end": 50
+        },
+        "headquarter": {
+          "country": "US",
+          "city": "San Francisco",
+          "geographicArea": "California",
+          "postalCode": "94107",
+          "line1": "335 Bryant St",
+          "line2": null,
+          "description": "Headquarters"
+        },
+        "universalName": "codeant-ai"
+      },
+      {
+        "name": "KushoAI",
+        "followerCount": 7874,
+        "url": "https://www.linkedin.com/company/kusho/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQFE0UatBCw0_w/company-logo_200_200/company-logo_200_200/0/1702642519517/kusho_logo?e=1769644800&v=beta&t=Duxpl4C-0WIz3TUuYsXS4dvt8cWMYJxQISVginI_HHQ",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D563DAQG7U0mXarl4yQ/image-scale_127_750/B56ZsS4gURIYAM-/0/1765548361699/kusho_cover?e=1768809600&v=beta&t=6ala9aQhtBkjT9uXifnnY6jJa-e9N4tZy6hDZSHX-MI",
+        "industryV2Taxonomy": "Software Development",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D561BAQHW1jFzZFhxHw/company-background_400/B56ZsS4gU6HYAc-/0/1765548361626/kusho_cover?e=1768809600&v=beta&t=sEYw2FOMMBuY-KlbSpeswsnd94E3glivuz5Cb_KzMjw",
+        "companyId": 77112731,
+        "employeeCountRange": {
+          "start": 11,
+          "end": 50
+        },
+        "headquarter": {
+          "country": "US",
+          "city": "San Francisco",
+          "geographicArea": "",
+          "postalCode": null,
+          "line1": "",
+          "line2": "",
+          "description": ""
+        },
+        "universalName": "kusho"
+      },
+      {
+        "name": "super.money",
+        "followerCount": 29026,
+        "url": "https://www.linkedin.com/company/getsupermoney/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQFus2NG_Vm9Tw/company-logo_200_200/company-logo_200_200/0/1704978107674/getsupermoney_logo?e=1769644800&v=beta&t=d8_0IcEtba23SdQsE7JUJ4g6tG_AR2tERan4vTrSPg4",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D563DAQGYPQ7yVSYIIQ/image-scale_127_750/image-scale_127_750/0/1735293634343/getsupermoney_cover?e=1768809600&v=beta&t=XMPDd0NgXHLLIzGBs_uEeVLQvzl5R9W-4QWDJu1B1Ro",
+        "industryV2Taxonomy": "Financial Services",
+        "industry": "Financial Services",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D561BAQE0UcPIA8Cz7A/company-background_10000/company-background_10000/0/1735293633238/getsupermoney_cover?e=1768809600&v=beta&t=BbcEFR40aZoTSQq5zuFyoFEnKeBvlwL3WA97g7UJOws",
+        "companyId": 99154856,
+        "employeeCountRange": {
+          "start": 51,
+          "end": 200
+        },
+        "headquarter": {
+          "country": "IN",
+          "city": "Bengaluru",
+          "geographicArea": null,
+          "postalCode": null,
+          "line1": null,
+          "line2": null,
+          "description": "Headquarters"
+        },
+        "universalName": "getsupermoney"
+      },
+      {
+        "name": "Kong",
+        "followerCount": 66969,
+        "url": "https://www.linkedin.com/company/konghq/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D4E0BAQHv7yIWJEYuMQ/company-logo_200_200/company-logo_200_200/0/1721680122463/konghq_logo?e=1769644800&v=beta&t=ZwU3iBQWVI0I8GR-rVMAbqqZfWnKoqcMkGpH3-TXfk4",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D4E3DAQFFeY2OppuMvA/image-scale_127_750/image-scale_127_750/0/1721680085276/konghq_cover?e=1768809600&v=beta&t=A9OV7DxBd6OyGOw1B_2VxVgcWpM8ZjWPl906G9SkFPg",
+        "industryV2Taxonomy": "Software Development",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D4E1BAQH3QWNhUngUEw/company-background_10000/company-background_10000/0/1721680085128/konghq_cover?e=1768809600&v=beta&t=QoonwFa-TjfBIz2TON26kYjJvmf5B16guO-uOCVIYb4",
+        "companyId": 278819,
+        "employeeCountRange": {
+          "start": 501,
+          "end": 1000
+        },
+        "headquarter": {
+          "country": "US",
+          "city": "San Francisco",
+          "geographicArea": "California",
+          "postalCode": "94105",
+          "line1": null,
+          "line2": null,
+          "description": "KongHQ"
+        },
+        "universalName": "konghq"
+      },
+      {
+        "name": "Deloitte",
+        "followerCount": 20756341,
+        "url": "https://www.linkedin.com/company/deloitte/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/C560BAQGNtpblgQpJoQ/company-logo_200_200/company-logo_200_200/0/1662120928214/deloitte_logo?e=1769644800&v=beta&t=1UO-DPhVaCzO4gkqhGZEJENsJyYbYy0zMBrSCZfqKUE",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D4E3DAQGsBZMfoYt3EQ/image-scale_108_640/B4EZni6UosIoAQ-/0/1760448564381/deloitte_cover?e=1768809600&v=beta&t=smLMVMCLjzMU_lMoIK9ONcaLOtnKkGFGm7fiSJOxFgU",
+        "industryV2Taxonomy": "Business Consulting and Services",
+        "industry": "Management Consulting",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D4E1BAQHAJfT9WBNtSg/company-background_400/B4EZni6UoOIIAY-/0/1760448564260/deloitte_cover?e=1768809600&v=beta&t=jN8uAOWpHWQ-KagaaLB8fuy9-Ip4dC0H02oyvF7_2LQ",
+        "companyId": 1038,
+        "employeeCountRange": {
+          "start": 10001,
+          "end": null
+        },
+        "headquarter": {
+          "country": "OO",
+          "city": "Worldwide",
+          "geographicArea": null,
+          "postalCode": null,
+          "line1": "Worldwide",
+          "line2": null,
+          "description": null
+        },
+        "universalName": "deloitte"
+      },
+      {
+        "name": "Blinkit",
+        "followerCount": 1517378,
+        "url": "https://www.linkedin.com/company/letsblinkit/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQHXjM7wIvllag/company-logo_200_200/company-logo_200_200/0/1738814077825?e=1769644800&v=beta&t=lLJE7MCxx7_TZ3-CN7ZJm8h1A45iApsF01unNmYpOWk",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D563DAQFiG1g3EZPwIQ/image-scale_127_750/image-scale_127_750/0/1704186571943/letsblinkit_cover?e=1768809600&v=beta&t=KaVm67ottD16wqjFBuiWWmE2QLP88J9zfS5MckmlLIM",
+        "industryV2Taxonomy": "Technology, Information and Internet",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D561BAQHTnKZ45MjrqQ/company-background_10000/company-background_10000/0/1704186570011/letsblinkit_cover?e=1768809600&v=beta&t=5Kq95MAcs7qpAwkgr8e6j0UQKa2xkoSWTujRKq2l1i0",
+        "companyId": 80918929,
+        "employeeCountRange": {
+          "start": 1001,
+          "end": 5000
+        },
+        "headquarter": {
+          "country": "IN",
+          "city": "Gurgaon",
+          "geographicArea": "Haryana",
+          "postalCode": "122001",
+          "line1": "Pioneer Square, Sector 62, Golf Course Extension",
+          "line2": "Blinkit Headquarters",
+          "description": "Headquarters"
+        },
+        "universalName": "letsblinkit"
+      },
+      {
+        "name": "HDFC Bank",
+        "followerCount": 3533280,
+        "url": "https://www.linkedin.com/company/hdfc-bank/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/C510BAQGqZH7vVbVzWw/company-logo_200_200/company-logo_200_200/0/1630606529683/hdfc_bank_logo?e=1769644800&v=beta&t=8Bschabx9ZoslaDjJCvkMkMM5TiLI1J-LWFVoW88JYk",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D4D3DAQE5qNrFpgpy0A/image-scale_191_1128/B4DZq175ofJ4Ag-/0/1763988971786/hdfc_bank_cover?e=1768809600&v=beta&t=zjsy3Y1gVNi24yiwIY6VI640LfNgCDc5IbdjDuwm5HU",
+        "industryV2Taxonomy": "Banking",
+        "industry": "Banking",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D4D1BAQFsfqvFtU1Rgw/company-background_10000/B4DZq175xeHwAU-/0/1763988971828/hdfc_bank_cover?e=1768809600&v=beta&t=lh6JXahZxpelU03Ogg6G5-Lw3T6GkwAUv_dbQOGT_f8",
+        "companyId": 164151,
+        "employeeCountRange": {
+          "start": 10001,
+          "end": null
+        },
+        "headquarter": {
+          "country": "IN",
+          "city": "Mumbai",
+          "geographicArea": "Maharashtra",
+          "postalCode": "400013",
+          "line1": "Lower Parel Road",
+          "line2": null,
+          "description": null
+        },
+        "universalName": "hdfc-bank"
+      },
+      {
+        "name": "Volopay",
+        "followerCount": 57546,
+        "url": "https://www.linkedin.com/company/volopay/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQGcMLNytOr9UA/company-logo_200_200/company-logo_200_200/0/1713772298678/volopay_logo?e=1769644800&v=beta&t=rVV0H81gVNiNOtIiWMArHT6FrwoQt8OxyjytUdyra4k",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D563DAQEO5kfou6EXiQ/image-scale_127_750/image-scale_127_750/0/1687252569697/volopay_cover?e=1768809600&v=beta&t=7fkywOA9kFHWKxA1I-9WWiYOc6_BuXhDBc4UKLFo2Lw",
+        "industryV2Taxonomy": "Software Development",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D561BAQFysVvhZvqHGw/company-background_10000/company-background_10000/0/1687252569297/volopay_cover?e=1768809600&v=beta&t=NlkMvpTxnBKvsPdiE5K59UZ8cYjaoIMRUrw0ZaAxeoM",
+        "companyId": 13453496,
+        "employeeCountRange": {
+          "start": 51,
+          "end": 200
+        },
+        "headquarter": {
+          "country": "SG",
+          "city": "Singapore",
+          "geographicArea": null,
+          "postalCode": "189675",
+          "line1": "11 Beach Road",
+          "line2": "#03-01",
+          "description": null
+        },
+        "universalName": "volopay"
+      },
+      {
+        "name": "Linkrunner",
+        "followerCount": 1233,
+        "url": "https://www.linkedin.com/company/linkrunner/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D4D0BAQGU7tGq3XvD2A/company-logo_200_200/company-logo_200_200/0/1719256016063?e=1769644800&v=beta&t=oi_4IJe2m0PeBv1SrDF_A7Id8w13-3NUky0yChRh3WE",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D4D3DAQHyjTrFQJrlFg/image-scale_191_1128/B4DZeH.wDRGkAg-/0/1750333064027/linkrunner_cover?e=1768809600&v=beta&t=HGjo6bvF3Ka9GvAmKmexeMtQfg2nvlrS838y_NzmCDU",
+        "industryV2Taxonomy": "Technology, Information and Internet",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D4D1BAQEmRDO9kS5XAw/company-background_10000/B4DZeH.wDPGkAo-/0/1750333064203/linkrunner_cover?e=1768809600&v=beta&t=Z11lnWtJfXt5c6itUqitLzEAYublmvoXJcO-JxHiuZA",
+        "companyId": 103579091,
+        "employeeCountRange": {
+          "start": 2,
+          "end": 10
+        },
+        "headquarter": {
+          "country": "IN",
+          "city": "Bangalore",
+          "geographicArea": "Karnataka",
+          "postalCode": null,
+          "line1": null,
+          "line2": null,
+          "description": "Headquarters"
+        },
+        "universalName": "linkrunner"
+      },
+      {
+        "name": "Business Insider",
+        "followerCount": 10933963,
+        "url": "https://www.linkedin.com/company/businessinsider/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D4E0BAQH5XQv8BsAq5w/company-logo_200_200/company-logo_200_200/0/1699965585156/insiderbusiness_logo?e=1769644800&v=beta&t=04R776qUccCq_BQCB2o_5hjiAEXMCwwkJSlKWXiM0OY",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D4E3DAQHMCr-x-I14jw/image-scale_127_750/image-scale_127_750/0/1699966740181/insiderbusiness_cover?e=1768809600&v=beta&t=9Csn5NYBvdLJAIlCCXvaYPbKDQ12V4RsqJQ7qUv5Fi4",
+        "industryV2Taxonomy": "Online Audio and Video Media",
+        "industry": "Online Media",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D4E1BAQGboACGqcGa6g/company-background_10000/company-background_10000/0/1699966740243/insiderbusiness_cover?e=1768809600&v=beta&t=BiHbrHVR3jMwngPNlhZOeNOOQ_A54FLDuax-ZjYSdJ8",
+        "companyId": 683279,
+        "employeeCountRange": {
+          "start": 201,
+          "end": 500
+        },
+        "headquarter": {
+          "country": "US",
+          "city": "New York",
+          "geographicArea": "New York",
+          "postalCode": "10006",
+          "line1": "1 Liberty Plaza",
+          "line2": "8th floor",
+          "description": null
+        },
+        "universalName": "businessinsider"
+      }
+    ],
+    "affiliatedOrganizationsByEmployees": [],
+    "affiliatedOrganizationsByShowcases": [],
+    "locations": [
+      {
+        "country": "US",
+        "city": "Lewes",
+        "geographicArea": "Delaware",
+        "postalCode": "19968",
+        "line1": "16192 Coastal Hwy",
+        "line2": null,
+        "description": "Headquarters",
+        "headquarter": true,
+        "localizedName": "Lewes",
+        "latitude": 38.369915,
+        "longitude": -75.5307
+      }
+    ]
+  }
+]
+
+
+
+import { Elysia } from 'elysia';
+
+// Types
+interface SerperSearchResult {
+  organic?: Array<{
+    link: string;
+    title: string;
+    snippet?: string;
+  }>;
+  knowledgeGraph?: {
+    title?: string;
+    imageUrl?: string;
+    website?: string;
+  };
+}
+
+interface CompanyInfo {
+  linkedinUrl: string | null;
+  logoUrl: string | null;
+  companyName: string;
+  website?: string;
+}
+
+// Serper API Service
+class SerperService {
+  private apiKey: string;
+  private baseUrl = 'https://google.serper.dev/search';
+
+  constructor(apiKey: string) {
+    this.apiKey = apiKey;
+  }
+
+  async search(query: string): Promise<SerperSearchResult> {
+    const response = await fetch(this.baseUrl, {
+      method: 'POST',
+      headers: {
+        'X-API-KEY': this.apiKey,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ q: query }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Serper API error: ${response.statusText}`);
+    }
+
+    return response.json();
+  }
+
+  async findCompanyInfo(companyName: string): Promise<CompanyInfo> {
+    // Search for LinkedIn profile
+    const linkedinQuery = `${companyName} site:linkedin.com/company`;
+    const linkedinResults = await this.search(linkedinQuery);
+    
+    // Search for company logo
+    const logoQuery = `${companyName} logo`;
+    const logoResults = await this.search(logoQuery);
+
+    // Extract LinkedIn URL
+    const linkedinUrl = this.extractLinkedInUrl(linkedinResults);
+    
+    // Extract logo URL
+    const logoUrl = this.extractLogoUrl(logoResults);
+    
+    // Get website from knowledge graph if available
+    const website = logoResults.knowledgeGraph?.website;
+
+    return {
+      companyName,
+      linkedinUrl,
+      logoUrl,
+      website,
+    };
+  }
+
+  private extractLinkedInUrl(results: SerperSearchResult): string | null {
+    if (!results.organic || results.organic.length === 0) {
+      return null;
+    }
+
+    // Find the first LinkedIn company URL
+    const linkedinResult = results.organic.find(item => 
+      item.link.includes('linkedin.com/company/')
+    );
+
+    return linkedinResult?.link || null;
+  }
+
+  private extractLogoUrl(results: SerperSearchResult): string | null {
+    // Try to get logo from knowledge graph first
+    if (results.knowledgeGraph?.imageUrl) {
+      return results.knowledgeGraph.imageUrl;
+    }
+
+    return null;
+  }
+}
+
+// Initialize Elysia app
+const app = new Elysia()
+  .get('/', () => ({
+    message: 'Company Info Finder API',
+    endpoints: {
+      '/api/company/:name': 'Get company LinkedIn and logo',
+      '/health': 'Health check'
+    }
+  }))
+  
+  .get('/health', () => ({ status: 'ok' }))
+  
+  .get('/api/company/:name', async ({ params, set }) => {
+    try {
+      const { name } = params;
+      
+      if (!name || name.trim() === '') {
+        set.status = 400;
+        return { error: 'Company name is required' };
+      }
+
+      // Get API key from environment
+      const apiKey = process.env.SERPER_API_KEY;
+      
+      if (!apiKey) {
+        set.status = 500;
+        return { error: 'SERPER_API_KEY not configured' };
+      }
+
+      const serper = new SerperService(apiKey);
+      const companyInfo = await serper.findCompanyInfo(name);
+
+      return {
+        success: true,
+        data: companyInfo
+      };
+    } catch (error) {
+      set.status = 500;
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      };
+    }
+  })
+  
+  .post('/api/companies/batch', async ({ body, set }) => {
+    try {
+      const { companies } = body as { companies: string[] };
+      
+      if (!Array.isArray(companies) || companies.length === 0) {
+        set.status = 400;
+        return { error: 'Companies array is required' };
+      }
+
+      const apiKey = process.env.SERPER_API_KEY;
+      
+      if (!apiKey) {
+        set.status = 500;
+        return { error: 'SERPER_API_KEY not configured' };
+      }
+
+      const serper = new SerperService(apiKey);
+      
+      // Process companies in parallel with rate limiting
+      const results = await Promise.all(
+        companies.map(async (company) => {
+          try {
+            return await serper.findCompanyInfo(company);
+          } catch (error) {
+            return {
+              companyName: company,
+              linkedinUrl: null,
+              logoUrl: null,
+              error: error instanceof Error ? error.message : 'Unknown error'
+            };
+          }
+        })
+      );
+
+      return {
+        success: true,
+        data: results
+      };
+    } catch (error) {
+      set.status = 500;
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      };
+    }
+  })
+  
+  .listen(3000);
+
+console.log(
+  `🦊 Company Info Finder is running at ${app.server?.hostname}:${app.server?.port}`
+);
+
+export default app;
