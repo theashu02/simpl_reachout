@@ -10,6 +10,8 @@ export interface DomainResult {
   url?: string;
   verified: boolean;
   source: DomainSource;
+  linkedin_url: string | null;
+  logo_url: string | null;
 }
 
 export interface SerperResult {
@@ -24,6 +26,7 @@ export interface SerperKnowledgeGraph {
   type?: string;
   website?: string;
   description?: string;
+  imageUrl?: string;
 }
 
 export interface SerperResponse {
@@ -31,17 +34,4 @@ export interface SerperResponse {
   knowledgeGraph?: SerperKnowledgeGraph;
 }
 
-export const SKIP_DOMAINS: readonly string[] = Object.freeze([
-  "linkedin.com",
-  "facebook.com",
-  "twitter.com",
-  "x.com",
-  "instagram.com",
-  "youtube.com",
-  "glassdoor.com",
-  "indeed.com",
-  "wikipedia.org",
-  "crunchbase.com",
-  "zoominfo.com",
-  "bloomberg.com",
-]);
+export const SKIP_DOMAINS: readonly string[] = Object.freeze(["linkedin.com", "facebook.com", "twitter.com", "x.com", "instagram.com", "youtube.com", "glassdoor.com", "indeed.com", "wikipedia.org", "crunchbase.com", "zoominfo.com", "bloomberg.com"]);

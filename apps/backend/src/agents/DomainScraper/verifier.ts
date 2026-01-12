@@ -2,10 +2,11 @@ import { SERPER_API_KEY } from "../../utils/config";
 import { DomainResult, DomainSource, SerperResponse, SKIP_DOMAINS } from "./types";
 
 const SERPER_SEARCH_URL = "https://google.serper.dev/search";
+const SERPER_IMAGES_URL = "https://google.serper.dev/images";
 const SEARCH_RESULT_LIMIT = 5;
 const REQUEST_TIMEOUT_MS = 10_000;
 
-if(!SERPER_API_KEY){
+if (!SERPER_API_KEY) {
   throw new Error("--- SERPER_API_KEY not set ---");
 } else {
   console.log("--- SERPER_API_KEY is present ---");
@@ -20,6 +21,8 @@ const buildEmptyResult = (companyName: string, description = "", source: DomainS
   description,
   verified: false,
   source,
+  linkedin_url: null,
+  logo_url: null,
 });
 
 const normalizeCompanyName = (name: string): string => name.trim();
@@ -91,6 +94,57 @@ const fetchSerperResults = async (query: string): Promise<SerperResponse> => {
   }
 };
 
+// Fetch LinkedIn company URL
+const fetchLinkedInUrl = async (companyName: string): Promise<string | null> => {
+  try {
+    const query = `${companyName} site:linkedin.com/company`;
+    const data = await fetchSerperResults(query);
+
+    const linkedinResult = data.organic?.find((result) => result.link.includes("linkedin.com/company/"));
+
+    return linkedinResult?.link || null;
+  } catch (error) {
+    console.error(`Error fetching LinkedIn URL for ${companyName}:`, error);
+    return null;
+  }
+};
+
+// Fetch company logo URL using image search
+const fetchLogoUrl = async (companyName: string): Promise<string | null> => {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(SERPER_IMAGES_URL, {
+      method: "POST",
+      headers: {
+        "X-API-KEY": SERPER_API_KEY!,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ q: `${companyName} company logo`, num: 3 }),
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = await response.json();
+
+    // Return the first image result's URL
+    if (data.images && data.images.length > 0) {
+      return data.images[0].imageUrl || null;
+    }
+
+    return null;
+  } catch (error) {
+    console.error(`Error fetching logo for ${companyName}:`, error);
+    return null;
+  } finally {
+    clearTimeout(timeout);
+  }
+};
+
 export async function verifyCompanyDomain(companyName: string): Promise<DomainResult> {
   const normalizedCompany = normalizeCompanyName(companyName);
 
@@ -104,13 +158,15 @@ export async function verifyCompanyDomain(companyName: string): Promise<DomainRe
   }
 
   try {
-    const query = `"${normalizedCompany}" official website`;
-    const data = await fetchSerperResults(query);
+    // Fetch domain, LinkedIn URL, and logo URL in parallel for speed
+    const [data, linkedin_url, logo_url] = await Promise.all([fetchSerperResults(`"${normalizedCompany}" official website`), fetchLinkedInUrl(normalizedCompany), fetchLogoUrl(normalizedCompany)]);
 
     // Prefer Knowledge Graph because it is the highest quality signal.
     const kg = data.knowledgeGraph;
     if (kg?.title) {
       const domain = kg.website ? extractDomain(kg.website) : null;
+      // Use Knowledge Graph logo if available, fallback to fetched logo
+      const finalLogoUrl = kg.imageUrl || logo_url;
 
       return {
         company_name: kg.title,
@@ -122,6 +178,8 @@ export async function verifyCompanyDomain(companyName: string): Promise<DomainRe
         description: kg.description || "",
         verified: Boolean(domain),
         source: "knowledge_graph",
+        linkedin_url,
+        logo_url: finalLogoUrl,
       };
     }
 
@@ -141,6 +199,8 @@ export async function verifyCompanyDomain(companyName: string): Promise<DomainRe
             url: first.link,
             verified: false,
             source: "organic",
+            linkedin_url,
+            logo_url,
           }
         : buildEmptyResult(normalizedCompany, "No search results");
     }
@@ -158,6 +218,8 @@ export async function verifyCompanyDomain(companyName: string): Promise<DomainRe
       description: best.snippet,
       verified: confidence >= 80,
       source: "organic",
+      linkedin_url,
+      logo_url,
     };
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
