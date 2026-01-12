@@ -1,5 +1,6 @@
 // proxymanager.ts
-import { TOR_CONFIG } from "../config/proxies";
+
+import { TOR_CONFIG } from "./proxies";
 import { torController } from "./tor";
 
 export class ProxyManager {
@@ -38,7 +39,7 @@ export class ProxyManager {
 
   async cleanup(): Promise<void> {
     torController.stopHealthMonitor();
-    const { browserService } = await import("../agents/TorProxyScraper/browser");
+    const { browserService } = await import("../../agents/TorProxyScraper/browser");
     await browserService.close();
     console.log("Cleanup complete");
   }

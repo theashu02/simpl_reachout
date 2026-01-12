@@ -118,7 +118,7 @@ class BrowserService {
       const launchArgs = [...this.baseLaunchArgs, `--proxy-server=${proxyUrl}`, "--proxy-bypass-list=<-loopback>", "--host-resolver-rules=MAP * 0.0.0.0 0.0.0.0,EXCLUDE 127.0.0.1"];
 
       this.browser = await puppeteer.launch({
-        headless: "new",
+        headless: true,
         args: launchArgs,
         defaultViewport: null,
         executablePath: executablePath(),

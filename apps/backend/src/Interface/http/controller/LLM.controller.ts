@@ -1,4 +1,4 @@
-import { llm } from "../../../config/openai";
+import { llm } from "../../../config/OpenAI/openai";
 import { LLM_MODEL } from "../../../utils/config";
 
 export const LLMController = {

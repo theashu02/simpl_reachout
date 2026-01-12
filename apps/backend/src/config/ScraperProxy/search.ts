@@ -1,4 +1,4 @@
-import { SERPER_API_KEY } from "../utils/config";
+import { SERPER_API_KEY } from "../../utils/config";
 
 export const performSearch = async (query: string, num = 2) => {
   const res = await fetch("https://google.serper.dev/search", {

@@ -1,5 +1,5 @@
 import { OpenAI } from "openai";
-import { LLM_API_KEY, LLM_BASE_URL } from "../utils/config";
+import { LLM_API_KEY, LLM_BASE_URL } from "../../utils/config";
 
 
 export const llm = new OpenAI({

@@ -1,6 +1,6 @@
 import { chromium, Browser, Page } from "playwright";
-import { proxyManager } from "../../utils/proxyManager";
-import { torController } from "../../utils/tor";
+import { torController } from "../../config/ScraperProxy/tor";
+import { proxyManager } from "../../config/ScraperProxy/proxyManager";
 
 interface FingerprintProfile {
   name: string;

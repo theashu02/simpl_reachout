@@ -2,7 +2,7 @@
 import net from "net";
 import { fetch } from "undici";
 import { SocksProxyAgent } from "socks-proxy-agent";
-import { TOR_CONFIG } from "../config/proxies";
+import { TOR_CONFIG } from "./proxies";
 
 interface CircuitHealth {
   ip: string;

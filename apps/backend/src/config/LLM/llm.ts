@@ -1,5 +1,6 @@
-import { llm } from "./openai";
-import { LLM_MODEL } from "../utils/config";
+import { LLM_MODEL } from "../../utils/config";
+import { llm } from "../OpenAI/openai";
+
 
 export const streamLLMResponse = async (prompt: string, onChunk: (chunk: string) => void) => {
   try {

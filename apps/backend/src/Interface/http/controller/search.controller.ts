@@ -1,6 +1,7 @@
-import { streamLLMResponse } from "../../../config/llm";
+
 // import { scrapeUrl } from "../../../config/scraper";
-import { performSearch } from "../../../config/search";
+import { streamLLMResponse } from "../../../config/LLM/llm";
+import { performSearch } from "../../../config/ScraperProxy/search";
 
 export const handleSearchStream = (query: string) => {
   return new Response(
