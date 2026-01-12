@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useState } from "react";
+import {memo, useState } from "react";
 import { ColumnDef, flexRender, getCoreRowModel, getSortedRowModel, getFilteredRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -8,8 +8,6 @@ import { Input } from "@/components/ui/input";
 import { CheckCircle2, XCircle, ExternalLink, ArrowUpDown } from "lucide-react";
 import Image from "next/image";
 
-// Import dummy data
-import dummyData from "./table.json";
 import { LinkedinLogo } from "@/lib/utils";
 
 export interface CompanyResult {
@@ -135,7 +133,7 @@ const columns: ColumnDef<CompanyResult>[] = [
   },
 ];
 
-const CompanyTable = ({ data = dummyData.results as CompanyResult[] }: CompanyTableProps) => {
+const CompanyTable = ({ data = [] }: CompanyTableProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
 
