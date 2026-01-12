@@ -1,5 +1,5 @@
 import { Elysia } from "elysia";
-import { getProfile } from "../../controller/UserController/profile.controller";
+import { getProfile } from "../controller/profile.controller";
 
 const app = new Elysia();
 

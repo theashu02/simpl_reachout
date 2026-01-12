@@ -1,4 +1,4 @@
-import { FileText, UploadCloud, Share2, Mail, Settings, LucideIcon } from "lucide-react";
+import { FileText, UploadCloud, Share2, Mail, Settings, ScanSearch, LucideIcon } from "lucide-react";
 
 export interface NavItem {
   label: string;
@@ -22,6 +22,11 @@ export const NAV_ITEMS: NavItem[] = [
     label: "Integrations",
     href: "/products/hyper-mail/integrations",
     icon: Share2,
+  },
+  {
+    label: "Finder",
+    href: "/products/hyper-mail/finder",
+    icon: ScanSearch,
   },
   {
     label: "Generate ID",

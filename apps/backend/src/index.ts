@@ -1,79 +1,101 @@
 import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
-import { profileRoutes } from "./Interface/http/routes/UserController/profile.route";
+import { profileRoutes } from "./Interface/http/routes/profile.route";
 import { fileTransferWs, getRoomSnapshot } from "./Interface/ws/FileTransfer";
 import { authenticateRequest } from "./middleware/VerifyUser";
-import { PORT } from "./utils/config";
+import { ALLOWED_ORIGINS, PORT } from "./utils/config";
+import { NodeEmailRoutes } from "./Interface/http/routes/NodeMailer.routes";
+import { MailVerifyRoutes } from "./Interface/http/routes/MailVerify.routes";
+import { llmRoutes } from "./Interface/http/routes/LLM.routes";
+import { searchRoutes } from "./Interface/http/routes/search.routes";
+import { domainScraperRoutes } from "./agents/DomainScraper";
 
-const app = new Elysia()
+export const app = new Elysia()
+  .use(
+    cors({
+      origin: ALLOWED_ORIGINS.length === 1 ? ALLOWED_ORIGINS[0] : ALLOWED_ORIGINS,
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+      exposeHeaders: ["Content-Length"],
+      credentials: true,
+    })
+  )
+  .get("/", () => ({ status: "ok", service: "neural-hash-backend" })) // public api
+  .group("/api/protected", (group) => group
+    .onBeforeHandle(async ({ request, set }) => {
+      try {
+        await authenticateRequest(request);
+      } catch {
+        set.status = 401;
+        return {
+          success: false,
+          message: "Unauthorized",
+        };
+      }
+    })
+    .use(profileRoutes)
+    .use(NodeEmailRoutes)
+    .use(MailVerifyRoutes)
+    .use(llmRoutes)
+    .use(searchRoutes)
+    .use(domainScraperRoutes)
+  )
 
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    exposeHeaders: ["Content-Length"],
-    credentials: true,
-  })
-);
+  .get("/file-transfer/rooms/:roomId/status", async ({ request, params, set }) => {
+    try {
+      await authenticateRequest(request);
+    } catch (error) {
+      set.status = 401;
+      return {
+        status: "unauthorized",
+        message: "Please sign in to verify room status",
+      };
+    }
 
-app.get("/", () => ({ status: "ok", service: "neural-hash-backend" }));
-app.group("/api/protected", (app) => app.use(profileRoutes));
+    const roomIdParam = params.roomId?.trim();
 
-app.get("/file-transfer/rooms/:roomId/status", async ({ request, params, set }) => {
-  try {
-    await authenticateRequest(request);
-  } catch (error) {
-    set.status = 401;
+    if (!roomIdParam) {
+      set.status = 400;
+      return {
+        status: "invalid",
+        message: "Room ID is required",
+        roomId: roomIdParam,
+        peersCount: 0,
+        senderPresent: false,
+      };
+    }
+
+    const snapshot = getRoomSnapshot(roomIdParam);
+
+    if (snapshot.peersCount === 0) {
+      set.status = 404;
+      return {
+        status: "not-found",
+        message: "Room is not active. Ask the sender to share a valid ID.",
+        roomId: snapshot.roomId,
+        peersCount: 0,
+        senderPresent: false,
+      };
+    }
+
+    const ready = snapshot.senderPresent;
+    set.status = ready ? 200 : 202;
+
     return {
-      status: "unauthorized",
-      message: "Please sign in to verify room status",
-    };
-  }
-
-  const roomIdParam = params.roomId?.trim();
-
-  if (!roomIdParam) {
-    set.status = 400;
-    return {
-      status: "invalid",
-      message: "Room ID is required",
-      roomId: roomIdParam,
-      peersCount: 0,
-      senderPresent: false,
-    };
-  }
-
-  const snapshot = getRoomSnapshot(roomIdParam);
-
-  if (snapshot.peersCount === 0) {
-    set.status = 404;
-    return {
-      status: "not-found",
-      message: "Room is not active. Ask the sender to share a valid ID.",
+      status: ready ? "ready" : "waiting",
+      message: ready ? "Sender is online" : "Waiting for sender to connect",
       roomId: snapshot.roomId,
-      peersCount: 0,
-      senderPresent: false,
+      peersCount: snapshot.peersCount,
+      senderPresent: snapshot.senderPresent,
     };
-  }
+  })
+  .use(fileTransferWs);
 
-  const ready = snapshot.senderPresent;
-  set.status = ready ? 200 : 202;
-
-  return {
-    status: ready ? "ready" : "waiting",
-    message: ready ? "Sender is online" : "Waiting for sender to connect",
-    roomId: snapshot.roomId,
-    peersCount: snapshot.peersCount,
-    senderPresent: snapshot.senderPresent,
-  };
-});
-
-app.use(fileTransferWs);
+export type App = typeof app;
 
 app.listen(PORT);
 
 if (app.server) {
-  console.log(`HTTP server running at http://${app.server.hostname}:${app.server.port}`);
-  console.log(`File-transfer signaling at ready ws://${app.server.hostname}:${app.server.port}/ws`);
+  console.log(`--- HTTP server running at http://${app.server.hostname}:${app.server.port} ---`);
+  console.log(`--- File-transfer signaling at ready ws://${app.server.hostname}:${app.server.port}/ws ---`);
 }
