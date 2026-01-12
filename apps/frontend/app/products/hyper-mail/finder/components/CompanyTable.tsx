@@ -1,13 +1,12 @@
 "use client";
 
-import {memo, useState } from "react";
+import { memo, useState } from "react";
 import { ColumnDef, flexRender, getCoreRowModel, getSortedRowModel, getFilteredRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { CheckCircle2, XCircle, ExternalLink, ArrowUpDown } from "lucide-react";
 import Image from "next/image";
-
 import { LinkedinLogo } from "@/lib/utils";
 
 export interface CompanyResult {
@@ -27,6 +26,11 @@ export interface CompanyResult {
 interface CompanyTableProps {
   data?: CompanyResult[];
 }
+
+const truncate = (text: string | null | undefined, max: number = 20): string => {
+  if (!text) return "";
+  return text.length > max ? text.slice(0, max) + "..." : text;
+};
 
 // Column definitions
 const columns: ColumnDef<CompanyResult>[] = [
@@ -61,17 +65,23 @@ const columns: ColumnDef<CompanyResult>[] = [
   {
     accessorKey: "company_name",
     header: ({ column }) => (
-      <button className="flex items-center gap-1 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer hover:cursor-pointer" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+      <button
+        className="flex items-center gap-1 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer hover:cursor-pointer"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
         Company
         <ArrowUpDown className="h-4 w-4" />
       </button>
     ),
-    cell: ({ row }) => <div className="font-medium text-slate-900 dark:text-slate-100">{row.getValue("company_name")}</div>,
+    cell: ({ row }) => <div className="font-medium text-slate-900 dark:text-slate-100">{truncate(row.getValue("company_name"))}</div>,
   },
   {
     accessorKey: "domain",
     header: ({ column }) => (
-      <button className="flex items-center gap-1 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer hover:cursor-pointer" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+      <button
+        className="flex items-center gap-1 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer hover:cursor-pointer"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
         Domain
         <ArrowUpDown className="h-4 w-4" />
       </button>
@@ -122,7 +132,12 @@ const columns: ColumnDef<CompanyResult>[] = [
       const linkedinUrl = row.getValue("linkedin_url") as string | null;
 
       return linkedinUrl ? (
-        <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center w-8 h-8 rounded-md bg-[#0A66C2]/10 text-[#0A66C2] hover:bg-[#0A66C2]/20 transition-colors">
+        <a
+          href={linkedinUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center w-8 h-8 rounded-md bg-[#0A66C2]/10 text-[#0A66C2] hover:bg-[#0A66C2]/20 transition-colors"
+        >
           <Image src={LinkedinLogo} height={8} width={8} className="h-8 w-8 rounded-md" alt="Linkedin Logo" />
         </a>
       ) : (

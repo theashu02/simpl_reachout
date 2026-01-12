@@ -190,7 +190,7 @@ export async function verifyCompanyDomain(companyName: string): Promise<DomainRe
       const first = organic[0];
       return first
         ? {
-            company_name: normalizedCompany,
+            company_name: first.title,
             exists: true,
             domain: null,
             confidence: 40,
@@ -209,7 +209,7 @@ export async function verifyCompanyDomain(companyName: string): Promise<DomainRe
     const confidence = calculateConfidence(normalizedCompany, best.domain, best.title, "organic");
 
     return {
-      company_name: normalizedCompany,
+      company_name: best.title,
       exists: true,
       domain: best.domain,
       url: best.link,
