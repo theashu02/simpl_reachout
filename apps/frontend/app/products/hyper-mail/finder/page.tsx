@@ -14,7 +14,7 @@ const CompanySearch = dynamic(() => import("./components/CompanySearch"), {
 
 export default function FinderPage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-50 transition-colors duration-300 font-geist">
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-50 transition-colors duration-300 font-dm-sans">
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         {/* Main Tabs Interface */}
         <Tabs defaultValue="company" className="w-full space-y-2">

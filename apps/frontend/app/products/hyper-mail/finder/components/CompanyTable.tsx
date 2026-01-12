@@ -63,7 +63,7 @@ const columns: ColumnDef<CompanyResult>[] = [
   {
     accessorKey: "company_name",
     header: ({ column }) => (
-      <button className="flex items-center gap-1 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+      <button className="flex items-center gap-1 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer hover:cursor-pointer" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
         Company
         <ArrowUpDown className="h-4 w-4" />
       </button>
@@ -73,7 +73,7 @@ const columns: ColumnDef<CompanyResult>[] = [
   {
     accessorKey: "domain",
     header: ({ column }) => (
-      <button className="flex items-center gap-1 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+      <button className="flex items-center gap-1 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer hover:cursor-pointer" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
         Domain
         <ArrowUpDown className="h-4 w-4" />
       </button>
@@ -125,7 +125,6 @@ const columns: ColumnDef<CompanyResult>[] = [
 
       return linkedinUrl ? (
         <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center w-8 h-8 rounded-md bg-[#0A66C2]/10 text-[#0A66C2] hover:bg-[#0A66C2]/20 transition-colors">
-          {/* <Linkedin className="h-4 w-4" /> */}
           <Image src={LinkedinLogo} height={8} width={8} className="h-8 w-8 rounded-md" alt="Linkedin Logo" />
         </a>
       ) : (
