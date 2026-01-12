@@ -1,8 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@radix-ui/react-dropdown-menu";
+// import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Search } from "lucide-react";
 import { memo } from "react";
+// import CompanyTable from "./CompanyTable";
+import CustomSkeleton from "./CustomSkeleton";
+import dynamic from "next/dynamic";
+
+const CompanyTable = dynamic(() => import("./CompanyTable"), {
+  loading: () => <CustomSkeleton />,
+});
 
 const CompanySearch = () => {
   return (
@@ -32,21 +39,7 @@ const CompanySearch = () => {
 
       {/* Recent Searches */}
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-400">Recent searches</h3>
-          <Button variant="secondary" className="text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 font-medium">Clear</Button>
-        </div>
-
-        <Separator className="bg-slate-200 dark:bg-slate-800" />
-
-        <div className="flex flex-wrap gap-2 pt-2">
-          <div className="inline-flex items-center gap-2 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-md shadow-sm hover:shadow hover:border-slate-300 dark:hover:border-slate-700 transition-all cursor-pointer group">
-            <div className="w-5 h-5 bg-[#006fcf] rounded-sm flex items-center justify-center shrink-0">
-              <span className="text-[10px] font-bold text-white">AM</span>
-            </div>
-            <span className="text-sm font-medium text-slate-700 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white">American Express</span>
-          </div>
-        </div>
+        <CompanyTable />
       </div>
     </>
   );

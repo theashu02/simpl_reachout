@@ -20,3 +20,5 @@ export const googleLogo = "https://res.cloudinary.com/dntxrtlsj/image/upload/v17
 export const GithubLogo = "https://res.cloudinary.com/dntxrtlsj/image/upload/v1764700456/github-color_kmls44.svg"
 
 export const MetaMaskLogo = "https://res.cloudinary.com/dntxrtlsj/image/upload/v1764698305/meta_mask_nz6yvm.svg"
+
+export const LinkedinLogo = "https://res.cloudinary.com/dntxrtlsj/image/upload/v1766690412/linkedin_kii6l6.webp"

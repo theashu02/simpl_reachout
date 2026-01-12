@@ -1,0 +1,33 @@
+{
+    "results": [
+        {
+            "company_name": "American Express",
+            "exists": true,
+            "domain": "americanexpress.com",
+            "url": "https://www.americanexpress.com/",
+            "confidence": 95,
+            "title": "American Express Credit Cards, Rewards & Banking",
+            "description": "American Express offers world-class Charge and Credit Cards, Gift Cards, Rewards, Travel, Personal Savings, Business Services, Insurance and more.",
+            "verified": true,
+            "source": "organic",
+            "linkedin_url": "https://www.linkedin.com/company/american-express",
+            "logo_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg"
+        },
+        {
+            "company_name": "marketEngine ai",
+            "exists": true,
+            "domain": "marketengine.ai",
+            "url": "https://marketengine.ai/",
+            "confidence": 70,
+            "title": "Drive Traffic & Leads 10× Faster with AI Digital Marketing ...",
+            "description": "MarketEngine's AI-powered growth delivered a 10x increase in organic and ... Blogs, Web Pages Infographics & Social Posts. Proven Track Record. 3-5x.",
+            "verified": false,
+            "source": "organic",
+            "linkedin_url": "https://www.linkedin.com/company/marketengine-ai",
+            "logo_url": "https://media.licdn.com/dms/image/v2/D560BAQG6WKsMinSU2Q/company-logo_200_200/company-logo_200_200/0/1731381224322/marketengine_ai_logo?e=2147483647&v=beta&t=7EdVovlRxm_rkgtBTnt8-8l_Ai19VPfmsiziZqY8rTs"
+        }
+    ],
+    "count": 2,
+    "verified": 1,
+    "skipped": 0
+}
