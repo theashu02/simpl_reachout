@@ -1,4 +1,5 @@
 import { SERPER_API_KEY } from "../../utils/config";
+import { UserCompanyDetails, type ICompanyDetail } from "../../db/models/companyDeatils/userCompanyDetailsModel";
 import type { AuthenticatedUser } from "../../middleware/VerifyUser";
 import { DomainResult, DomainSource, SerperResponse, SKIP_DOMAINS } from "./types";
 
@@ -6,6 +7,8 @@ const SERPER_SEARCH_URL = "https://google.serper.dev/search";
 const SERPER_IMAGES_URL = "https://google.serper.dev/images";
 const SEARCH_RESULT_LIMIT = 5;
 const REQUEST_TIMEOUT_MS = 10_000;
+
+type PersistContext = { userId?: string; user?: AuthenticatedUser };
 
 if (!SERPER_API_KEY) {
   throw new Error("--- ❌ SERPER_API_KEY not set ---");
@@ -69,6 +72,69 @@ const calculateConfidence = (companyName: string, domain: string | null, title: 
   return Math.min(score, 95);
 };
 
+const maybePersistCompanyDetail = async (result: DomainResult, ctx?: PersistContext) => {
+  const userId = ctx?.user?.id;
+  const email = ctx?.user?.email;
+
+  if (!userId || !email || !result.domain) {
+    return;
+  }
+
+  const companyPayload: ICompanyDetail = {
+    company_name: result.company_name,
+    exists: result.exists,
+    domain: result.domain.toLowerCase(),
+    url: result.url,
+    confidence: result.confidence,
+    title: result.title,
+    description: result.description,
+    verified: result.verified,
+    source: result.source,
+    linkedin_url: result.linkedin_url ?? undefined,
+    logo_url: result.logo_url ?? undefined,
+  };
+
+  try {
+    const updated = await UserCompanyDetails.findOneAndUpdate(
+      { userId, "companies.domain": companyPayload.domain },
+      {
+        $set: {
+          email,
+          "companies.$.company_name": companyPayload.company_name,
+          "companies.$.exists": companyPayload.exists,
+          "companies.$.domain": companyPayload.domain,
+          "companies.$.url": companyPayload.url,
+          "companies.$.confidence": companyPayload.confidence,
+          "companies.$.title": companyPayload.title,
+          "companies.$.description": companyPayload.description,
+          "companies.$.verified": companyPayload.verified,
+          "companies.$.source": companyPayload.source,
+          "companies.$.linkedin_url": companyPayload.linkedin_url,
+          "companies.$.logo_url": companyPayload.logo_url,
+        },
+      },
+      { new: true }
+    );
+
+    // If no existing company was updated, add it to the array (or create new user doc)
+    if (!updated) {
+      await UserCompanyDetails.findOneAndUpdate(
+        { userId },
+        {
+          $setOnInsert: { userId },
+          $set: { email },
+          $push: { companies: companyPayload },
+        },
+        { upsert: true, new: true }
+      );
+    }
+
+    console.log(`--- ✅ Company saved for user ${userId}: ${companyPayload.domain} ---`);
+  } catch (error) {
+    console.error(`[DomainScraper] Failed to persist company detail for domain ${companyPayload.domain}:`, error);
+  }
+};
+
 const fetchSerperResults = async (query: string): Promise<SerperResponse> => {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
@@ -95,7 +161,6 @@ const fetchSerperResults = async (query: string): Promise<SerperResponse> => {
   }
 };
 
-// Fetch LinkedIn company URL
 const fetchLinkedInUrl = async (companyName: string): Promise<string | null> => {
   try {
     const query = `${companyName} site:linkedin.com/company`;
@@ -110,7 +175,6 @@ const fetchLinkedInUrl = async (companyName: string): Promise<string | null> => 
   }
 };
 
-// Fetch company logo URL using image search
 const fetchLogoUrl = async (companyName: string): Promise<string | null> => {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
@@ -122,7 +186,7 @@ const fetchLogoUrl = async (companyName: string): Promise<string | null> => {
         "X-API-KEY": SERPER_API_KEY!,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ q: `${companyName} company logo`, num: 3 }),
+      body: JSON.stringify({ q: `${companyName} company logo URL`, num: 3 }),
       signal: controller.signal,
     });
 
@@ -132,7 +196,6 @@ const fetchLogoUrl = async (companyName: string): Promise<string | null> => {
 
     const data = await response.json();
 
-    // Return the first image result's URL
     if (data.images && data.images.length > 0) {
       return data.images[0].imageUrl || null;
     }
@@ -146,10 +209,8 @@ const fetchLogoUrl = async (companyName: string): Promise<string | null> => {
   }
 };
 
-export async function verifyCompanyDomain(companyName: string, ctx?: { userId?: string; user?: AuthenticatedUser }): Promise<DomainResult> {
+export async function verifyCompanyDomain(companyName: string, ctx?: PersistContext): Promise<DomainResult> {
   const normalizedCompany = normalizeCompanyName(companyName);
-
-  console.log("✅", ctx?.user);
 
   if (!SERPER_API_KEY) {
     console.warn("SERPER_API_KEY not set; skipping domain verification");
@@ -161,17 +222,14 @@ export async function verifyCompanyDomain(companyName: string, ctx?: { userId?: 
   }
 
   try {
-    // Fetch domain, LinkedIn URL, and logo URL in parallel for speed
     const [data, linkedin_url, logo_url] = await Promise.all([fetchSerperResults(`"${normalizedCompany}" official website`), fetchLinkedInUrl(normalizedCompany), fetchLogoUrl(normalizedCompany)]);
 
-    // Prefer Knowledge Graph because it is the highest quality signal.
     const kg = data.knowledgeGraph;
     if (kg?.title) {
       const domain = kg.website ? extractDomain(kg.website) : null;
-      // Use Knowledge Graph logo if available, fallback to fetched logo
       const finalLogoUrl = kg.imageUrl || logo_url;
 
-      return {
+      const result: DomainResult = {
         company_name: kg.title,
         exists: true,
         domain,
@@ -184,6 +242,9 @@ export async function verifyCompanyDomain(companyName: string, ctx?: { userId?: 
         linkedin_url,
         logo_url: finalLogoUrl,
       };
+
+      await maybePersistCompanyDetail(result, ctx);
+      return result;
     }
 
     const organic = data.organic ?? [];
@@ -211,7 +272,7 @@ export async function verifyCompanyDomain(companyName: string, ctx?: { userId?: 
     const best = validResults[0];
     const confidence = calculateConfidence(normalizedCompany, best.domain, best.title, "organic");
 
-    return {
+    const result: DomainResult = {
       company_name: best.title,
       exists: true,
       domain: best.domain,
@@ -224,6 +285,9 @@ export async function verifyCompanyDomain(companyName: string, ctx?: { userId?: 
       linkedin_url,
       logo_url,
     };
+
+    await maybePersistCompanyDetail(result, ctx);
+    return result;
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
     console.error(`Error verifying domain for ${normalizedCompany || companyName}:`, message);
