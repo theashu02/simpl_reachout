@@ -1,10 +1,6 @@
 import { Queue } from "bullmq";
 import Redis from "ioredis";
-
-const runtimeEnv = ((globalThis as typeof globalThis & { Bun?: { env: Record<string, string | undefined> } }).Bun?.env ?? process.env ?? {}) as Record<string, string | undefined>;
-
-export const REDIS_HOST = runtimeEnv.REDIS_HOST ?? "localhost";
-export const REDIS_PORT = Number(runtimeEnv.REDIS_PORT ?? 6379);
+import { REDIS_HOST, REDIS_PORT } from "../../utils/config";
 
 // Redis connection for BullMQ
 export const redisConnection = new Redis({

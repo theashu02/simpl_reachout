@@ -26,5 +26,10 @@ export const MAX_CONCURRENT_PAGES = runtimeEnv.MAX_CONCURRENT_PAGES
 export const BROWSER_TIMEOUT = runtimeEnv.BROWSER_TIMEOUT
 export const SERPER_API_KEY = runtimeEnv.SERPER_API_KEY
 
+// Mongo DB connection 
 export const MONGODB_URI = runtimeEnv.MONGODB_URI;
 export const MONGODB_DB = runtimeEnv.MONGODB_DB;
+
+// Redia configration
+export const REDIS_HOST = runtimeEnv.REDIS_HOST ?? "localhost";
+export const REDIS_PORT = Number(runtimeEnv.REDIS_PORT ?? 6379);

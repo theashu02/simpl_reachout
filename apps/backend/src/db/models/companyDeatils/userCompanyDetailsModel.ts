@@ -54,7 +54,6 @@ const UserCompanyDetailsSchema = new Schema<IUserCompanyDetails>(
   }
 );
 
-UserCompanyDetailsSchema.index({ userId: 1 });
 UserCompanyDetailsSchema.index({ email: 1 });
 UserCompanyDetailsSchema.index({ "companies.domain": 1 });
 

@@ -12,7 +12,6 @@ export interface CompanyPersistJobData {
 const processCompanyPersist = async (job: Job<CompanyPersistJobData>) => {
   const { userId, email, company } = job.data;
 
-  // Ensure DB connection
   await connectToDatabase();
 
   try {
