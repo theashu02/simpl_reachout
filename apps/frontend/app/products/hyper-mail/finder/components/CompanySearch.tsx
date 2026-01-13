@@ -4,16 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Loader2 } from "lucide-react";
 import { memo, useState, useCallback } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getEdenClient } from "@/lib/ApiService/edenClient";
+import { getUserCompanies } from "../actions";
 import CustomSkeleton from "./CustomSkeleton";
 import dynamic from "next/dynamic";
 import type { CompanyResult } from "./CompanyTable";
 
-const CompanyTable = dynamic(() => import("./CompanyTable"), {
-  loading: () => <CustomSkeleton />,
-});
+const CompanyTable = dynamic(() => import("./CompanyTable"), { loading: () => <CustomSkeleton /> });
 
+// Verify company via Elysia backend (for Serper API search)
 const verifyCompanyDomain = async (companyName: string): Promise<CompanyResult> => {
   const client = getEdenClient();
   const response = await client.api.protected.domain.verify.post({
@@ -30,15 +30,27 @@ const verifyCompanyDomain = async (companyName: string): Promise<CompanyResult> 
 
 const CompanySearch = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [results, setResults] = useState<CompanyResult[]>([]);
+  const queryClient = useQueryClient();
 
+  // Fetch saved companies from DB via server action
+  const { data: savedCompanies = [], isLoading: isLoadingCompanies } = useQuery({
+    queryKey: ["userCompanies"],
+    queryFn: async () => {
+      const result = await getUserCompanies();
+      if (result.error) {
+        console.error("Failed to load companies:", result.error);
+        return [];
+      }
+      return (result.data || []) as CompanyResult[];
+    },
+  });
+
+  // Verify company mutation
   const { mutate, isPending } = useMutation({
     mutationFn: verifyCompanyDomain,
-    onSuccess: (data) => {
-      setResults((prev) => {
-        const filtered = prev.filter((item) => item.company_name.toLowerCase() !== data.company_name.toLowerCase());
-        return [data, ...filtered];
-      });
+    onSuccess: () => {
+      // Refetch saved companies after successful verification
+      queryClient.invalidateQueries({ queryKey: ["userCompanies"] });
       setSearchQuery("");
     },
     onError: (error) => {
@@ -74,7 +86,6 @@ const CompanySearch = () => {
         </Button>
       </div>
 
-      {/* Big Search Input */}
       <div className="relative">
         <Input
           placeholder="Enter a domain or company name..."
@@ -89,10 +100,7 @@ const CompanySearch = () => {
         </Button>
       </div>
 
-      {/* Results Table */}
-      <div className="space-y-4">
-        <CompanyTable data={results.length > 0 ? results : undefined} />
-      </div>
+      <div className="space-y-4">{isLoadingCompanies ? <CustomSkeleton /> : <CompanyTable data={savedCompanies.length > 0 ? savedCompanies : undefined} />}</div>
     </>
   );
 };
