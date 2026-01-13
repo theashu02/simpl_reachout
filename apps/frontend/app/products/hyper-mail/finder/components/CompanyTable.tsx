@@ -5,7 +5,7 @@ import { ColumnDef, flexRender, getCoreRowModel, getSortedRowModel, getFilteredR
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { CheckCircle2, XCircle, ExternalLink, ArrowUpDown } from "lucide-react";
+import { CheckCircle2, XCircle, ExternalLink, ArrowUpDown, CircleAlert } from "lucide-react";
 import Image from "next/image";
 import { LinkedinLogo } from "@/lib/utils";
 
@@ -65,10 +65,7 @@ const columns: ColumnDef<CompanyResult>[] = [
   {
     accessorKey: "company_name",
     header: ({ column }) => (
-      <button
-        className="flex items-center gap-1 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer hover:cursor-pointer"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
+      <button className="flex items-center gap-1 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer hover:cursor-pointer" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
         Company
         <ArrowUpDown className="h-4 w-4" />
       </button>
@@ -78,10 +75,7 @@ const columns: ColumnDef<CompanyResult>[] = [
   {
     accessorKey: "domain",
     header: ({ column }) => (
-      <button
-        className="flex items-center gap-1 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer hover:cursor-pointer"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
+      <button className="flex items-center gap-1 hover:text-slate-900 dark:hover:text-slate-100 transition-colors cursor-pointer hover:cursor-pointer" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
         Domain
         <ArrowUpDown className="h-4 w-4" />
       </button>
@@ -132,16 +126,13 @@ const columns: ColumnDef<CompanyResult>[] = [
       const linkedinUrl = row.getValue("linkedin_url") as string | null;
 
       return linkedinUrl ? (
-        <a
-          href={linkedinUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center w-8 h-8 rounded-md bg-[#0A66C2]/10 text-[#0A66C2] hover:bg-[#0A66C2]/20 transition-colors"
-        >
+        <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-8 h-8 rounded-md transition-colors">
           <Image src={LinkedinLogo} height={8} width={8} className="h-8 w-8 rounded-md" alt="Linkedin Logo" />
         </a>
       ) : (
-        <span className="text-slate-400 dark:text-slate-500 text-sm">—</span>
+        <span className="flex items-center justify-center w-8 h-8 rounded-md transition-colors text-slate-400 dark:text-slate-500" role="img" aria-label="LinkedIn not available" title="No LinkedIn">
+          <CircleAlert className="h-5 w-5" />
+        </span>
       );
     },
     enableSorting: false,
@@ -181,9 +172,9 @@ const CompanyTable = ({ data = [] }: CompanyTableProps) => {
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700">
+              <TableRow key={headerGroup.id} className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700 h-10">
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="text-slate-600 dark:text-slate-300 font-semibold">
+                  <TableHead key={header.id} className="text-slate-600 dark:text-slate-300 font-semibold py-2">
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
@@ -193,9 +184,11 @@ const CompanyTable = ({ data = [] }: CompanyTableProps) => {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors h-10">
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                    <TableCell key={cell.id} className="py-0">
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
                   ))}
                 </TableRow>
               ))
