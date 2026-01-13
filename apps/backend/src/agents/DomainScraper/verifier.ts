@@ -1,9 +1,10 @@
 import { SERPER_API_KEY } from "../../utils/config";
-import { UserCompanyDetails, type ICompanyDetail } from "../../db/models/companyDeatils/userCompanyDetailsModel";
+import { type ICompanyDetail } from "../../db/models/companyDeatils/userCompanyDetailsModel";
 import type { AuthenticatedUser } from "../../middleware/VerifyUser";
-import { DomainResult, DomainSource, SerperResponse, SKIP_DOMAINS } from "./types";
+import { DomainResult, SerperResponse } from "./types";
 import { companyPersistQueue } from "../../config/Redis/queue";
 import type { CompanyPersistJobData } from "../../workers/companyPersist.worker";
+import { buildEmptyResult, calculateConfidence, extractDomain, isDomainSkipped, normalizeCompanyName } from "./normalizers";
 
 const SERPER_SEARCH_URL = "https://google.serper.dev/search";
 const SERPER_IMAGES_URL = "https://google.serper.dev/images";
@@ -17,62 +18,6 @@ if (!SERPER_API_KEY) {
 } else {
   console.log("--- ✅ SERPER_API_KEY is present ---");
 }
-
-const buildEmptyResult = (companyName: string, description = "", source: DomainSource = "none"): DomainResult => ({
-  company_name: companyName,
-  exists: false,
-  domain: null,
-  confidence: 0,
-  title: "",
-  description,
-  verified: false,
-  source,
-  linkedin_url: null,
-  logo_url: null,
-});
-
-const normalizeCompanyName = (name: string): string => name.trim();
-
-const extractDomain = (url: string): string | null => {
-  try {
-    const parsed = new URL(url);
-    return parsed.hostname.replace(/^www\./, "");
-  } catch {
-    return null;
-  }
-};
-
-const isDomainSkipped = (domain: string): boolean => {
-  const lower = domain.toLowerCase();
-  return SKIP_DOMAINS.some((skip) => lower.includes(skip));
-};
-
-const calculateConfidence = (companyName: string, domain: string | null, title: string, source: DomainSource): number => {
-  if (source === "knowledge_graph") {
-    return 95;
-  }
-
-  const companyLower = companyName.toLowerCase();
-  const titleLower = title.toLowerCase();
-  const domainLower = domain?.toLowerCase() || "";
-  let score = 60;
-
-  if (titleLower.includes(companyLower)) {
-    score += 20;
-  }
-
-  const firstWord = companyLower.split(/\s+/)[0];
-  if (firstWord && domainLower.includes(firstWord)) {
-    score += 10;
-  }
-
-  const condensedCompany = companyLower.replace(/\s+/g, "");
-  if (condensedCompany && domainLower.includes(condensedCompany)) {
-    score += 5;
-  }
-
-  return Math.min(score, 95);
-};
 
 const queueCompanyPersist = (result: DomainResult, ctx?: PersistContext) => {
   const userId = ctx?.user?.id;
@@ -196,7 +141,11 @@ export async function verifyCompanyDomain(companyName: string, ctx?: PersistCont
   }
 
   try {
-    const [data, linkedin_url, logo_url] = await Promise.all([fetchSerperResults(`"${normalizedCompany}" (official website OR homepage OR "about us")`), fetchLinkedInUrl(normalizedCompany), fetchLogoUrl(normalizedCompany)]);
+    const [data, linkedin_url, logo_url] = await Promise.all([
+      fetchSerperResults(`"${normalizedCompany}" (official website OR homepage OR "about us")`),
+      fetchLinkedInUrl(normalizedCompany),
+      fetchLogoUrl(normalizedCompany),
+    ]);
 
     const kg = data.knowledgeGraph;
     if (kg?.title) {
