@@ -7,9 +7,9 @@ const SEARCH_RESULT_LIMIT = 5;
 const REQUEST_TIMEOUT_MS = 10_000;
 
 if (!SERPER_API_KEY) {
-  throw new Error("--- SERPER_API_KEY not set ---");
+  throw new Error("--- ❌ SERPER_API_KEY not set ---");
 } else {
-  console.log("--- SERPER_API_KEY is present ---");
+  console.log("--- ✅ SERPER_API_KEY is present ---");
 }
 
 const buildEmptyResult = (companyName: string, description = "", source: DomainSource = "none"): DomainResult => ({

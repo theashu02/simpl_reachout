@@ -9,6 +9,7 @@ import { MailVerifyRoutes } from "./Interface/http/routes/MailVerify.routes";
 import { llmRoutes } from "./Interface/http/routes/LLM.routes";
 import { searchRoutes } from "./Interface/http/routes/search.routes";
 import { domainScraperRoutes } from "./agents/DomainScraper";
+import { connectToDatabase } from "./db/db";
 
 export const app = new Elysia()
   .use(
@@ -93,9 +94,21 @@ export const app = new Elysia()
 
 export type App = typeof app;
 
-app.listen(PORT);
+async function startServer() {
+  try {
+    await connectToDatabase();
+    console.log("--- ✅ MongoDB initialized ---");
+  } catch (error) {
+    console.error(" ❌ Failed to initialize MongoDB connection:", error);
+    process.exit(1);
+  }
 
-if (app.server) {
-  console.log(`--- HTTP server running at http://${app.server.hostname}:${app.server.port} ---`);
-  console.log(`--- File-transfer signaling at ready ws://${app.server.hostname}:${app.server.port}/ws ---`);
+  app.listen(PORT);
+
+  if (app.server) {
+    console.log(`--- ✅ HTTP server running at http://${app.server.hostname}:${app.server.port} ---`);
+    console.log(`--- ✅ File-transfer signaling at ready ws://${app.server.hostname}:${app.server.port}/ws ---`);
+  }
 }
+
+startServer();

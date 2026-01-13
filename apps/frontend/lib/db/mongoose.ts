@@ -36,5 +36,6 @@ export async function connectToDatabase() {
   }
 
   cached.conn = await cached.promise;
+  console.log("--- MongoDB: connection established ---");
   return cached.conn;
 }

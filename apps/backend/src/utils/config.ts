@@ -25,3 +25,6 @@ export const LLM_MODEL = runtimeEnv.LLM_MODEL
 export const MAX_CONCURRENT_PAGES = runtimeEnv.MAX_CONCURRENT_PAGES
 export const BROWSER_TIMEOUT = runtimeEnv.BROWSER_TIMEOUT
 export const SERPER_API_KEY = runtimeEnv.SERPER_API_KEY
+
+export const MONGODB_URI = runtimeEnv.MONGODB_URI;
+export const MONGODB_DB = runtimeEnv.MONGODB_DB;

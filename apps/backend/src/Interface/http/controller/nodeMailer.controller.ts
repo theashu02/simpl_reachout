@@ -4,9 +4,9 @@ import { Context } from 'elysia';
 import { RECEIVER_EMAIL, SMTP_HOST, SMTP_PASS, SMTP_PORT, SMTP_USER } from '../../../utils/config';
 
 if(!SMTP_HOST || !SMTP_PASS || !SMTP_PORT || !SMTP_USER || !RECEIVER_EMAIL){
-    throw new Error("--- SMTP configuration not set ---");
+    throw new Error("--- ❌ SMTP configuration not set ---");
 } else {
-    console.log("--- SMTP configuration is present ---");
+    console.log("--- ✅ SMTP configuration is present ---");
 }
 
 interface EmailBody {
