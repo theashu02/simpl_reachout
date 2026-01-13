@@ -2,6 +2,8 @@ import { SERPER_API_KEY } from "../../utils/config";
 import { UserCompanyDetails, type ICompanyDetail } from "../../db/models/companyDeatils/userCompanyDetailsModel";
 import type { AuthenticatedUser } from "../../middleware/VerifyUser";
 import { DomainResult, DomainSource, SerperResponse, SKIP_DOMAINS } from "./types";
+import { companyPersistQueue } from "../../config/Redis/queue";
+import type { CompanyPersistJobData } from "../../workers/companyPersist.worker";
 
 const SERPER_SEARCH_URL = "https://google.serper.dev/search";
 const SERPER_IMAGES_URL = "https://google.serper.dev/images";
@@ -72,7 +74,7 @@ const calculateConfidence = (companyName: string, domain: string | null, title: 
   return Math.min(score, 95);
 };
 
-const maybePersistCompanyDetail = async (result: DomainResult, ctx?: PersistContext) => {
+const queueCompanyPersist = (result: DomainResult, ctx?: PersistContext) => {
   const userId = ctx?.user?.id;
   const email = ctx?.user?.email;
 
@@ -94,45 +96,17 @@ const maybePersistCompanyDetail = async (result: DomainResult, ctx?: PersistCont
     logo_url: result.logo_url ?? undefined,
   };
 
-  try {
-    const updated = await UserCompanyDetails.findOneAndUpdate(
-      { userId, "companies.domain": companyPayload.domain },
-      {
-        $set: {
-          email,
-          "companies.$.company_name": companyPayload.company_name,
-          "companies.$.exists": companyPayload.exists,
-          "companies.$.domain": companyPayload.domain,
-          "companies.$.url": companyPayload.url,
-          "companies.$.confidence": companyPayload.confidence,
-          "companies.$.title": companyPayload.title,
-          "companies.$.description": companyPayload.description,
-          "companies.$.verified": companyPayload.verified,
-          "companies.$.source": companyPayload.source,
-          "companies.$.linkedin_url": companyPayload.linkedin_url,
-          "companies.$.logo_url": companyPayload.logo_url,
-        },
-      },
-      { new: true }
-    );
+  const jobData: CompanyPersistJobData = {
+    userId,
+    email,
+    company: companyPayload,
+  };
 
-    // If no existing company was updated, add it to the array (or create new user doc)
-    if (!updated) {
-      await UserCompanyDetails.findOneAndUpdate(
-        { userId },
-        {
-          $setOnInsert: { userId },
-          $set: { email },
-          $push: { companies: companyPayload },
-        },
-        { upsert: true, new: true }
-      );
-    }
-
-    console.log(`--- ✅ Company saved for user ${userId}: ${companyPayload.domain} ---`);
-  } catch (error) {
-    console.error(`[DomainScraper] Failed to persist company detail for domain ${companyPayload.domain}:`, error);
-  }
+  // Add to queue without awaiting - returns immediately
+  companyPersistQueue
+    .add(`persist-${companyPayload.domain}`, jobData)
+    .then(() => console.log(`--- 📤 Queued persist for: ${companyPayload.domain} ---`))
+    .catch((err) => console.error(`--- ❌ Failed to queue persist:`, err.message));
 };
 
 const fetchSerperResults = async (query: string): Promise<SerperResponse> => {
@@ -243,7 +217,7 @@ export async function verifyCompanyDomain(companyName: string, ctx?: PersistCont
         logo_url: finalLogoUrl,
       };
 
-      await maybePersistCompanyDetail(result, ctx);
+      queueCompanyPersist(result, ctx);
       return result;
     }
 
@@ -286,7 +260,7 @@ export async function verifyCompanyDomain(companyName: string, ctx?: PersistCont
       logo_url,
     };
 
-    await maybePersistCompanyDetail(result, ctx);
+    queueCompanyPersist(result, ctx);
     return result;
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";

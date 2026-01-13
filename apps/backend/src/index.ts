@@ -10,6 +10,7 @@ import { llmRoutes } from "./Interface/http/routes/LLM.routes";
 import { searchRoutes } from "./Interface/http/routes/search.routes";
 import { domainScraperRoutes } from "./agents/DomainScraper";
 import { connectToDatabase } from "./db/db";
+import { startCompanyPersistWorker } from "./workers/companyPersist.worker";
 
 export const app = new Elysia()
   .use(
@@ -22,25 +23,26 @@ export const app = new Elysia()
     })
   )
   .get("/", () => ({ status: "ok", service: "neural-hash-backend" })) // public api
-  .group("/api/protected", (group) => group
-    .derive(async ({ request, set }) => {
-      try {
-        const user = await authenticateRequest(request);
-        return { user, userId: user.id ?? user.sub};
-      } catch {
-        set.status = 401;
-        return {
-          success: false,
-          message: "Unauthorized",
-        };
-      }
-    })
-    .use(profileRoutes)
-    .use(NodeEmailRoutes)
-    .use(MailVerifyRoutes)
-    .use(llmRoutes)
-    .use(searchRoutes)
-    .use(domainScraperRoutes)
+  .group("/api/protected", (group) =>
+    group
+      .derive(async ({ request, set }) => {
+        try {
+          const user = await authenticateRequest(request);
+          return { user, userId: user.id ?? user.sub };
+        } catch {
+          set.status = 401;
+          return {
+            success: false,
+            message: "Unauthorized",
+          };
+        }
+      })
+      .use(profileRoutes)
+      .use(NodeEmailRoutes)
+      .use(MailVerifyRoutes)
+      .use(llmRoutes)
+      .use(searchRoutes)
+      .use(domainScraperRoutes)
   )
 
   .get("/file-transfer/rooms/:roomId/status", async ({ request, params, set }) => {
@@ -99,6 +101,10 @@ async function startServer() {
   try {
     await connectToDatabase();
     console.log("--- ✅ MongoDB initialized ---");
+
+    // Start BullMQ workers
+    startCompanyPersistWorker();
+    console.log("--- ✅ Background workers started ---");
   } catch (error) {
     console.error(" ❌ Failed to initialize MongoDB connection:", error);
     process.exit(1);
