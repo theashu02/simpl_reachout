@@ -1,4 +1,5 @@
 import { SERPER_API_KEY } from "../../utils/config";
+import type { AuthenticatedUser } from "../../middleware/VerifyUser";
 import { DomainResult, DomainSource, SerperResponse, SKIP_DOMAINS } from "./types";
 
 const SERPER_SEARCH_URL = "https://google.serper.dev/search";
@@ -145,8 +146,10 @@ const fetchLogoUrl = async (companyName: string): Promise<string | null> => {
   }
 };
 
-export async function verifyCompanyDomain(companyName: string): Promise<DomainResult> {
+export async function verifyCompanyDomain(companyName: string, ctx?: { userId?: string; user?: AuthenticatedUser }): Promise<DomainResult> {
   const normalizedCompany = normalizeCompanyName(companyName);
+
+  console.log("✅", ctx?.user);
 
   if (!SERPER_API_KEY) {
     console.warn("SERPER_API_KEY not set; skipping domain verification");

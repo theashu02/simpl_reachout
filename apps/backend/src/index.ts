@@ -23,9 +23,10 @@ export const app = new Elysia()
   )
   .get("/", () => ({ status: "ok", service: "neural-hash-backend" })) // public api
   .group("/api/protected", (group) => group
-    .onBeforeHandle(async ({ request, set }) => {
+    .derive(async ({ request, set }) => {
       try {
-        await authenticateRequest(request);
+        const user = await authenticateRequest(request);
+        return { user, userId: user.id ?? user.sub};
       } catch {
         set.status = 401;
         return {

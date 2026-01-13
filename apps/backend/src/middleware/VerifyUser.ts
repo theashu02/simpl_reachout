@@ -12,7 +12,7 @@ const textEncoder = new TextEncoder();
 const hmacSecret = textEncoder.encode(NEXTAUTH_SECRET);
 const encryptionSecret = deriveNextAuthEncryptionKey(NEXTAUTH_SECRET);
 
-type AuthenticatedUser = JWTPayload & UserData;
+export type AuthenticatedUser = JWTPayload & UserData;
 
 const NEXT_AUTH_SESSION_COOKIE_KEYS = ["__Secure-next-auth.session-token", "next-auth.session-token"];
 
@@ -54,9 +54,8 @@ const extractTokenFromRequest = (request: Request): string | null => {
 };
 
 export const authenticateRequest = async (request: Request): Promise<AuthenticatedUser> => {
-  console.log("----req----",request)
   const token = extractTokenFromRequest(request);
-
+  console.log("--- Token for testing the postman ---", token)
   if (!token) {
     throw new Error("Missing session token");
   }
@@ -65,13 +64,13 @@ export const authenticateRequest = async (request: Request): Promise<Authenticat
 
   if (segments.length === 3) {
     const { payload } = await jwtVerify(token, hmacSecret);
-    console.log("user verified")
+    console.log("--- ✅ user verified ---", payload)
     return payload as AuthenticatedUser;
   }
 
   if (segments.length === 5) {
     const { payload } = await jwtDecrypt(token, encryptionSecret);
-    console.log("user verified")
+    console.log("--- ✅ user verified ---", payload)
     return payload as AuthenticatedUser;
   }
 
