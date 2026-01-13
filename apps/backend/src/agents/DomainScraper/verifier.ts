@@ -222,7 +222,7 @@ export async function verifyCompanyDomain(companyName: string, ctx?: PersistCont
   }
 
   try {
-    const [data, linkedin_url, logo_url] = await Promise.all([fetchSerperResults(`"${normalizedCompany}" official website`), fetchLinkedInUrl(normalizedCompany), fetchLogoUrl(normalizedCompany)]);
+    const [data, linkedin_url, logo_url] = await Promise.all([fetchSerperResults(`"${normalizedCompany}" (official website OR homepage OR "about us")`), fetchLinkedInUrl(normalizedCompany), fetchLogoUrl(normalizedCompany)]);
 
     const kg = data.knowledgeGraph;
     if (kg?.title) {
