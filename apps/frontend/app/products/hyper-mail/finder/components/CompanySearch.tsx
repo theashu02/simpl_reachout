@@ -2,16 +2,38 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Loader2 } from "lucide-react";
-import { memo, useState, useCallback } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Search, Loader2, X } from "lucide-react";
+import { memo, useState, useCallback, useMemo, useEffect } from "react";
+import { useMutation, useInfiniteQuery, useQueryClient, type InfiniteData } from "@tanstack/react-query";
 import { getEdenClient } from "@/lib/ApiService/edenClient";
-import { getUserCompanies } from "../actions";
+import { getUserCompaniesPaginated, type SortOrder } from "../actions";
 import CustomSkeleton from "./CustomSkeleton";
 import dynamic from "next/dynamic";
-import type { CompanyResult } from "./CompanyTable";
+import type { CompanyResult } from "./VirtualizedCompanyTable";
 
-const CompanyTable = dynamic(() => import("./CompanyTable"), { loading: () => <CustomSkeleton /> });
+const VirtualizedCompanyTable = dynamic(() => import("./VirtualizedCompanyTable"), { loading: () => <CustomSkeleton /> });
+
+const PAGE_SIZE = 10;
+type CompaniesPage = { companies: CompanyResult[]; hasMore: boolean; total: number; page: number };
+
+const normalizeCompanyResult = (company: Partial<CompanyResult> & { companyName?: string; logoUrl?: string | null; linkedinUrl?: string | null }): CompanyResult => {
+  const name = (company.company_name ?? company.companyName ?? "Unknown company").trim() || "Unknown company";
+  const domain = (company.domain ?? null) as string | null;
+
+  return {
+    company_name: name,
+    exists: company.exists ?? Boolean(domain),
+    domain,
+    url: company.url ?? null,
+    confidence: typeof company.confidence === "number" ? company.confidence : undefined,
+    title: company.title ?? name,
+    description: company.description ?? "",
+    verified: Boolean(company.verified),
+    source: company.source ?? "unknown",
+    linkedin_url: company.linkedin_url ?? company.linkedinUrl ?? null,
+    logo_url: company.logo_url ?? company.logoUrl ?? null,
+  };
+};
 
 // Verify company via Elysia backend (for Serper API search)
 const verifyCompanyDomain = async (companyName: string): Promise<CompanyResult> => {
@@ -25,32 +47,105 @@ const verifyCompanyDomain = async (companyName: string): Promise<CompanyResult> 
     throw new Error(errorValue?.error || "Failed to verify domain");
   }
 
-  return response.data as CompanyResult;
+  return normalizeCompanyResult(response.data as CompanyResult);
 };
+
+// Debounce hook for search
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
 
 const CompanySearch = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [tableFilter, setTableFilter] = useState("");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
   const queryClient = useQueryClient();
 
-  // Fetch saved companies from DB via server action
-  const { data: savedCompanies = [], isLoading: isLoadingCompanies } = useQuery({
-    queryKey: ["userCompanies"],
-    queryFn: async () => {
-      const result = await getUserCompanies();
+  // Debounce table filter to avoid too many requests
+  const debouncedFilter = useDebounce(tableFilter, 300);
+
+  // Fetch paginated companies from DB via server action
+  const {
+    data,
+    isLoading: isLoadingCompanies,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery<CompaniesPage, Error, InfiniteData<CompaniesPage>, [string, SortOrder, string], number>({
+    queryKey: ["userCompaniesPaginated", sortOrder, debouncedFilter],
+    queryFn: async ({ pageParam = 1 }) => {
+      const page = typeof pageParam === "number" ? pageParam : 1;
+      const result = await getUserCompaniesPaginated(page, PAGE_SIZE, sortOrder, debouncedFilter || undefined);
       if (result.error) {
         console.error("Failed to load companies:", result.error);
-        return [];
+        return { companies: [], hasMore: false, total: 0, page };
       }
-      return (result.data || []) as CompanyResult[];
+      return {
+        companies: (result.data || []).map((company) => normalizeCompanyResult(company)),
+        hasMore: result.hasMore,
+        total: result.total,
+        page,
+      };
     },
+    getNextPageParam: (lastPage) => {
+      return lastPage.hasMore ? lastPage.page + 1 : undefined;
+    },
+    initialPageParam: 1,
   });
+
+  // Flatten all pages into a single array
+  const allCompanies = useMemo(() => {
+    return data?.pages.flatMap((page) => page.companies) ?? [];
+  }, [data]);
+
+  const total = data?.pages[0]?.total ?? 0;
 
   // Verify company mutation
   const { mutate, isPending } = useMutation({
     mutationFn: verifyCompanyDomain,
-    onSuccess: () => {
-      // Refetch saved companies after successful verification
-      queryClient.invalidateQueries({ queryKey: ["userCompanies"] });
+    onSuccess: (company) => {
+      const normalized = normalizeCompanyResult(company);
+
+      // Optimistically add/replace the company in the cached pages so UI updates immediately
+      queryClient.setQueryData<InfiniteData<CompaniesPage>>(["userCompaniesPaginated", sortOrder, debouncedFilter], (existing) => {
+        if (!existing) {
+          return {
+            pageParams: [1],
+            pages: [{ companies: [normalized], hasMore: false, total: 1, page: 1 }],
+          };
+        }
+
+        const normalizedDomain = normalized.domain?.toLowerCase();
+        const prunedPages = existing.pages.map((page) => ({
+          ...page,
+          companies: normalizedDomain ? page.companies.filter((c) => c.domain?.toLowerCase() !== normalizedDomain) : page.companies,
+        }));
+
+        const otherCount = prunedPages.slice(1).reduce((sum, page) => sum + page.companies.length, 0);
+        const firstPage = prunedPages[0];
+        const updatedFirstPage = firstPage
+          ? {
+              ...firstPage,
+              companies: [normalized, ...firstPage.companies],
+              total: Math.max(firstPage.total ?? 0, [normalized, ...firstPage.companies].length + otherCount),
+            }
+          : { companies: [normalized], hasMore: false, total: 1, page: 1 };
+
+        return {
+          ...existing,
+          pages: [updatedFirstPage, ...prunedPages.slice(1)],
+        };
+      });
+
+      // Refetch to sync with persisted data
+      queryClient.invalidateQueries({ queryKey: ["userCompaniesPaginated"] });
       setSearchQuery("");
     },
     onError: (error) => {
@@ -74,9 +169,23 @@ const CompanySearch = () => {
     [handleSearch]
   );
 
+  const handleFetchNextPage = useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const handleSortToggle = useCallback(() => {
+    setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+  }, []);
+
+  const handleClearFilter = useCallback(() => {
+    setTableFilter("");
+  }, []);
+
   return (
-    <>
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="flex flex-col flex-1 min-h-0 gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
         <div className="flex items-center gap-2">
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">Domain Search</h2>
         </div>
@@ -86,7 +195,8 @@ const CompanySearch = () => {
         </Button>
       </div>
 
-      <div className="relative">
+      {/* Add new company search */}
+      <div className="relative shrink-0">
         <Input
           placeholder="Enter a domain or company name..."
           value={searchQuery}
@@ -100,8 +210,22 @@ const CompanySearch = () => {
         </Button>
       </div>
 
-      <div className="space-y-4">{isLoadingCompanies ? <CustomSkeleton /> : <CompanyTable data={savedCompanies.length > 0 ? savedCompanies : undefined} />}</div>
-    </>
+      {/* Table filter */}
+      <div className="relative max-w-sm shrink-0">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <Input placeholder="Filter companies..." value={tableFilter} onChange={(e) => setTableFilter(e.target.value)} className="pl-9 pr-8 h-9 text-sm" />
+        {tableFilter && (
+          <button onClick={handleClearFilter} className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+            <X className="h-4 w-4" />
+          </button>
+        )}
+      </div>
+
+      {/* Table - takes remaining space */}
+      <div className="flex-1 min-h-0">
+        {isLoadingCompanies ? <CustomSkeleton /> : <VirtualizedCompanyTable data={allCompanies} hasMore={hasNextPage ?? false} isFetchingNextPage={isFetchingNextPage} fetchNextPage={handleFetchNextPage} total={total} sortOrder={sortOrder} onSortToggle={handleSortToggle} />}
+      </div>
+    </div>
   );
 };
 
