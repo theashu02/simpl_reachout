@@ -11,6 +11,7 @@ import { LinkedinLogo } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { CompanyResult, VirtualizedCompanyTableProps } from "./types";
+import CompanyDetailModal from "./CompanyDetailModal";
 
 const ROW_HEIGHT = 48; // Increased slightly for better click targets
 const FETCH_THRESHOLD = 3;
@@ -19,9 +20,7 @@ const columns: ColumnDef<CompanyResult>[] = [
   {
     accessorKey: "logo_url",
     header: "",
-    cell: ({ row }) => (
-      <Image src={row.original.logo_url || "/images/company-fallback.png"} alt={row.original.company_name} width={36} height={36} unoptimized className="h-9 w-9 object-contain rounded-sm" />
-    ),
+    cell: ({ row }) => <Image src={row.original.logo_url || "/images/company-fallback.png"} alt={row.original.company_name} width={36} height={36} unoptimized className="h-9 w-9 object-contain rounded-sm" />,
     size: 48,
   },
   {
@@ -86,6 +85,7 @@ const columns: ColumnDef<CompanyResult>[] = [
 
 function VirtualizedCompanyTable({ data, hasMore, isFetchingNextPage, fetchNextPage, total, sortOrder = "asc", onSortToggle }: VirtualizedCompanyTableProps) {
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
+  const [selectedCompany, setSelectedCompany] = React.useState<CompanyResult | null>(null);
 
   const table = useReactTable({
     data,
@@ -186,18 +186,18 @@ function VirtualizedCompanyTable({ data, hasMore, isFetchingNextPage, fetchNextP
                 const isEven = virtualRow.index % 2 === 0;
 
                 return (
-                  <TableRow
-                    key={row.id}
-                    data-index={virtualRow.index}
-                    // Force height on the row to match the virtualizer estimate
-                    style={{ height: ROW_HEIGHT }}
-                    className={`${isEven ? "bg-muted/20" : ""} border-b transition-colors hover:bg-muted/50`}
-                  >
+                  <TableRow key={row.id} data-index={virtualRow.index} style={{ height: ROW_HEIGHT }} className={`${isEven ? "bg-muted/20" : ""} border-b transition-colors hover:bg-muted/50 cursor-pointer`} onClick={() => setSelectedCompany(row.original)}>
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         key={cell.id}
-                        className="py-1.5 truncate" // Truncate helps prevent row height blowouts
+                        className="py-1.5 truncate"
                         style={{ width: cell.column.getSize() }}
+                        onClick={(e) => {
+                          // Prevent modal from opening when clicking links
+                          if ((e.target as HTMLElement).closest("a")) {
+                            e.stopPropagation();
+                          }
+                        }}
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
@@ -233,6 +233,9 @@ function VirtualizedCompanyTable({ data, hasMore, isFetchingNextPage, fetchNextP
           </span>
         ) : null}
       </div>
+
+      {/* Company Detail Modal */}
+      <CompanyDetailModal company={selectedCompany} open={selectedCompany !== null} onClose={() => setSelectedCompany(null)} />
     </div>
   );
 }
