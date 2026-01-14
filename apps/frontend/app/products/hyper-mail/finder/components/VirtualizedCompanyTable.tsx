@@ -256,13 +256,10 @@ import * as React from "react";
 import { useReactTable, getCoreRowModel, ColumnDef, flexRender, Row } from "@tanstack/react-table";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { Loader2, Linkedin, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
-
-// Keep these internal components, but we will replace the main <Table> wrapper
 import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 
-// --- Types (Kept same) ---
 export type SortOrder = "asc" | "desc";
 
 export type CompanyResult = {
@@ -292,7 +289,6 @@ interface VirtualizedCompanyTableProps {
 const ROW_HEIGHT = 48; // Increased slightly for better click targets
 const FETCH_THRESHOLD = 3;
 
-// --- Columns Definition (Kept same) ---
 const columns: ColumnDef<CompanyResult>[] = [
   {
     accessorKey: "logo_url",
@@ -331,7 +327,7 @@ const columns: ColumnDef<CompanyResult>[] = [
     header: "Status",
     cell: ({ row }) => (
       <Badge variant={row.original.verified ? "default" : "secondary"} className="text-xs px-2 py-0.5">
-        {row.original.verified ? "Verified" : "Pending"}
+        {row.original.verified ? "Verified" : "Unverified"}
       </Badge>
     ),
     size: 90,
@@ -381,7 +377,7 @@ function VirtualizedCompanyTable({ data, hasMore, isFetchingNextPage, fetchNextP
     count: rows.length,
     getScrollElement: () => tableContainerRef.current,
     estimateSize: () => ROW_HEIGHT,
-    overscan: 10, // Increased overscan for smoother scrolling
+    overscan: 15, // Increased overscan for smoother scrolling
   });
 
   const virtualItems = rowVirtualizer.getVirtualItems();
