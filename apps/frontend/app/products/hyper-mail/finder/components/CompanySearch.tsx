@@ -112,8 +112,9 @@ const CompanySearch = () => {
     mutationFn: verifyCompanyDomain,
     onSuccess: (company) => {
       const normalized = normalizeCompanyResult(company);
+      const normalizedDomain = normalized.domain?.toLowerCase();
 
-      // Optimistically add/replace the company in the cached pages so UI updates immediately
+      // Optimistically update the cache - add new company and remove any duplicates
       queryClient.setQueryData<InfiniteData<CompaniesPage>>(["userCompaniesPaginated", sortOrder, debouncedFilter], (existing) => {
         if (!existing) {
           return {
@@ -122,31 +123,36 @@ const CompanySearch = () => {
           };
         }
 
-        const normalizedDomain = normalized.domain?.toLowerCase();
+        // Remove duplicates across ALL pages first
         const prunedPages = existing.pages.map((page) => ({
           ...page,
           companies: normalizedDomain ? page.companies.filter((c) => c.domain?.toLowerCase() !== normalizedDomain) : page.companies,
         }));
 
-        const otherCount = prunedPages.slice(1).reduce((sum, page) => sum + page.companies.length, 0);
+        // Add the new company to the first page
         const firstPage = prunedPages[0];
-        const updatedFirstPage = firstPage
-          ? {
-              ...firstPage,
-              companies: [normalized, ...firstPage.companies],
-              total: Math.max(firstPage.total ?? 0, [normalized, ...firstPage.companies].length + otherCount),
-            }
-          : { companies: [normalized], hasMore: false, total: 1, page: 1 };
+        const totalCompanies = prunedPages.reduce((sum, p) => sum + p.companies.length, 0) + 1;
 
         return {
           ...existing,
-          pages: [updatedFirstPage, ...prunedPages.slice(1)],
+          pages: [
+            {
+              ...firstPage,
+              companies: [normalized, ...(firstPage?.companies ?? [])],
+              total: totalCompanies,
+            },
+            ...prunedPages.slice(1),
+          ],
         };
       });
 
-      // Refetch to sync with persisted data
-      queryClient.invalidateQueries({ queryKey: ["userCompaniesPaginated"] });
+      // Clear search and refetch after a short delay to sync with server
       setSearchQuery("");
+      setTimeout(() => {
+        queryClient.invalidateQueries({
+          queryKey: ["userCompaniesPaginated", sortOrder, debouncedFilter],
+        });
+      }, 500);
     },
     onError: (error) => {
       console.error("Domain verification error:", error);

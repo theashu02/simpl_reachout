@@ -298,7 +298,7 @@ const columns: ColumnDef<CompanyResult>[] = [
     accessorKey: "logo_url",
     header: "",
     cell: ({ row }) => (
-      <Avatar className="h-7 w-7">
+      <Avatar className="h-9 w-9 rounded-sm">
         <AvatarImage src={row.original.logo_url || undefined} alt={row.original.company_name} />
         <AvatarFallback className="text-xs">{(row.original.company_name || "?").slice(0, 2).toUpperCase()}</AvatarFallback>
       </Avatar>
@@ -350,7 +350,7 @@ const columns: ColumnDef<CompanyResult>[] = [
   },
   {
     accessorKey: "linkedin_url",
-    header: "",
+    header: "Linkedin",
     cell: ({ row }) =>
       row.original.linkedin_url ? (
         <a href={row.original.linkedin_url} target="_blank" rel="noreferrer" className="text-blue-700 hover:text-blue-900">
@@ -371,7 +371,8 @@ function VirtualizedCompanyTable({ data, hasMore, isFetchingNextPage, fetchNextP
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getRowId: (row, index) => row.domain ?? `${row.company_name}-${index}`,
+    // Always include index to guarantee unique keys, even during optimistic updates
+    getRowId: (row, index) => `${row.domain ?? row.company_name}-${index}`,
   });
 
   const { rows } = table.getRowModel();
@@ -423,10 +424,10 @@ function VirtualizedCompanyTable({ data, hasMore, isFetchingNextPage, fetchNextP
       </div>
 
       {/* Table Container */}
-      <div className="rounded-md border bg-background overflow-hidden flex-1 flex flex-col min-h-0">
+      <div className="rounded-md border overflow-hidden flex-1 flex flex-col min-h-0">
         <div ref={tableContainerRef} className="h-full overflow-auto relative scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent">
           <table className="w-full caption-bottom text-sm table-fixed">
-            <TableHeader className="sticky top-0 z-20 bg-background">
+            <TableHeader className="sticky top-0 z-20">
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id} className="hover:bg-transparent border-b">
                   {headerGroup.headers.map((header) => {
@@ -435,7 +436,7 @@ function VirtualizedCompanyTable({ data, hasMore, isFetchingNextPage, fetchNextP
                       <TableHead
                         key={header.id}
                         style={{ width: header.getSize() }} // Explicit width is required for table-fixed
-                        className={`h-10 bg-background text-xs font-medium text-muted-foreground ${isCompanyColumn && onSortToggle ? "cursor-pointer select-none hover:text-foreground" : ""}`}
+                        className={`h-10 text-xs font-medium text-muted-foreground bg-white ${isCompanyColumn && onSortToggle ? "cursor-pointer select-none hover:text-foreground" : ""}`}
                         onClick={isCompanyColumn && onSortToggle ? onSortToggle : undefined}
                       >
                         {header.isPlaceholder ? null : (

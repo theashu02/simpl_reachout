@@ -17,7 +17,6 @@ async function getAuthenticatedUser() {
   return { id: session.user.id };
 }
 
-// Helper to serialize MongoDB documents to plain objects (removes ObjectId, Date, etc.)
 function serializeCompany(company: ICompanyDetail): ICompanyDetail {
   return {
     company_name: company.company_name,
@@ -44,7 +43,6 @@ export async function getUserCompanies(): Promise<ApiResponse<ICompanyDetail[]>>
 
   try {
     await connectToDatabase();
-
     const userDoc = await UserCompanyDetails.findOne({ userId: user.id }).lean<IUserCompanyDetails>();
 
     if (!userDoc || !userDoc.companies) {
@@ -61,7 +59,6 @@ export async function getUserCompanies(): Promise<ApiResponse<ICompanyDetail[]>>
   }
 }
 
-// Paginated response type
 export interface PaginatedResponse<T> {
   data: T[] | null;
   hasMore: boolean;
