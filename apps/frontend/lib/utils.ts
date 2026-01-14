@@ -22,3 +22,5 @@ export const GithubLogo = "https://res.cloudinary.com/dntxrtlsj/image/upload/v17
 export const MetaMaskLogo = "https://res.cloudinary.com/dntxrtlsj/image/upload/v1764698305/meta_mask_nz6yvm.svg"
 
 export const LinkedinLogo = "https://res.cloudinary.com/dntxrtlsj/image/upload/v1766690412/linkedin_kii6l6.webp"
+
+export const CompaySearch = "https://res.cloudinary.com/dntxrtlsj/image/upload/v1768401382/companySearch_ibkx6o.png"

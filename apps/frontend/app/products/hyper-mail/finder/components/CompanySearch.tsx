@@ -9,7 +9,7 @@ import { getEdenClient } from "@/lib/ApiService/edenClient";
 import { getUserCompaniesPaginated, type SortOrder } from "../actions";
 import CustomSkeleton from "./CustomSkeleton";
 import dynamic from "next/dynamic";
-import type { CompanyResult } from "./VirtualizedCompanyTable";
+import { CompanyResult } from "./types";
 
 const VirtualizedCompanyTable = dynamic(() => import("./VirtualizedCompanyTable"), { loading: () => <CustomSkeleton /> });
 
@@ -98,6 +98,10 @@ const CompanySearch = () => {
       return lastPage.hasMore ? lastPage.page + 1 : undefined;
     },
     initialPageParam: 1,
+    // Keep previous data while fetching new sorted data - prevents flash
+    placeholderData: (previousData) => previousData,
+    // Cache sorted results for 2 minutes
+    staleTime: 30_000,
   });
 
   // Flatten all pages into a single array
