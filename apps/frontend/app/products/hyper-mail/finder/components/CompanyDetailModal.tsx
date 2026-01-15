@@ -33,7 +33,7 @@ export default function CompanyDetailModal({ company, open, onClose }: CompanyDe
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
-      <DialogContent className="sm:max-w-lg p-0 gap-0 overflow-hidden font-dmsans">
+      <DialogContent className="sm:max-w-lg p-0 gap-0 overflow-hidden font-geist">
         {/* Header with Logo */}
         <div className="bg-slate-50 dark:bg-slate-900 p-6 border-b">
           <DialogHeader className="flex-row items-start gap-4 space-y-0">

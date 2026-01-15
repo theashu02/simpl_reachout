@@ -194,7 +194,7 @@ const CompanySearch = () => {
   }, []);
 
   return (
-    <div className="flex flex-col flex-1 min-h-0 gap-3">
+    <div className="flex flex-col flex-1 min-h-0 gap-3 font-geist">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
         <div className="flex items-center gap-2">
           <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">Domain Search</h2>
