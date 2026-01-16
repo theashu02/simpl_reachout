@@ -1,27 +1,27 @@
 [
   {
-    "url": "https://www.linkedin.com/company/segwise-ai/",
-    "companyName": "Segwise (Creative Analytics Agents)",
-    "websiteUrl": "https://segwise.ai/",
-    "industry": "Computer Software",
-    "employeeCount": 21,
-    "followerCount": 15923,
-    "universalName": "segwise-ai",
-    "tagline": "AI Agents to automate Creative Tagging and simplify Creative Analytics.",
-    "description": "Segwise builds AI agents to improve creative ROAS.\nOur AI agents help you automate creative tagging and simplify creative analytics, helping you save hours and improve ROAS.\nGet started with a 14 day FREE trial at segwise.ai",
-    "companyId": 91383716,
+    "url": "https://www.linkedin.com/company/segwise-ai/", --- done
+    "companyName": "Segwise (Creative Analytics Agents)",  --- done
+    "websiteUrl": "https://segwise.ai/",                   --- done
+    "industry": "Computer Software",                       --- done
+    "employeeCount": 21,                                   --- done
+    "followerCount": 15923,                                --- done
+    "universalName": "segwise-ai",                         --- done
+    "tagline": "AI Agents to automate Creative Tagging and simplify Creative Analytics.", -- done
+    "description": "Segwise builds AI agents to improve creative ROAS.\nOur AI agents help you automate creative tagging and simplify creative analytics, helping you save hours and improve ROAS.\nGet started with a 14 day FREE trial at segwise.ai",  --- done
+    "companyId": 91383716,                                               --- done
     "hashtag": null,
-    "industryV2Taxonomy": "Technology, Information and Internet",
+    "industryV2Taxonomy": "Technology, Information and Internet",  --- done
     "callToAction": {
       "displayText": "Visit website",
       "type": "VIEW_WEBSITE",
       "url": "https://www.segwise.ai?utm_source=LinkedIn&utm_medium=OfficialHandle&utm_campaign=VisitWebsiteButton"
     },
-    "employeeCountRange": {
+    "employeeCountRange": {     --- done
       "start": 11,
       "end": 50
     },
-    "headquarter": {
+    "headquarter": {            --- done
       "country": "US",
       "city": "Lewes",
       "geographicArea": "Delaware",
@@ -32,17 +32,17 @@
     },
     "foundedOn": {
       "month": null,
-      "year": 2023,
+      "year": 2023,      --- done
       "day": null,
       "$recipeTypes": [
         "com.linkedin.a24d1decae0b7990921ce762eb46db62"
       ],
       "$type": "com.linkedin.common.Date"
     },
-    "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQG0blm-EDz_0g/company-logo_200_200/company-logo_200_200/0/1731136686055/segwise_ai_logo?e=1769644800&v=beta&t=VStfAx248pWHxY6E03M0TgilPknbUTnw94zJhTP8jb4",
-    "originalCoverImage": "https://media.licdn.com/dms/image/v2/D561BAQForM_FFetkog/company-background_10000/B56Za0ZmpFGkAU-/0/1746783335110/segwise_ai_cover?e=1768809600&v=beta&t=wbTHpYD2DKaC1LwFLixwfQmwvzg1xGhF31pxV-POZ2k",
+    "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQG0blm-EDz_0g/company-logo_200_200/company-logo_200_200/0/1731136686055/segwise_ai_logo?e=1769644800&v=beta&t=VStfAx248pWHxY6E03M0TgilPknbUTnw94zJhTP8jb4",     ---- done
+    "originalCoverImage": "https://media.licdn.com/dms/image/v2/D561BAQForM_FFetkog/company-background_10000/B56Za0ZmpFGkAU-/0/1746783335110/segwise_ai_cover?e=1768809600&v=beta&t=wbTHpYD2DKaC1LwFLixwfQmwvzg1xGhF31pxV-POZ2k",     ---- done
     "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D563DAQFzuhbD3VGmjg/image-scale_191_1128/B56Za0ZmpZGoAc-/0/1746783335621/segwise_ai_cover?e=1768809600&v=beta&t=qSQPnjwicYZPgWSRcTmYnKnCsQq-E7pg1X3mVUgHRqY",
-    "specialities": [
+    "specialities": [                          ----------------- done
       "AI Agents",
       "User Acquisition",
       "Creative Analytics",
@@ -581,3 +581,272 @@ export default app;
 
 
 {"data":[{"company_name":"M0 | The Universal Stablecoin Platform","exists":true,"domain":"m0.org","url":"https://www.m0.org/","confidence":95,"title":"M0 | The Universal Stablecoin Platform","description":"Build application-specific digital dollars your way. M0 is the infrastructure powering issuers of safe, programmable, interoperable stablecoins.","verified":true,"source":"organic","linkedin_url":"https://ch.linkedin.com/company/m0-protocol","logo_url":"https://cdn.prod.website-files.com/6762be5b6c55f4c330bf115d/67f8ee3fe22efa5339eacf02_678cc99b378686294851c4bf_branding_avoid-1.svg"},{"company_name":"Mastercard - A global technology company in the payments ...","exists":true,"domain":"mastercard.com","url":"https://www.mastercard.com/us/en.html","confidence":95,"title":"Mastercard - A global technology company in the payments ...","description":"About Mastercard. About us Â· Privacy and data responsibility Â· Reports, policies and statements. All. For innovators. Build with us. Partner with us. Explore ...","verified":true,"source":"organic","linkedin_url":"https://www.linkedin.com/company/mastercard","logo_url":"https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"},{"company_name":"Metaverse Ventures","exists":true,"domain":"m0.ventures","url":"https://www.m0.ventures/","confidence":70,"title":"Metaverse Ventures","description":"Connect Hello@M0.ventures Phone 040-66634666 â€. IMAGINATION WITH OUT LIMITATIONS - NO BOARDERS - JUST CREATORS AND MEMBERS PLAYING TOGETHER TO CREATE BEST ...","verified":false,"source":"organic","linkedin_url":"https://in.linkedin.com/company/m0ventures","logo_url":"https://media.licdn.com/dms/image/v2/C560BAQFu-C0GPepc1A/company-logo_200_200/company-logo_200_200/0/1639449470631/mo_ventures_logo?e=2147483647&v=beta&t=D9VVOdbpAzZCBg8wqgmLmTe26D15b_sKHsIWhQZxQS8"},{"company_name":"Segwise - AI Powered Creative Analytics","exists":true,"domain":"segwise.ai","url":"https://segwise.ai/","confidence":95,"title":"Segwise - AI Powered Creative Analytics","description":"Segwise AI agents automatically tag and analyze creatives, catch early signs of creative fatigue, and auto generate winning creatives that boost ROAS.","verified":true,"source":"organic","linkedin_url":"https://www.linkedin.com/company/segwise-ai","logo_url":"https://media.licdn.com/dms/image/v2/D560BAQG0blm-EDz_0g/company-logo_200_200/company-logo_200_200/0/1731136686055/segwise_ai_logo?e=2147483647&v=beta&t=eCejraVsSqi_uC6NYZkOwtzWC2mGam4xpjc4EAqWE9w"},{"company_name":"Visa: Access payment solutions, security, and card benefits","exists":true,"domain":"visa.com","url":"https://www.visa.com/en-us","confidence":95,"title":"Visa: Access payment solutions, security, and card benefits","description":"Discover Visa personal payment solutions, secure transactions, travel support, cards and rewards designed to bring more value to your everyday experiences.","verified":true,"source":"organic","linkedin_url":"https://id.linkedin.com/company/visa/life/techcareersatvisa","logo_url":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/3840px-Visa_Inc._logo.svg.png"},{"company_name":"Wingify: Build Extraordinary Digital Experiences","exists":true,"domain":"wingify.com","url":"https://wingify.com/","confidence":95,"title":"Wingify: Build Extraordinary Digital Experiences","description":"Wingify aims to build globally admired technology products from India. We are the people behind VWO. Learn more about our journey, or join us.","verified":true,"source":"organic","linkedin_url":"https://in.linkedin.com/company/wingify","logo_url":"https://wingify.com/wp-content/themes/wingify/images/media-kit/color/wingify-logo-color-1920-1080.jpg"},{"company_name":"Wokelo AI","exists":true,"domain":"wokelo.ai","url":"https://www.wokelo.ai/","confidence":95,"title":"Wokelo AI","description":"Wokelo AI transforms research for PE, VC, Consulting, and Corporates. Save time, uncover insights, and make data-driven decisions. Book your demo now.","verified":true,"source":"organic","linkedin_url":"https://www.linkedin.com/company/wokelo-ai","logo_url":"https://wkemails.blob.core.windows.net/fe-application/link-preview.svg"},{"company_name":"Y Combinator","exists":true,"domain":"ycombinator.com","url":"https://www.ycombinator.com/","confidence":95,"title":"Y Combinator","description":"Y Combinator created a new model for funding early stage startups. Four times a year we invest in a large number of startups.","verified":true,"source":"organic","linkedin_url":"https://www.linkedin.com/company/yc-china","logo_url":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Y_Combinator_logo.svg/2048px-Y_Combinator_logo.svg.png"}],"hasMore":false,"total":18,"error":null}
+
+
+
+
+{
+"success": true,
+"data": {
+"linkedinUrl": "https://www.linkedin.com/company/tesla-motors/",  --- done
+"companyId": 15564,                                               --- done
+"universalName": "tesla-motors",                                  --- done
+"companyName": "Tesla",                                           --- done
+"tagline": "Tesla’s mission is to accelerate the world’s transition to sustainable energy.",  --- done
+"description": "Tesla is accelerating the world’s transition to sustainable abundance. To achieve our mission, we're building a world powered by solar, enabled by battery storage and transported by electric vehicles.\n \nWe’re committed to hiring and developing top talent from around the world for any given discipline. Headquartered in Texas, we operate six huge, vertically integrated factories across three continents. With over 100,000 employees, our teams take a first-principles approach to designing, building, selling and servicing our products in-house.\n \nOur world-class teams operate with a non-conventional philosophy of inter-disciplinary collaboration. Each member of the team is expected to challenge and to be challenged, to create, and to innovate. We’re tackling the world’s most difficult and important problems—and we wouldn’t succeed without our shared passion for making the world a better place.", --- done
+"websiteUrl": "https://www.tesla.com/careers",       --- done
+"industry": "Automotive",                            --- done
+"industryV2Taxonomy": "Motor Vehicle Manufacturing", --- done
+"employeeCount": 80848,                              --- done
+"employeeCountRange": {                              --- done
+"start": 10001,
+"end": null
+},
+"followerCount": 12311008,                           --- done
+"logoUrl": "https://media.licdn.com/dms/image/v2/C4D0BAQHUcu98SZ2TVw/company-logo_200_200/company-logo_200_200/0/1630576446368/tesla_motors_logo?e=1770249600&v=beta&t=TwbNNWK9iqwWve3yELYzcWvtSAOaFKdJzXn6EUaG3rY",   --- done
+"coverImageUrl": "https://media.licdn.com/dms/image/v2/C561BAQFqQXNCkzg_Uw/company-background_10000/company-background_10000/0/1635791699664/tesla_motors_cover?e=1769180400&v=beta&t=Ma8C86JZ7MZ9eUfc0jT1fnRNZMi-17i6aAKcHMabw6Q",   --- done
+"headquarter": {      -------------- done
+"country": "US",
+"city": "Austin",
+"geographicArea": "Texas",
+"postalCode": "78725",
+"line1": "13101 Harold Green Rd",
+"line2": null,
+"description": null
+},
+"foundedYear": 2003,   --- done
+"specialities": [      ----------- done
+"Innovation in electric cars and clean energy products"
+],
+"callToAction": {
+"displayText": "Visit website",
+"type": "VIEW_WEBSITE",
+"url": "https://www.tesla.com/careers"
+},
+"similarOrganizations": [
+{
+"name": "Porsche AG",
+"linkedinUrl": "https://www.linkedin.com/company/porsche-ag/",
+"logoUrl": "https://media.licdn.com/dms/image/v2/D4E0BAQF2AxUTFOSHVw/company-logo_200_200/company-logo_200_200/0/1686553470700/porsche_ag_logo?e=1770249600&v=beta&t=ab0yEMdg5mUYbpnrqtpGECht0RnxYY2rf1QU76lh7e4",
+"industry": "Automotive",
+"employeeRange": "10001+"
+},
+{
+"name": "Mercedes-Benz AG",
+"linkedinUrl": "https://www.linkedin.com/company/mercedes-benz_ag/",
+"logoUrl": "https://media.licdn.com/dms/image/v2/D4E0BAQHl_9JezRZLIQ/company-logo_400_400/B4EZidBMwAGUAY-/0/1754980994787/mercedes_benz_ag_logo?e=1770249600&v=beta&t=P7XCh_DLwiZgoKSrNIS_Et0SfQq5rQWkMJ1RV5nsO9I",
+"industry": "Automotive",
+"employeeRange": "10001+"
+},
+{
+"name": "Ferrari",
+"linkedinUrl": "https://www.linkedin.com/company/ferrari/",
+"logoUrl": "https://media.licdn.com/dms/image/v2/C4E0BAQFQWtQAnYFMEA/company-logo_200_200/company-logo_200_200/0/1630655008326/ferrari_logo?e=1770249600&v=beta&t=OG5-Q2u90wVy7qR-s_KCI4lgBodFpXb3Hd7w6U0bkEQ",
+"industry": "Automotive",
+"employeeRange": "1001-5000"
+},
+{
+"name": "NASA - National Aeronautics and Space Administration",
+"linkedinUrl": "https://www.linkedin.com/company/nasa/",
+"logoUrl": "https://media.licdn.com/dms/image/v2/C4D0BAQGRBHWCcaAqGg/company-logo_200_200/company-logo_200_200/0/1630507197379/nasa_logo?e=1770249600&v=beta&t=qBjC7ism9wYUD6wol4lDrjONofvQ9Tkmu3L1xSspZbo",
+"industry": "Aviation & Aerospace",
+"employeeRange": "10001+"
+},
+{
+"name": "Boeing",
+"linkedinUrl": "https://www.linkedin.com/company/boeing/",
+"logoUrl": "https://media.licdn.com/dms/image/v2/D560BAQG8NhuAoYdTgw/company-logo_200_200/company-logo_200_200/0/1708109812925/boeing_logo?e=1770249600&v=beta&t=tsjxoKn2_79FdKZX1wZ_f_g0icKxvyrCB5TVNbtufJU",
+"industry": "Aviation & Aerospace",
+"employeeRange": "10001+"
+},
+{
+"name": "Lucid Motors",
+"linkedinUrl": "https://www.linkedin.com/company/lucidmotors/",
+"logoUrl": "https://media.licdn.com/dms/image/v2/C560BAQH7XEcX6E4M7w/company-logo_200_200/company-logo_200_200/0/1630642979756/lucidmotors_logo?e=1770249600&v=beta&t=XW_4reZtrqQ2ELy_gBN_zfFO9z38eXdirQDPqscA1AY",
+"industry": "Automotive",
+"employeeRange": "1001-5000"
+},
+{
+"name": "AUDI AG",
+"linkedinUrl": "https://www.linkedin.com/company/audi-ag/",
+"logoUrl": "https://media.licdn.com/dms/image/v2/C4D0BAQHrHaKN5CBcdA/company-logo_200_200/company-logo_200_200/0/1631313033092?e=1770249600&v=beta&t=Ds21UqUsxwLCIiv9g5VZV5Rwi2P5ngR_O2iv56FpCFg",
+"industry": "Automotive",
+"employeeRange": "10001+"
+},
+{
+"name": "Unilever",
+"linkedinUrl": "https://www.linkedin.com/company/unilever/",
+"logoUrl": "https://media.licdn.com/dms/image/v2/D4E0BAQEH2cARdsXBkw/company-logo_100_100/B4EZpzv3SDIUAQ-/0/1762878519078/unilever_logo?e=1770249600&v=beta&t=y37cC_Q92kTuyqOmk0snnV87UKpoziIYbTC5MZxHetQ",
+"industry": "Consumer Goods",
+"employeeRange": "10001+"
+},
+{
+"name": "Rivian",
+"linkedinUrl": "https://www.linkedin.com/company/rivian/",
+"logoUrl": "https://media.licdn.com/dms/image/v2/C4E0BAQExEiomEFELIA/company-logo_200_200/company-logo_200_200/0/1632952934752/rivian_logo?e=1770249600&v=beta&t=_zQncufLtE2TYx4XGhpo4i6njVTZljjxYFi1In75ga8",
+"industry": "Automotive",
+"employeeRange": "10001+"
+},
+{
+"name": "BMW Group",
+"linkedinUrl": "https://www.linkedin.com/company/bmw-group/",
+"logoUrl": "https://media.licdn.com/dms/image/v2/D4D0BAQEN_6AkmegD_Q/company-logo_400_400/B4DZnsM_VSGgAc-/0/1760604452665/bmw_group_logo?e=1770249600&v=beta&t=ZPN0Iw75OEJKKYgAAoTEge2m8i1YGx7-tBgzGDagGEE",
+"industry": "Automotive",
+"employeeRange": "10001+"
+},
+{
+"name": "Nissan Motor Corporation",
+"linkedinUrl": "https://www.linkedin.com/company/nissan-motor-corporation/",
+"logoUrl": "https://media.licdn.com/dms/image/v2/C560BAQG9AS7VlhF_rw/company-logo_200_200/company-logo_200_200/0/1672560394038/nissan_motor_corporation_logo?e=1770249600&v=beta&t=s7p0BDcPx9-hwz3BMS33Sq7BbKjrGBFNNEKwu7W4dm8",
+"industry": "Automotive",
+"employeeRange": "10001+"
+},
+{
+"name": "PepsiCo",
+"linkedinUrl": "https://www.linkedin.com/company/pepsico/",
+"logoUrl": "https://media.licdn.com/dms/image/v2/D4E0BAQH6OpZgQIX1lQ/company-logo_400_400/B4EZoqk4DAKYAY-/0/1761650901484/pepsico_logo?e=1770249600&v=beta&t=Rnvj8hYN1OT_Tt69hAEcWdt7_MFK3ERBMH7SWKwczSw",
+"industry": "Food & Beverages",
+"employeeRange": "10001+"
+}
+]
+},
+"error": null,
+"linkedinUrl": "https://www.linkedin.com/company/tesla-motors/"
+}
+
+on the basis of this data make page that show all this data and standrad looking and responsive for all the devices and do not use the gradience color use the solid cold colrs only to buld this mordern looking page and use the shadcn ui components to buid this
+You’ve hit today’s free limit
+Come back tomorrow for more, or upgrade to keep going without interruptions.
+You've used all your tokens.
+{
+    "success": true,
+    "data": {
+        "linkedinUrl": "https://www.linkedin.com/company/tesla-motors/",  --- done
+        "companyId": 15564,                                               --- done
+        "universalName": "tesla-motors",                                  --- done
+        "companyName": "Tesla",                                           --- done
+        "tagline": "Tesla’s mission is to accelerate the world’s transition to sustainable energy.",  --- done
+        "description": "Tesla is accelerating the world’s transition to sustainable abundance. To achieve our mission, we're building a world powered by solar, enabled by battery storage and transported by electric vehicles.\n \nWe’re committed to hiring and developing top talent from around the world for any given discipline. Headquartered in Texas, we operate six huge, vertically integrated factories across three continents. With over 100,000 employees, our teams take a first-principles approach to designing, building, selling and servicing our products in-house.\n \nOur world-class teams operate with a non-conventional philosophy of inter-disciplinary collaboration. Each member of the team is expected to challenge and to be challenged, to create, and to innovate. We’re tackling the world’s most difficult and important problems—and we wouldn’t succeed without our shared passion for making the world a better place.", --- done
+        "websiteUrl": "https://www.tesla.com/careers",       --- done
+        "industry": "Automotive",                            --- done
+        "industryV2Taxonomy": "Motor Vehicle Manufacturing", --- done
+        "employeeCount": 80848,                              --- done
+        "employeeCountRange": {                              --- done
+            "start": 10001,
+            "end": null
+        },
+        "followerCount": 12311008,                           --- done
+        "logoUrl": "https://media.licdn.com/dms/image/v2/C4D0BAQHUcu98SZ2TVw/company-logo_200_200/company-logo_200_200/0/1630576446368/tesla_motors_logo?e=1770249600&v=beta&t=TwbNNWK9iqwWve3yELYzcWvtSAOaFKdJzXn6EUaG3rY",   --- done
+        "coverImageUrl": "https://media.licdn.com/dms/image/v2/C561BAQFqQXNCkzg_Uw/company-background_10000/company-background_10000/0/1635791699664/tesla_motors_cover?e=1769180400&v=beta&t=Ma8C86JZ7MZ9eUfc0jT1fnRNZMi-17i6aAKcHMabw6Q",   --- done
+        "headquarter": {      -------------- done
+            "country": "US",
+            "city": "Austin",
+            "geographicArea": "Texas",
+            "postalCode": "78725",
+            "line1": "13101 Harold Green Rd",
+            "line2": null,
+            "description": null
+        },
+        "foundedYear": 2003,   --- done
+        "specialities": [      ----------- done
+            "Innovation in electric cars and clean energy products"
+        ],
+        "callToAction": {
+            "displayText": "Visit website",
+            "type": "VIEW_WEBSITE",
+            "url": "https://www.tesla.com/careers"
+        },
+        "similarOrganizations": [
+            {
+                "name": "Porsche AG",
+                "linkedinUrl": "https://www.linkedin.com/company/porsche-ag/",
+                "logoUrl": "https://media.licdn.com/dms/image/v2/D4E0BAQF2AxUTFOSHVw/company-logo_200_200/company-logo_200_200/0/1686553470700/porsche_ag_logo?e=1770249600&v=beta&t=ab0yEMdg5mUYbpnrqtpGECht0RnxYY2rf1QU76lh7e4",
+                "industry": "Automotive",
+                "employeeRange": "10001+"
+            },
+            {
+                "name": "Mercedes-Benz AG",
+                "linkedinUrl": "https://www.linkedin.com/company/mercedes-benz_ag/",
+                "logoUrl": "https://media.licdn.com/dms/image/v2/D4E0BAQHl_9JezRZLIQ/company-logo_400_400/B4EZidBMwAGUAY-/0/1754980994787/mercedes_benz_ag_logo?e=1770249600&v=beta&t=P7XCh_DLwiZgoKSrNIS_Et0SfQq5rQWkMJ1RV5nsO9I",
+                "industry": "Automotive",
+                "employeeRange": "10001+"
+            },
+            {
+                "name": "Ferrari",
+                "linkedinUrl": "https://www.linkedin.com/company/ferrari/",
+                "logoUrl": "https://media.licdn.com/dms/image/v2/C4E0BAQFQWtQAnYFMEA/company-logo_200_200/company-logo_200_200/0/1630655008326/ferrari_logo?e=1770249600&v=beta&t=OG5-Q2u90wVy7qR-s_KCI4lgBodFpXb3Hd7w6U0bkEQ",
+                "industry": "Automotive",
+                "employeeRange": "1001-5000"
+            },
+            {
+                "name": "NASA - National Aeronautics and Space Administration",
+                "linkedinUrl": "https://www.linkedin.com/company/nasa/",
+                "logoUrl": "https://media.licdn.com/dms/image/v2/C4D0BAQGRBHWCcaAqGg/company-logo_200_200/company-logo_200_200/0/1630507197379/nasa_logo?e=1770249600&v=beta&t=qBjC7ism9wYUD6wol4lDrjONofvQ9Tkmu3L1xSspZbo",
+                "industry": "Aviation & Aerospace",
+                "employeeRange": "10001+"
+            },
+            {
+                "name": "Boeing",
+                "linkedinUrl": "https://www.linkedin.com/company/boeing/",
+                "logoUrl": "https://media.licdn.com/dms/image/v2/D560BAQG8NhuAoYdTgw/company-logo_200_200/company-logo_200_200/0/1708109812925/boeing_logo?e=1770249600&v=beta&t=tsjxoKn2_79FdKZX1wZ_f_g0icKxvyrCB5TVNbtufJU",
+                "industry": "Aviation & Aerospace",
+                "employeeRange": "10001+"
+            },
+            {
+                "name": "Lucid Motors",
+                "linkedinUrl": "https://www.linkedin.com/company/lucidmotors/",
+                "logoUrl": "https://media.licdn.com/dms/image/v2/C560BAQH7XEcX6E4M7w/company-logo_200_200/company-logo_200_200/0/1630642979756/lucidmotors_logo?e=1770249600&v=beta&t=XW_4reZtrqQ2ELy_gBN_zfFO9z38eXdirQDPqscA1AY",
+                "industry": "Automotive",
+                "employeeRange": "1001-5000"
+            },
+            {
+                "name": "AUDI AG",
+                "linkedinUrl": "https://www.linkedin.com/company/audi-ag/",
+                "logoUrl": "https://media.licdn.com/dms/image/v2/C4D0BAQHrHaKN5CBcdA/company-logo_200_200/company-logo_200_200/0/1631313033092?e=1770249600&v=beta&t=Ds21UqUsxwLCIiv9g5VZV5Rwi2P5ngR_O2iv56FpCFg",
+                "industry": "Automotive",
+                "employeeRange": "10001+"
+            },
+            {
+                "name": "Unilever",
+                "linkedinUrl": "https://www.linkedin.com/company/unilever/",
+                "logoUrl": "https://media.licdn.com/dms/image/v2/D4E0BAQEH2cARdsXBkw/company-logo_100_100/B4EZpzv3SDIUAQ-/0/1762878519078/unilever_logo?e=1770249600&v=beta&t=y37cC_Q92kTuyqOmk0snnV87UKpoziIYbTC5MZxHetQ",
+                "industry": "Consumer Goods",
+                "employeeRange": "10001+"
+            },
+            {
+                "name": "Rivian",
+                "linkedinUrl": "https://www.linkedin.com/company/rivian/",
+                "logoUrl": "https://media.licdn.com/dms/image/v2/C4E0BAQExEiomEFELIA/company-logo_200_200/company-logo_200_200/0/1632952934752/rivian_logo?e=1770249600&v=beta&t=_zQncufLtE2TYx4XGhpo4i6njVTZljjxYFi1In75ga8",
+                "industry": "Automotive",
+                "employeeRange": "10001+"
+            },
+            {
+                "name": "BMW Group",
+                "linkedinUrl": "https://www.linkedin.com/company/bmw-group/",
+                "logoUrl": "https://media.licdn.com/dms/image/v2/D4D0BAQEN_6AkmegD_Q/company-logo_400_400/B4DZnsM_VSGgAc-/0/1760604452665/bmw_group_logo?e=1770249600&v=beta&t=ZPN0Iw75OEJKKYgAAoTEge2m8i1YGx7-tBgzGDagGEE",
+                "industry": "Automotive",
+                "employeeRange": "10001+"
+            },
+            {
+                "name": "Nissan Motor Corporation",
+                "linkedinUrl": "https://www.linkedin.com/company/nissan-motor-corporation/",
+                "logoUrl": "https://media.licdn.com/dms/image/v2/C560BAQG9AS7VlhF_rw/company-logo_200_200/company-logo_200_200/0/1672560394038/nissan_motor_corporation_logo?e=1770249600&v=beta&t=s7p0BDcPx9-hwz3BMS33Sq7BbKjrGBFNNEKwu7W4dm8",
+                "industry": "Automotive",
+                "employeeRange": "10001+"
+            },
+            {
+                "name": "PepsiCo",
+                "linkedinUrl": "https://www.linkedin.com/company/pepsico/",
+                "logoUrl": "https://media.licdn.com/dms/image/v2/D4E0BAQH6OpZgQIX1lQ/company-logo_400_400/B4EZoqk4DAKYAY-/0/1761650901484/pepsico_logo?e=1770249600&v=beta&t=Rnvj8hYN1OT_Tt69hAEcWdt7_MFK3ERBMH7SWKwczSw",
+                "industry": "Food & Beverages",
+                "employeeRange": "10001+"
+            }
+        ]
+    },
+    "error": null,
+    "linkedinUrl": "https://www.linkedin.com/company/tesla-motors/"
+}
+
+
+on the basis of this data make page that show all this data and standrad looking and responsive for all the devices and do not use the gradience color use the solid cold colrs only to buld this mordern looking page and use the shadcn ui components to buid this 
+

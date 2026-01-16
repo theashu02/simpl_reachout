@@ -2,7 +2,10 @@ const runtimeEnv = ((globalThis as typeof globalThis & { Bun?: { env: Record<str
 
 const parseOrigins = (value: string | undefined): string[] => {
   if (!value) return [];
-  return value.split(",").map((origin) => origin.trim()).filter(Boolean);
+  return value
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
 };
 
 export const NEXTAUTH_SECRET = runtimeEnv.NEXTAUTH_SECRET;
@@ -17,19 +20,22 @@ export const SMTP_PASS = runtimeEnv.SMTP_PASS;
 export const RECEIVER_EMAIL = runtimeEnv.RECEIVER_EMAIL;
 
 // For LLM configration
-export const LLM_BASE_URL = runtimeEnv.LLM_BASE_URL
-export const LLM_API_KEY = runtimeEnv.LLM_API_KEY
-export const LLM_MODEL = runtimeEnv.LLM_MODEL
+export const LLM_BASE_URL = runtimeEnv.LLM_BASE_URL;
+export const LLM_API_KEY = runtimeEnv.LLM_API_KEY;
+export const LLM_MODEL = runtimeEnv.LLM_MODEL;
 
-// Browser automation 
-export const MAX_CONCURRENT_PAGES = runtimeEnv.MAX_CONCURRENT_PAGES
-export const BROWSER_TIMEOUT = runtimeEnv.BROWSER_TIMEOUT
-export const SERPER_API_KEY = runtimeEnv.SERPER_API_KEY
+// Browser automation
+export const MAX_CONCURRENT_PAGES = runtimeEnv.MAX_CONCURRENT_PAGES;
+export const BROWSER_TIMEOUT = runtimeEnv.BROWSER_TIMEOUT;
+export const SERPER_API_KEY = runtimeEnv.SERPER_API_KEY;
 
-// Mongo DB connection 
+// Mongo DB connection
 export const MONGODB_URI = runtimeEnv.MONGODB_URI;
 export const MONGODB_DB = runtimeEnv.MONGODB_DB;
 
 // Redia configration
 export const REDIS_HOST = runtimeEnv.REDIS_HOST ?? "localhost";
 export const REDIS_PORT = Number(runtimeEnv.REDIS_PORT ?? 6379);
+
+// Apify configuration
+export const APIFY_API_TOKEN = runtimeEnv.APIFY_API_TOKEN;

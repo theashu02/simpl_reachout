@@ -73,8 +73,9 @@ const fetchSerperResults = async (query: string): Promise<SerperResponse> => {
       const errorText = await response.text().catch(() => "");
       throw new Error(`Serper API error: ${response.status}${errorText ? ` - ${errorText}` : ""}`);
     }
-    console.log("---- Serper response: ----", await response.json());
-    return (await response.json()) as SerperResponse;
+    const data = (await response.json()) as SerperResponse;
+    console.log("---- Serper response: ----", data);
+    return data;
   } finally {
     clearTimeout(timeout);
   }
@@ -141,11 +142,7 @@ export async function verifyCompanyDomain(companyName: string, ctx?: PersistCont
   }
 
   try {
-    const [data, linkedin_url, logo_url] = await Promise.all([
-      fetchSerperResults(`"${normalizedCompany}" official website homepage`),
-      fetchLinkedInUrl(normalizedCompany),
-      fetchLogoUrl(normalizedCompany),
-    ]);
+    const [data, linkedin_url, logo_url] = await Promise.all([fetchSerperResults(`"${normalizedCompany}" official website homepage`), fetchLinkedInUrl(normalizedCompany), fetchLogoUrl(normalizedCompany)]);
 
     const kg = data.knowledgeGraph;
     if (kg?.title) {

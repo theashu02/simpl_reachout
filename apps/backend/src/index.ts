@@ -9,6 +9,7 @@ import { MailVerifyRoutes } from "./Interface/http/routes/MailVerify.routes";
 import { llmRoutes } from "./Interface/http/routes/LLM.routes";
 import { searchRoutes } from "./Interface/http/routes/search.routes";
 import { domainScraperRoutes } from "./agents/DomainScraper";
+import { companyEnrichRoutes } from "./agents/companyEnrich";
 import { connectToDatabase } from "./db/db";
 import { startCompanyPersistWorker } from "./workers/companyPersist.worker";
 
@@ -43,6 +44,7 @@ export const app = new Elysia()
       .use(llmRoutes)
       .use(searchRoutes)
       .use(domainScraperRoutes)
+      .use(companyEnrichRoutes)
   )
 
   .get("/file-transfer/rooms/:roomId/status", async ({ request, params, set }) => {
