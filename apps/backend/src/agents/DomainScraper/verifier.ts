@@ -73,7 +73,7 @@ const fetchSerperResults = async (query: string): Promise<SerperResponse> => {
       const errorText = await response.text().catch(() => "");
       throw new Error(`Serper API error: ${response.status}${errorText ? ` - ${errorText}` : ""}`);
     }
-
+    console.log("---- Serper response: ----", await response.json());
     return (await response.json()) as SerperResponse;
   } finally {
     clearTimeout(timeout);
@@ -142,7 +142,7 @@ export async function verifyCompanyDomain(companyName: string, ctx?: PersistCont
 
   try {
     const [data, linkedin_url, logo_url] = await Promise.all([
-      fetchSerperResults(`"${normalizedCompany}" (official website OR homepage OR "about us")`),
+      fetchSerperResults(`"${normalizedCompany}" official website homepage`),
       fetchLinkedInUrl(normalizedCompany),
       fetchLogoUrl(normalizedCompany),
     ]);

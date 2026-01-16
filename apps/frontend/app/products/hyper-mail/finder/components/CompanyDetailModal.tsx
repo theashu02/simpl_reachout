@@ -9,6 +9,7 @@ import { useState } from "react";
 import { CompanyResult } from "./types";
 import { LinkedinLogo } from "@/lib/utils";
 import Link from "next/link";
+import { toast } from "@/components/ui/toast";
 
 interface CompanyDetailModalProps {
   company: CompanyResult | null;
@@ -24,6 +25,7 @@ export default function CompanyDetailModal({ company, open, onClose }: CompanyDe
   const handleCopyDomain = async () => {
     if (company.domain) {
       await navigator.clipboard.writeText(company.domain);
+      toast.customToast("Domain Copied Successfully.", "top");
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
