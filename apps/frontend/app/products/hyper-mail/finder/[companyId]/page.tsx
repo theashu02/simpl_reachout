@@ -196,7 +196,7 @@ const AboutSection = memo(({ company }: { company: Company }) => (
     <p className="text-slate-600 leading-relaxed text-sm sm:text-base whitespace-pre-line">{company.description}</p>
     {company.hashtag && (
       <div className="mt-4 pt-4 border-t border-slate-100">
-        <span className="text-indigo-600 font-medium text-sm">{company.hashtag}</span>
+        <Badge className="text-xs sm:text-sm bg-[#f4f4f4] text-blue-500 cursor-default rounded">{company.hashtag}</Badge>
       </div>
     )}
   </div>
@@ -222,7 +222,7 @@ const SpecialitiesSection = memo(({ specialities }: { specialities: string[] }) 
         <Badge 
           key={index} 
           variant="secondary" 
-          className="text-xs sm:text-sm hover:bg-slate-200 transition-colors cursor-default"
+          className="text-xs sm:text-sm hover:bg-slate-200 transition-colors cursor-default rounded tracking-wide"
         >
           {specialty}
         </Badge>
@@ -234,7 +234,7 @@ const SpecialitiesSection = memo(({ specialities }: { specialities: string[] }) 
 SpecialitiesSection.displayName = "SpecialitiesSection";
 
 const LocationCard = memo(({ location, isHeadquarter }: { location: Location; isHeadquarter: boolean }) => (
-  <div className={`relative overflow-hidden rounded-xl border transition-all hover:shadow-md ${isHeadquarter ? "bg-indigo-50 border-indigo-200" : "bg-white border-slate-200 hover:border-slate-300"}`}>
+  <div className={`relative overflow-hidden rounded-xl border transition-all ${isHeadquarter ? "bg-indigo-50 border-indigo-200" : "bg-white border-slate-200 hover:border-slate-300"}`}>
     {/* Top accent bar for HQ */}
     {isHeadquarter && <div className="absolute top-0 left-0 right-0 h-1 bg-indigo-500" />}
 
@@ -290,7 +290,7 @@ const LocationsSection = memo(({ locations }: { locations: Location[] }) => {
         <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center">
           <MapPin height={5} width={5} className="h-5 w-5" strokeWidth={2} />
         </div>
-        <span>Locations</span>
+        <span className="font-extrabold tracking-wide text-xl">Locations</span>
         <span className="ml-auto text-xs font-medium text-slate-500 bg-slate-100 px-2 py-1 rounded-md">
           {locations.length} {locations.length === 1 ? "office" : "offices"}
         </span>
