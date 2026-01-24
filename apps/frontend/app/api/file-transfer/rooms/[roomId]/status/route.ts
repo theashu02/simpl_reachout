@@ -20,8 +20,9 @@ const extractRoomId = (request: Request, params?: { roomId?: string }) => {
   return "";
 };
 
-export async function GET(request: Request, context: { params: { roomId?: string } }) {
-  const roomIdRaw = extractRoomId(request, context?.params);
+export async function GET(request: Request, context: { params: Promise<{ roomId: string }> }) {
+  const params = await context.params;
+  const roomIdRaw = extractRoomId(request, params);
   const roomId = roomIdRaw?.trim();
 
   if (!roomId) {
@@ -31,7 +32,7 @@ export async function GET(request: Request, context: { params: { roomId?: string
         message: "Room ID is required",
         roomId: roomIdRaw ?? null,
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -43,7 +44,7 @@ export async function GET(request: Request, context: { params: { roomId?: string
         status: "unauthorized",
         message: "Please sign in to verify room status",
       },
-      { status: 401 }
+      { status: 401 },
     );
   }
 
@@ -70,7 +71,7 @@ export async function GET(request: Request, context: { params: { roomId?: string
         status: "unavailable",
         message: "Signaling service is not reachable. Please try again shortly.",
       },
-      { status: 503 }
+      { status: 503 },
     );
   }
 }
