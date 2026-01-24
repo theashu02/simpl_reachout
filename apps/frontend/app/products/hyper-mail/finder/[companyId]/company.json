@@ -1,0 +1,399 @@
+[
+  {
+    "url": "https://www.linkedin.com/company/zetasuite/",
+    "companyName": "Zeta",
+    "websiteUrl": "https://www.zeta.tech/us/",
+    "industry": "Computer Software",
+    "employeeCount": 2198,
+    "followerCount": 300398,
+    "universalName": "zetasuite",
+    "tagline": "Next-Gen Banking and Payment Technology Service Provider",
+    "description": "Headquartered in San Francisco, California, Zeta was named by Celent in 2023 as being among the likeliest partners for US banks and credit unions looking to modernize to a next-gen issuer processing platform. With our marquee credit card ranked #2 by American cardholders, Zeta is already acknowledged by leading issuers as the go-to platform for market-leading credit card experiences.\n\nGlobally, Zeta is recognized as a next-gen banking technology company. Our platform enables financial institutions to launch extensible and compliant banking asset and liability products, across cards, loans and deposits, rapidly. Our cloud-native and fully API-enabled stack supports processing, issuing, lending, core banking, fraud, loyalty, digital banking apps, and many other capabilities.\n\nZeta has 1700+ employees with over 70% in technology roles across locations in the US, Middle East, and Asia, with regional headquarters in Mumbai, India. Globally, customers have issued 25M+ cards on our platform. Visit us at www.zeta.tech or follow us on LinkedIn, YouTube, and X.",
+    "companyId": 10355561,
+    "hashtag": "#bankingtechnology",
+    "industryV2Taxonomy": "Software Development",
+    "callToAction": {
+      "displayText": "Visit website",
+      "type": "VIEW_WEBSITE",
+      "url": "https://www.zeta.tech/us/"
+    },
+    "employeeCountRange": {
+      "start": 1001,
+      "end": 5000
+    },
+    "headquarter": {
+      "country": "US",
+      "city": "San Francisco",
+      "geographicArea": "California",
+      "postalCode": null,
+      "line1": null,
+      "line2": null,
+      "description": "Zeta Suite "
+    },
+    "foundedOn": {
+      "month": null,
+      "year": 2015,
+      "day": null,
+      "$recipeTypes": [
+        "com.linkedin.a24d1decae0b7990921ce762eb46db62"
+      ],
+      "$type": "com.linkedin.common.Date"
+    },
+    "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQEPwqmPxxkksg/company-logo_200_200/company-logo_200_200/0/1719820330164/zetasuite_logo?e=1770854400&v=beta&t=nPylTy9YaYIIiqbmGQaUZWwf8b9U1t_Vlf0gnYAREoQ",
+    "originalCoverImage": "https://media.licdn.com/dms/image/v2/D561BAQH3sVZV-xbeMw/company-background_10000/company-background_10000/0/1713174552116/zetasuite_cover?e=1769882400&v=beta&t=E8OoSbIb5t7ghs_yFVwQQ4s-bQo7fIv8hBSD3LlNCW4",
+    "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D563DAQGQ22lF3lLcUw/image-scale_127_750/image-scale_127_750/0/1713174552813/zetasuite_cover?e=1769882400&v=beta&t=RsruKEwkMSjRl4fFufPoyFru2sKHkkIdSdvbALweGc4",
+    "specialities": [
+      "banking technology solutions",
+      "credit card processing",
+      "payment processing",
+      "financial technology solutions",
+      "banking as a service",
+      "embedded banking",
+      "credit card management",
+      "core banking solutions",
+      "digital banking solutions",
+      "Next gen banking technology",
+      "card issuing",
+      "issuer processing",
+      "baas",
+      "digital banking experience",
+      "open banking",
+      "transaction processing",
+      "Conversational AI"
+    ],
+    "crunchbaseFundingData": null,
+    "similarOrganizations": [
+      {
+        "name": "Google Operations Center",
+        "followerCount": 189068,
+        "url": "https://www.linkedin.com/company/googleoperationscenter/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/C510BAQH5E4NHWLdFBA/company-logo_200_200/company-logo_200_200/0/1630625543037?e=1770854400&v=beta&t=kG__wsdOARSn5zSBChBVjBQipLDdu_EowRG1r9GAYXQ",
+        "industryV2Taxonomy": "Technology, Information and Internet",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/C561BAQFchCIWWyyZAg/company-background_10000/company-background_10000/0/1652913449355/googleoperationscenter_cover?e=1769882400&v=beta&t=TG964ZfZLO6AWntTCwghfSag3FSE8n40d9nBBMg1VMM",
+        "companyId": 14547137,
+        "employeeCountRange": {
+          "start": 1001,
+          "end": 5000
+        },
+        "universalName": "googleoperationscenter"
+      },
+      {
+        "name": "Meesho",
+        "followerCount": 1235881,
+        "url": "https://www.linkedin.com/company/meesho/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D4D0BAQG4JEnI5ztq2g/company-logo_100_100/B4DZpYcaF2GwAQ-/0/1762420434218?e=1770854400&v=beta&t=sXSzAPnDvAlk7tjnZTC908xIAHMVVlQeK3ef96yVWKw",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D563DAQGJMBi1pPfHLA/image-scale_191_1128/B56ZvVgMc6J0Ac-/0/1768813547022/meesho_cover?e=1769882400&v=beta&t=oS4SFStY2s0piQAAyN3KvfFWG8jDAIZMJfdnnTuDxVY",
+        "industryV2Taxonomy": "Technology, Information and Internet",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D561BAQG1_KpYWyRyGw/company-background_400/B56ZvVgMb2K4AY-/0/1768813546089/meesho_cover?e=1769882400&v=beta&t=o4WiDkE9dUi5f-5OBH2Zi2BjlJvcRA1YCT9rBwQ6HSE",
+        "companyId": 10037698,
+        "employeeCountRange": {
+          "start": 1001,
+          "end": 5000
+        },
+        "headquarter": {
+          "country": "IN",
+          "city": "Bangalore",
+          "geographicArea": "Karnataka",
+          "postalCode": "560103",
+          "line1": "WeWork, Vaishnavi Signature, 78/9, Outer Ring Road, Bellandur Village Varthur Hobli Bengaluru East Ground Floor",
+          "line2": "WeWork, Vaishnavi Signature",
+          "description": "Bellandur"
+        },
+        "universalName": "meesho"
+      },
+      {
+        "name": "Microsoft Azure",
+        "followerCount": 874090,
+        "url": "https://www.linkedin.com/showcase/microsoft-azure/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQGtwKUNwBubxg/company-logo_200_200/company-logo_200_200/0/1688144190823/microsoft_azure_logo?e=1770854400&v=beta&t=GAHc_CVQvKQBwN4wVxwoKYxyoWj3kV7RyVAgzo8Kbno",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D4E3DAQESklKhgTpOmA/image-scale_127_750/B4EZYQYAzuGYAQ-/0/1744031452868/microsoft_azure_cover?e=1769882400&v=beta&t=Rh04r3fFqX9NZQZNsWhwrTF8OpWPLipUKALonD13QWY",
+        "industryV2Taxonomy": "Technology, Information and Internet",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D4E1BAQERt4gPc5ttGw/company-background_10000/B4EZYQYAzkHYAY-/0/1744031452729/microsoft_azure_cover?e=1769882400&v=beta&t=xtzEYOa7Lg4SZwgeBWjQvTXDNyBBc4kyOvqCkPQGvlA",
+        "companyId": 96411081,
+        "employeeCountRange": {
+          "start": 501,
+          "end": 1000
+        },
+        "headquarter": {
+          "country": "US",
+          "city": "Redmond",
+          "geographicArea": "Washington",
+          "postalCode": null,
+          "line1": null,
+          "line2": null,
+          "description": "Headquarters"
+        },
+        "universalName": "microsoft-azure"
+      },
+      {
+        "name": "Zeta Global",
+        "followerCount": 88878,
+        "url": "https://www.linkedin.com/company/zetaglobal/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQGTJOVLCXcK2Q/company-logo_200_200/company-logo_200_200/0/1688167933799/zetaglobal_logo?e=1770854400&v=beta&t=eKl6CrlUyjJuFQBhyql4bgP8KSKeL9PALbczpCDku8g",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D563DAQG5X0H-KbjEUw/image-scale_108_640/B56ZtwGLZFHYAQ-/0/1767112227105/zetaglobal_cover?e=1769882400&v=beta&t=IgtB2CHJRttvtBSoz4U80_eLryJhmbwdg4GcJkGWOZk",
+        "industryV2Taxonomy": "Software Development",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D561BAQGqEkBPaGetJg/company-background_200/B56ZtwGLZfIcAc-/0/1767112232657/zetaglobal_cover?e=1769882400&v=beta&t=7gLWrFxFvooNSrN-cjaSvU9rlv55D4514Vu5-rcmPCw",
+        "companyId": 18763,
+        "employeeCountRange": {
+          "start": 1001,
+          "end": 5000
+        },
+        "headquarter": {
+          "country": "US",
+          "city": "New York",
+          "geographicArea": "New York",
+          "postalCode": "10016",
+          "line1": "3 Park Ave",
+          "line2": "33rd Floor",
+          "description": "Corporate Headquarters"
+        },
+        "universalName": "zetaglobal"
+      },
+      {
+        "name": "Swiggy",
+        "followerCount": 2675398,
+        "url": "https://www.linkedin.com/company/swiggy-in/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQFgJifoYusljQ/company-logo_400_400/B56ZbSxECTHgAc-/0/1747292799805/swiggy_in_logo?e=1770854400&v=beta&t=NPjM0-3splEHCTiB25wPGaDpwnXWPzXCTEkJgomRito",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D4D3DAQEov8aqsMzujA/image-scale_191_1128/B4DZt9E66oK0Ac-/0/1767330023345/swiggy_in_cover?e=1769882400&v=beta&t=lNCBQYoR5C0xfku72jsO4yPrnhKXnTMZcJ3-jF5s7VA",
+        "industryV2Taxonomy": "Technology, Information and Internet",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D4D1BAQFSm8UyT4EpZg/company-background_10000/B4DZt9E67sIAAU-/0/1767330027159/swiggy_in_cover?e=1769882400&v=beta&t=_TaaNpTuSsKt-YGaaYp8S5jvwWytE_Mtn9pWuH2S1Bs",
+        "companyId": 9252341,
+        "employeeCountRange": {
+          "start": 10001,
+          "end": null
+        },
+        "headquarter": {
+          "country": "IN",
+          "city": "Bengaluru",
+          "geographicArea": "Karnataka",
+          "postalCode": null,
+          "line1": null,
+          "line2": null,
+          "description": "Bellandur"
+        },
+        "universalName": "swiggy-in"
+      },
+      {
+        "name": "Zoho",
+        "followerCount": 2529822,
+        "url": "https://www.linkedin.com/company/zoho/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQHIJEEams6Ghg/company-logo_200_200/company-logo_200_200/0/1735737146960/zoho_logo?e=1770854400&v=beta&t=T-hlGJlYs7vXNRsY55tp-wOYskHTkWKgj5fKKSVt9qQ",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D563DAQF7LX411hyIMg/image-scale_127_750/image-scale_127_750/0/1732612640297/zoho_cover?e=1769882400&v=beta&t=i9QS2ODpyGUAQ3MQrgxYSjTJFzk2sv_4j9hvYX-O94g",
+        "industryV2Taxonomy": "Software Development",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D561BAQH8DO1I7e76pQ/company-background_10000/company-background_10000/0/1732612640169/zoho_cover?e=1769882400&v=beta&t=5Zs9MIK6G7BZFbwgJcPEwNqXjUCRx1KIvBxI9zN4Bec",
+        "companyId": 38373,
+        "employeeCountRange": {
+          "start": 10001,
+          "end": null
+        },
+        "headquarter": {
+          "country": "IN",
+          "city": "Chennai",
+          "geographicArea": "Tamil Nadu",
+          "postalCode": "603202",
+          "line1": "Zoho Corporation Pvt. Ltd, Estancia IT Park, Plot No. 140 & 151,",
+          "line2": "GST Road, Kanchipuram Dist, Vallancherry Village",
+          "description": "Chennai, India"
+        },
+        "universalName": "zoho"
+      },
+      {
+        "name": "CodeAnt AI",
+        "followerCount": 21457,
+        "url": "https://www.linkedin.com/company/codeant-ai/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQGncbvGj9h-YA/company-logo_200_200/company-logo_200_200/0/1700642866542/codeant_ai_logo?e=1770854400&v=beta&t=rYVmNH2I71j9nfHF9ijRLDfgvrYYUonKzsp0Qa9pwfM",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D4D3DAQG3kgFO7B-evw/image-scale_127_750/B4DZp3DVlOGwAY-/0/1762933960337/codeant_ai_cover?e=1769882400&v=beta&t=H99uZI2RxtU4PYtlVG-E3simALk0a_IItz0MwfTHEqU",
+        "industryV2Taxonomy": "Software Development",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D4D1BAQFF3kbocE12UQ/company-background_10000/B4DZp3DVmTGwAY-/0/1762933963606/codeant_ai_cover?e=1769882400&v=beta&t=KsGl4C8UBmlzUZIE4hSv2xkfzldM22teunzUNEo619U",
+        "companyId": 96582348,
+        "employeeCountRange": {
+          "start": 11,
+          "end": 50
+        },
+        "headquarter": {
+          "country": "US",
+          "city": "San Francisco",
+          "geographicArea": "California",
+          "postalCode": "94107",
+          "line1": "335 Bryant St",
+          "line2": null,
+          "description": "Headquarters"
+        },
+        "universalName": "codeant-ai"
+      },
+      {
+        "name": "NPTEL",
+        "followerCount": 572185,
+        "url": "https://www.linkedin.com/company/nptel/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/C4D0BAQHJZGa_G2gwUg/company-logo_200_200/company-logo_200_200/0/1631333024279?e=1770854400&v=beta&t=Vr2l-QJJYm9pxzmeRm4qn_xMD7Yeh82kC4xhC9OsuUU",
+        "industryV2Taxonomy": "E-Learning Providers",
+        "industry": "E-learning",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/C511BAQH7HxWdSE1xzw/company-background_10000/company-background_10000/0/1584496822978/nptel_cover?e=1769882400&v=beta&t=TDmzvwQp6U4Emqo7jhnR0aBDd8fkjOqQeSTQ6RRBwSQ",
+        "companyId": 13229455,
+        "employeeCountRange": {
+          "start": 51,
+          "end": 200
+        },
+        "headquarter": {
+          "country": "IN",
+          "city": "Chennai",
+          "geographicArea": "Tamilnadu",
+          "postalCode": "600036",
+          "line1": "NPTEL Administrator",
+          "line2": "2nd floor, Central Library, IIT Madras",
+          "description": "NPTEL"
+        },
+        "universalName": "nptel"
+      },
+      {
+        "name": "Blinkit",
+        "followerCount": 1536038,
+        "url": "https://www.linkedin.com/company/letsblinkit/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQHXjM7wIvllag/company-logo_200_200/company-logo_200_200/0/1738814077825?e=1770854400&v=beta&t=_-aHTKDVp4LLv5mc0eUuwjkQ7mi9fMypK9-E4mUMJSU",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D563DAQFiG1g3EZPwIQ/image-scale_127_750/image-scale_127_750/0/1704186571943/letsblinkit_cover?e=1769882400&v=beta&t=QajvnydHftZO7AYdmcif3UEIj3dNwo6LaRPZ3yMuTrY",
+        "industryV2Taxonomy": "Technology, Information and Internet",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D561BAQHTnKZ45MjrqQ/company-background_10000/company-background_10000/0/1704186570011/letsblinkit_cover?e=1769882400&v=beta&t=9rhKfrGdWg_cjLngnanCRpwN5jVpVaMfBkcd-7aPP64",
+        "companyId": 80918929,
+        "employeeCountRange": {
+          "start": 1001,
+          "end": 5000
+        },
+        "headquarter": {
+          "country": "IN",
+          "city": "Gurgaon",
+          "geographicArea": "Haryana",
+          "postalCode": "122001",
+          "line1": "Pioneer Square, Sector 62, Golf Course Extension",
+          "line2": "Blinkit Headquarters",
+          "description": "Headquarters"
+        },
+        "universalName": "letsblinkit"
+      },
+      {
+        "name": "Intuit",
+        "followerCount": 960936,
+        "url": "https://www.linkedin.com/company/intuit/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/C560BAQFTpF8uneqScw/company-logo_200_200/company-logo_200_200/0/1661446146222/intuit_logo?e=1770854400&v=beta&t=a_Ww_Hkl640Q-wQNKi4vA8PgOomTARBYefmV3CTO-4M",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D563DAQGaKA_gj1z13A/image-scale_108_640/B56ZsurfbGKIAQ-/0/1766014715308/intuit_cover?e=1769882400&v=beta&t=FOlFpxaAdYiRB8KHhhaovZZvzz79NPLbLOj99BgxDg0",
+        "industryV2Taxonomy": "Software Development",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D561BAQF3BtWSKM8MaA/company-background_400/B56Zsurfc1HkAY-/0/1766014715929/intuit_cover?e=1769882400&v=beta&t=tYhZ5dnDFjqm8DxGYL0pba0OspNdkPOEGbRPFbgRRAE",
+        "companyId": 1666,
+        "employeeCountRange": {
+          "start": 10001,
+          "end": null
+        },
+        "headquarter": {
+          "country": "US",
+          "city": "Mountain View",
+          "geographicArea": "California",
+          "postalCode": "94043",
+          "line1": "2700 Coast Ave",
+          "line2": null,
+          "description": "Intuit - Headquarters"
+        },
+        "universalName": "intuit"
+      },
+      {
+        "name": "Google Workspace",
+        "followerCount": 671420,
+        "url": "https://www.linkedin.com/showcase/googleworkspace/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/C4D0BAQHuLzhR-WUSMg/company-logo_200_200/company-logo_200_200/0/1630573711840/googleworkspace_logo?e=1770854400&v=beta&t=06ZQXlpjA0jR3di-PYwm4oRnWnedr_tD5uwXvvcDArI",
+        "croppedCoverImage": "https://media.licdn.com/dms/image/v2/D4E3DAQFNDvDp1JmKag/image-scale_127_750/image-scale_127_750/0/1684160023743/googleworkspace_cover?e=1769882400&v=beta&t=OnFqzHxyQCrgkqDTj5prF5B4vJGAZhEBuaWfTse-J5E",
+        "industryV2Taxonomy": "Software Development",
+        "industry": "Computer Software",
+        "originalCoverImage": "https://media.licdn.com/dms/image/v2/D4E1BAQEqEldXc4tXKg/company-background_10000/company-background_10000/0/1684160023649/googleworkspace_cover?e=1769882400&v=beta&t=aatMIahANKA3EjbEaWzkhc8EyGb37lSenqEOH4-qzSk",
+        "companyId": 3668753,
+        "employeeCountRange": {
+          "start": 10001,
+          "end": null
+        },
+        "headquarter": {
+          "country": "US",
+          "city": "Mountain View",
+          "geographicArea": "California",
+          "postalCode": "94043",
+          "line1": "1600 Amphitheatre Pkwy",
+          "line2": null,
+          "description": "Google"
+        },
+        "universalName": "googleworkspace"
+      },
+      {
+        "name": "TBI GEU",
+        "followerCount": 2220,
+        "url": "https://www.linkedin.com/company/technologybusinessincubator/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQHl4zLXM4WD6Q/company-logo_200_200/company-logo_200_200/0/1710680090522?e=1770854400&v=beta&t=UuGIMEkfUsuDEM6V8Vbujrv-vrpVwvDw68ZNSerY8I0",
+        "industryV2Taxonomy": "Non-profit Organizations",
+        "industry": "Non-profit Organization Management",
+        "companyId": 100950125,
+        "employeeCountRange": {
+          "start": 11,
+          "end": 50
+        },
+        "universalName": "technologybusinessincubator"
+      }
+    ],
+    "affiliatedOrganizationsByEmployees": [],
+    "affiliatedOrganizationsByShowcases": [
+      {
+        "name": "Digital Credit as a Service | Zeta",
+        "followerCount": 193,
+        "url": "https://www.linkedin.com/showcase/digital-credit-as-a-service/",
+        "logoResolutionResult": "https://media.licdn.com/dms/image/v2/D560BAQEg_-vabN8gUw/company-logo_200_200/company-logo_200_200/0/1728443290052/arka_by_zeta_logo?e=1770854400&v=beta&t=m8efjOzq6bUmjz-mCWJIihXUghkywYHiGh7-D3K-OjQ",
+        "industryV2Taxonomy": "Technology, Information and Internet",
+        "industry": "Computer Software",
+        "companyId": 104109557
+      }
+    ],
+    "locations": [
+      {
+        "country": "US",
+        "city": "San Francisco",
+        "geographicArea": "California",
+        "postalCode": null,
+        "line1": null,
+        "line2": null,
+        "description": "Zeta Suite ",
+        "headquarter": true,
+        "localizedName": "San Francisco",
+        "latitude": 37.39271,
+        "longitude": -122.042
+      },
+      {
+        "country": "IN",
+        "city": "Hyderabad",
+        "geographicArea": "Telangana",
+        "postalCode": "500001",
+        "line1": "Hyderabad",
+        "line2": "Zeta Suite",
+        "description": null,
+        "headquarter": false,
+        "localizedName": "Hyderabad",
+        "latitude": 17.439758,
+        "longitude": 78.42455
+      },
+      {
+        "country": "IN",
+        "city": "Bengaluru",
+        "geographicArea": "Karnataka",
+        "postalCode": "560008",
+        "line1": "Diamond District",
+        "line2": "HAL Airport Road, ISRO Colony Domlur",
+        "description": "Zeta Suite (Better World Technology Pvt. Ltd.)",
+        "headquarter": false,
+        "localizedName": "Bengaluru",
+        "latitude": 12.98163,
+        "longitude": 77.59208
+      }
+    ]
+  }
+]
