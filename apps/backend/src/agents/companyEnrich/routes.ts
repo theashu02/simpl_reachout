@@ -1,10 +1,6 @@
 import { Elysia, t } from "elysia";
 import { enrichLinkedInCompany, enrichLinkedInCompanyBulk } from "./enricher";
 
-// ============================================================================
-// Route Configuration
-// ============================================================================
-
 const MAX_BULK_URLS = 20;
 
 const linkedInUrlSchema = t.String({
@@ -12,16 +8,9 @@ const linkedInUrlSchema = t.String({
   error: "Invalid LinkedIn company URL format",
 });
 
-// ============================================================================
-// Routes
-// ============================================================================
-
 const app = new Elysia({ prefix: "/company" });
 
 export const companyEnrichRoutes = app
-  /**
-   * POST /enrich - Enrich a single LinkedIn company URL
-   */
   .post(
     "/enrich",
     async ({ body, set }) => {
@@ -45,9 +34,6 @@ export const companyEnrichRoutes = app
     }
   )
 
-  /**
-   * POST /enrich-bulk - Enrich multiple LinkedIn company URLs
-   */
   .post(
     "/enrich-bulk",
     async ({ body, set }) => {
@@ -95,9 +81,6 @@ export const companyEnrichRoutes = app
     }
   )
 
-  /**
-   * GET /health - Health check endpoint
-   */
   .get("/health", () => ({
     status: "ok",
     service: "company-enrich",

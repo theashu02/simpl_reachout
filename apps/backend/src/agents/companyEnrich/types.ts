@@ -1,32 +1,16 @@
-// ============================================================================
-// LinkedIn Company Enrichment Types
-// ============================================================================
-
-/**
- * Input for single LinkedIn company enrichment
- */
 export interface LinkedInEnrichInput {
   linkedinUrl: string;
 }
 
-/**
- * Input for bulk LinkedIn company enrichment
- */
 export interface LinkedInBulkEnrichInput {
   linkedinUrls: string[];
 }
 
-/**
- * Employee count range from LinkedIn
- */
 export interface EmployeeCountRange {
   start: number;
   end: number | null;
 }
 
-/**
- * Headquarter/Location address details
- */
 export interface LinkedInAddress {
   country: string | null;
   city: string | null;
@@ -37,27 +21,18 @@ export interface LinkedInAddress {
   description: string | null;
 }
 
-/**
- * Call to action button on LinkedIn page
- */
 export interface CallToAction {
   displayText: string;
   type: string;
   url: string;
 }
 
-/**
- * Company founding date
- */
 export interface FoundedOn {
   month: number | null;
   year: number | null;
   day: number | null;
 }
 
-/**
- * Similar organization/company data
- */
 export interface SimilarOrganization {
   name: string;
   followerCount: number;
@@ -73,9 +48,6 @@ export interface SimilarOrganization {
   universalName: string;
 }
 
-/**
- * Raw LinkedIn company data returned by Apify actor
- */
 export interface LinkedInCompanyRaw {
   url: string;
   companyName: string;
@@ -101,49 +73,33 @@ export interface LinkedInCompanyRaw {
   similarOrganizations: SimilarOrganization[] | null;
 }
 
-/**
- * Normalized company data for API response
- */
 export interface EnrichedCompanyData {
-  // Core identifiers
   linkedinUrl: string;
   companyId: number | null;
   universalName: string | null;
 
-  // Basic info
   companyName: string;
   tagline: string | null;
   description: string | null;
   websiteUrl: string | null;
 
-  // Industry
   industry: string | null;
   industryV2Taxonomy: string | null;
 
-  // Size metrics
   employeeCount: number | null;
   employeeCountRange: EmployeeCountRange | null;
   followerCount: number | null;
 
-  // Branding
   logoUrl: string | null;
   coverImageUrl: string | null;
 
-  // Location
   headquarter: LinkedInAddress | null;
-
-  // Additional info
   foundedYear: number | null;
   specialities: string[] | null;
   callToAction: CallToAction | null;
-
-  // Related companies (condensed)
   similarOrganizations: SimilarOrganizationSummary[] | null;
 }
 
-/**
- * Condensed similar organization for response
- */
 export interface SimilarOrganizationSummary {
   name: string;
   linkedinUrl: string;
@@ -152,9 +108,6 @@ export interface SimilarOrganizationSummary {
   employeeRange: string | null;
 }
 
-/**
- * Single enrichment API response
- */
 export interface EnrichResult {
   success: boolean;
   data: EnrichedCompanyData | null;
@@ -162,9 +115,6 @@ export interface EnrichResult {
   linkedinUrl: string;
 }
 
-/**
- * Bulk enrichment API response
- */
 export interface BulkEnrichResult {
   results: EnrichResult[];
   count: number;

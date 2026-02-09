@@ -2,17 +2,9 @@ import { ApifyClient } from "apify-client";
 import { APIFY_API_TOKEN } from "../../utils/config";
 import type { LinkedInCompanyRaw, EnrichedCompanyData, EnrichResult, BulkEnrichResult, SimilarOrganizationSummary, EmployeeCountRange } from "./types";
 
-// ============================================================================
-// Constants
-// ============================================================================
-
 const LINKEDIN_COMPANY_ACTOR_ID = "AjfNXEI9qTA2IdaAX";
 const MAX_BULK_URLS = 20;
 const ACTOR_TIMEOUT_SECS = 120;
-
-// ============================================================================
-// Apify Client Initialization
-// ============================================================================
 
 if (!APIFY_API_TOKEN) {
   console.warn("--- ⚠️ APIFY_API_TOKEN not set; LinkedIn enrichment will be unavailable ---");
@@ -27,13 +19,6 @@ const getApifyClient = (): ApifyClient | null => {
   return new ApifyClient({ token: APIFY_API_TOKEN });
 };
 
-// ============================================================================
-// Data Transformation Helpers
-// ============================================================================
-
-/**
- * Format employee count range to readable string
- */
 const formatEmployeeRange = (range: EmployeeCountRange | null): string | null => {
   if (!range) return null;
   if (range.end === null) {
@@ -42,9 +27,6 @@ const formatEmployeeRange = (range: EmployeeCountRange | null): string | null =>
   return `${range.start}-${range.end}`;
 };
 
-/**
- * Validate and normalize LinkedIn company URL
- */
 const normalizeLinkedInUrl = (url: string): string | null => {
   const trimmed = url.trim();
 
@@ -121,13 +103,6 @@ const transformCompanyData = (raw: LinkedInCompanyRaw): EnrichedCompanyData => {
   };
 };
 
-// ============================================================================
-// Enrichment Functions
-// ============================================================================
-
-/**
- * Enrich a single LinkedIn company URL
- */
 export async function enrichLinkedInCompany(linkedinUrl: string): Promise<EnrichResult> {
   const normalizedUrl = normalizeLinkedInUrl(linkedinUrl);
 
